@@ -90,6 +90,44 @@
       color: #2A9D8F; display: flex; align-items: center; gap: 4px;
     }
 
+    /* START HERE BOX */
+    .start-here-wrap { max-width: 960px; margin: 32px auto 0; padding: 0 24px; }
+    .start-here-box {
+      background: #fff;
+      border: 2px solid #2A9D8F;
+      border-radius: 12px;
+      padding: 28px 32px;
+      box-shadow: 0 2px 12px rgba(42,157,143,0.08);
+    }
+    .start-here-label {
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 1.5px;
+      text-transform: uppercase; color: #2A9D8F; margin-bottom: 6px;
+    }
+    .start-here-heading {
+      font-size: 1.15rem; font-weight: 700; color: #1B3A5C; margin-bottom: 20px;
+    }
+    .start-here-actions {
+      display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;
+    }
+    .start-here-action {
+      display: flex; gap: 14px; align-items: flex-start; flex: 1; min-width: 220px;
+    }
+    .start-here-action-icon {
+      font-size: 1.5rem; line-height: 1; flex-shrink: 0; margin-top: 2px;
+    }
+    .start-here-action-title {
+      font-size: 0.95rem; font-weight: 700; color: #1B3A5C; margin-bottom: 4px;
+    }
+    .start-here-action-desc {
+      font-size: 0.82rem; color: #555; line-height: 1.5;
+    }
+    .start-here-divider {
+      width: 1px; background: #e4eaf0; align-self: stretch; flex-shrink: 0;
+    }
+    @media (max-width: 600px) {
+      .start-here-divider { width: 100%; height: 1px; }
+    }
+
     /* HIDDEN */
     .card.hidden { display: none; }
 
@@ -132,6 +170,30 @@
     <button class="filter-btn" onclick="setFilter('tad101', this)">TAD 101</button>
     <button class="filter-btn" onclick="setFilter('financials', this)">The Financials</button>
     <button class="filter-btn" onclick="setFilter('tadthat', this)">"A TAD Did That"</button>
+  </div>
+</div>
+
+<div class="start-here-wrap">
+  <div class="start-here-box">
+    <div class="start-here-label">Start Here</div>
+    <h2 class="start-here-heading">What do you want to do?</h2>
+    <div class="start-here-actions">
+      <div class="start-here-action">
+        <div class="start-here-action-icon">&#128218;</div>
+        <div>
+          <div class="start-here-action-title">Learn More</div>
+          <div class="start-here-action-desc">Pick a topic below to understand the issues and get the facts.</div>
+        </div>
+      </div>
+      <div class="start-here-divider"></div>
+      <div class="start-here-action">
+        <div class="start-here-action-icon">&#128227;</div>
+        <div>
+          <div class="start-here-action-title">Spread the Word</div>
+          <div class="start-here-action-desc">Each topic page includes ready-to-copy social media posts for Facebook, Instagram, and Nextdoor.</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
