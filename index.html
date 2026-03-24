@@ -51,10 +51,31 @@
     .filter-btn:hover { border-color: #2A9D8F; color: #2A9D8F; }
     .filter-btn.active { background: #2A9D8F; border-color: #2A9D8F; color: #fff; }
 
-    /* SECTION LABEL */
-    .section-header { max-width: 960px; margin: 0 auto; padding: 0 24px 16px; }
-    .section-header h2 { font-size: 1rem; font-weight: 700; color: #1B3A5C; }
-    .section-header span { color: #888; font-size: 0.85rem; font-weight: 400; margin-left: 8px; }
+    /* SECTION LABELS */
+    .section-block { max-width: 960px; margin: 0 auto; padding: 32px 24px 0; }
+    .section-label {
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 1.5px;
+      text-transform: uppercase; color: #2A9D8F; margin-bottom: 4px;
+    }
+    .section-title {
+      font-size: 1.1rem; font-weight: 800; color: #1B3A5C; margin-bottom: 20px;
+      padding-bottom: 10px; border-bottom: 2px solid #e4eaf0;
+    }
+    .coming-soon-section {
+      background: #f9fbfc; border: 1.5px dashed #c5d9d7;
+      border-radius: 12px; padding: 28px 24px;
+      text-align: center; color: #888;
+    }
+    .coming-soon-section .cs-title {
+      font-size: 1rem; font-weight: 700; color: #1B3A5C; margin-bottom: 6px;
+    }
+    .coming-soon-section .cs-badge {
+      display: inline-block; background: #e8f4f2; color: #2A9D8F;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; padding: 3px 10px; border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .coming-soon-section p { font-size: 0.83rem; color: #888; }
 
     /* CARD GRID */
     .grid { max-width: 960px; margin: 0 auto; padding: 0 24px 64px; display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 20px; }
@@ -195,11 +216,11 @@
   </div>
 </div>
 
-<div class="section-header">
-  <h2>Toolkit Resources <span id="count-label"></span></h2>
-</div>
-
-<div class="grid" id="card-grid">
+<!-- UNDERSTAND THE CASE -->
+<div class="section-block">
+  <div class="section-label">Section 1</div>
+  <div class="section-title">Understand the Case</div>
+  <div class="grid" id="card-grid-understand">
 
   <!-- TAD 101 -->
   <a class="card" href="topics/tad101.html" data-tags="tad101 explainer">
@@ -208,12 +229,8 @@
     </div>
     <h3>TAD 101: How Tax Allocation Districts Work</h3>
     <p>Plain-language explainer on what TADs are, how they're funded, and why they're the primary tool for NRI investment.</p>
-    <div class="card-tags">
-      <span class="tag tag-topic">TAD 101</span>
-      <span class="tag tag-type">Explainer</span>
-      <span class="tag tag-type">One-Pager</span>
-    </div>
-    <div class="card-arrow">Explore <span>→</span></div>
+    <div class="card-tags"></div>
+    <div class="card-arrow"></div>
   </a>
 
   <!-- THE FINANCIALS -->
@@ -223,148 +240,8 @@
     </div>
     <h3>The Financial Case for NRI and TAD Extension</h3>
     <p>Why reinvestment makes financial sense for the City, APS, Fulton County, and every Atlanta taxpayer — inside and outside TAD boundaries.</p>
-    <div class="card-tags">
-      <span class="tag tag-topic">Financials</span>
-      <span class="tag tag-type">Explainer</span>
-      <span class="tag tag-type">One-Pager</span>
-    </div>
-    <div class="card-arrow">Explore <span>→</span></div>
-  </a>
-
-  <!-- FOOD ACCESS -->
-  <a class="card" href="topics/food-access.html" data-tags="food explainer social onepager">
-    <div class="card-icon" style="background:#fef3e8;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#E07B39" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M12 6v6l4 2"/></svg>
-    </div>
-    <h3>Food Access</h3>
-    <p>68% of Atlanta census tracts with low or no fresh food access are in or near a TAD. Here's what the NRI is doing about it.</p>
-    <div class="card-tags">
-      <span class="tag tag-topic">Food Access</span>
-      <span class="tag tag-tad">Multiple TADs</span>
-      <span class="tag tag-type">Social Posts</span>
-    </div>
-    <div class="card-arrow">Explore <span>→</span></div>
-  </a>
-
-  <!-- AFFORDABLE HOUSING -->
-  <a class="card" href="topics/housing.html" data-tags="housing explainer social onepager">
-    <div class="card-icon" style="background:#e8f0fe;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#4A6FA5" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    </div>
-    <h3>Affordable Housing</h3>
-    <p>7,229 affordable housing units funded through TADs since inception. How the NRI is protecting and expanding housing access across Atlanta.</p>
-    <div class="card-tags">
-      <span class="tag tag-topic">Housing</span>
-      <span class="tag tag-tad">Multiple TADs</span>
-      <span class="tag tag-type">Social Posts</span>
-    </div>
-    <div class="card-arrow">Explore <span>→</span></div>
-  </a>
-
-  <!-- HEALTHCARE -->
-  <a class="card" href="topics/healthcare.html" data-tags="healthcare explainer social">
-    <div class="card-icon" style="background:#fce8e8;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-    </div>
-    <h3>Healthcare</h3>
-    <p>A 20-year life expectancy gap over 7 miles. How targeted investment in health facilities and services can begin to close that gap.</p>
-    <div class="card-tags">
-      <span class="tag tag-topic">Healthcare</span>
-      <span class="tag tag-tad">Multiple TADs</span>
-      <span class="tag tag-type">Social Posts</span>
-    </div>
-    <div class="card-arrow">Explore <span>→</span></div>
-  </a>
-
-  <!-- EARLY EDUCATION -->
-  <a class="card" href="topics/education.html" data-tags="education explainer social">
-    <div class="card-icon" style="background:#f0e8fe;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#7B4FA5" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-    </div>
-    <h3>Early Education &amp; Youth</h3>
-    <p>Nine early learning centers improved on the Westside alone. How TAD investment is supporting children and families in the city's most underserved corridors.</p>
-    <div class="card-tags">
-      <span class="tag tag-topic">Education</span>
-      <span class="tag tag-tad">Westside</span>
-      <span class="tag tag-tad">Campbellton</span>
-      <span class="tag tag-type">Social Posts</span>
-    </div>
-    <div class="card-arrow">Explore <span>→</span></div>
-  </a>
-
-  <!-- GREENSPACE & TRAILS -->
-  <a class="card" href="topics/greenspace.html" data-tags="greenspace explainer social">
-    <div class="card-icon" style="background:#e8f5e9;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2"><path d="M17 8C8 10 5.9 16.17 3.82 22"/><path d="M9.1 17.4C11 14 14 12.5 17 8"/><path d="M3 3s1 2 2 3 3 1 3 1-1-2-2-3-3-1-3-1z"/></svg>
-    </div>
-    <h3>Greenspace &amp; Trails</h3>
-    <p>$1.5B in trails and greenspace identified for TAD-funded investment. What that means for Atlanta's neighborhoods and quality of life.</p>
-    <div class="card-tags">
-      <span class="tag tag-topic">Greenspace</span>
-      <span class="tag tag-tad">Beltline</span>
-      <span class="tag tag-type">Social Posts</span>
-    </div>
-    <div class="card-arrow">Explore <span>→</span></div>
-  </a>
-
-  <!-- HOMELESSNESS -->
-  <a class="card" href="topics/homelessness.html" data-tags="homelessness explainer social">
-    <div class="card-icon" style="background:#fff3e0;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-    </div>
-    <h3>Homelessness &amp; Rapid Housing</h3>
-    <p>How TAD-funded projects like the Atlanta Mission Campus and rapid housing initiatives are addressing homelessness in NRI neighborhoods.</p>
-    <div class="card-tags">
-      <span class="tag tag-topic">Homelessness</span>
-      <span class="tag tag-tad">Beltline</span>
-      <span class="tag tag-type">Social Posts</span>
-    </div>
-    <div class="card-arrow">Explore <span>→</span></div>
-  </a>
-
-  <!-- ECONOMIC DEVELOPMENT -->
-  <a class="card" href="topics/economic.html" data-tags="economic explainer social">
-    <div class="card-icon" style="background:#e8f4f2;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#2A9D8F" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
-    </div>
-    <h3>Economic Development &amp; Small Business</h3>
-    <p>$88M reserved for small business and commercial redevelopment. How TADs are supporting local entrepreneurs and commercial corridors.</p>
-    <div class="card-tags">
-      <span class="tag tag-topic">Economic Dev</span>
-      <span class="tag tag-tad">Multiple TADs</span>
-      <span class="tag tag-type">Social Posts</span>
-    </div>
-    <div class="card-arrow">Explore <span>→</span></div>
-  </a>
-
-  <!-- ANTI-DISPLACEMENT -->
-  <a class="card" href="topics/antidisplacement.html" data-tags="antidisplacement explainer social">
-    <div class="card-icon" style="background:#e8eef6;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#1B3A5C" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-    </div>
-    <h3>Anti-Displacement</h3>
-    <p>Investment without displacement. How the NRI pairs rising property values with protections that help long-term residents stay and benefit.</p>
-    <div class="card-tags">
-      <span class="tag tag-topic">Anti-Displacement</span>
-      <span class="tag tag-tad">Multiple TADs</span>
-      <span class="tag tag-type">Social Posts</span>
-    </div>
-    <div class="card-arrow">Explore <span>→</span></div>
-  </a>
-
-  <!-- A TAD DID THAT -->
-  <a class="card" href="topics/tad-did-that.html" data-tags="tadthat social proof">
-    <div class="card-icon" style="background:#f0f7f6;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#2A9D8F" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
-    <h3>"A TAD Did That"</h3>
-    <p>Real projects. Real neighborhoods. Real results. Proof-point posts showing what TAD investment has already delivered across Atlanta.</p>
-    <div class="card-tags">
-      <span class="tag tag-topic">Proof Points</span>
-      <span class="tag tag-tad">All TADs</span>
-      <span class="tag tag-type">Social Posts</span>
-    </div>
-    <div class="card-arrow">Explore <span>→</span></div>
+    <div class="card-tags"></div>
+    <div class="card-arrow"></div>
   </a>
 
   <!-- TAD BY TAD -->
@@ -374,17 +251,131 @@
     </div>
     <h3>TAD by TAD: What Has the Investment Done?</h3>
     <p>A breakdown of each active TAD — assessed value growth, projects funded, and what the data shows about results on the ground.</p>
-    <div class="card-tags">
-      <span class="tag tag-topic">TAD Data</span>
-      <span class="tag tag-tad">All TADs</span>
-      <span class="tag tag-type">Data</span>
-    </div>
-    <div class="card-arrow">Explore <span>→</span></div>
+    <div class="card-tags"></div>
+    <div class="card-arrow"></div>
   </a>
 
+  </div>
 </div>
 
-<div id="no-results">No results found. Try a different search term or filter.</div>
+<!-- SPREAD THE WORD -->
+<div class="section-block">
+  <div class="section-label">Section 2</div>
+  <div class="section-title">Spread the Word</div>
+  <div class="grid" id="card-grid-spread">
+
+  <!-- A TAD DID THAT -->
+  <a class="card" href="topics/tad-did-that.html" data-tags="tadthat social proof">
+    <div class="card-icon" style="background:#f0f7f6;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#2A9D8F" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h3>"A TAD Did That"</h3>
+    <p>Real projects. Real neighborhoods. Real results. Proof-point posts showing what TAD investment has already delivered across Atlanta.</p>
+    <div class="card-tags"></div>
+    <div class="card-arrow"></div>
+  </a>
+
+  <!-- FOOD ACCESS -->
+  <a class="card" href="topics/food-access.html" data-tags="food explainer social onepager">
+    <div class="card-icon" style="background:#fef3e8;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#E07B39" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M12 6v6l4 2"/></svg>
+    </div>
+    <h3>Food Access</h3>
+    <p>68% of Atlanta census tracts with low or no fresh food access are in or near a TAD. Here's what the NRI is doing about it.</p>
+    <div class="card-tags"></div>
+    <div class="card-arrow"></div>
+  </a>
+
+  <!-- AFFORDABLE HOUSING -->
+  <a class="card" href="topics/housing.html" data-tags="housing explainer social onepager">
+    <div class="card-icon" style="background:#e8f0fe;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#4A6FA5" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </div>
+    <h3>Affordable Housing</h3>
+    <p>7,229 affordable housing units funded through TADs since inception. How the NRI is protecting and expanding housing access across Atlanta.</p>
+    <div class="card-tags"></div>
+    <div class="card-arrow"></div>
+  </a>
+
+  <!-- HEALTHCARE -->
+  <a class="card" href="topics/healthcare.html" data-tags="healthcare explainer social">
+    <div class="card-icon" style="background:#fce8e8;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    </div>
+    <h3>Healthcare</h3>
+    <p>A 20-year life expectancy gap over 7 miles. How targeted investment in health facilities and services can begin to close that gap.</p>
+    <div class="card-tags"></div>
+    <div class="card-arrow"></div>
+  </a>
+
+  <!-- EARLY EDUCATION -->
+  <a class="card" href="topics/education.html" data-tags="education explainer social">
+    <div class="card-icon" style="background:#f0e8fe;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#7B4FA5" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    </div>
+    <h3>Early Education &amp; Youth</h3>
+    <p>Nine early learning centers improved on the Westside alone. How TAD investment is supporting children and families in the city's most underserved corridors.</p>
+    <div class="card-tags"></div>
+    <div class="card-arrow"></div>
+  </a>
+
+  <!-- GREENSPACE & TRAILS -->
+  <a class="card" href="topics/greenspace.html" data-tags="greenspace explainer social">
+    <div class="card-icon" style="background:#e8f5e9;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2"><path d="M17 8C8 10 5.9 16.17 3.82 22"/><path d="M9.1 17.4C11 14 14 12.5 17 8"/><path d="M3 3s1 2 2 3 3 1 3 1-1-2-2-3-3-1-3-1z"/></svg>
+    </div>
+    <h3>Greenspace &amp; Trails</h3>
+    <p>$1.5B in trails and greenspace identified for TAD-funded investment. What that means for Atlanta's neighborhoods and quality of life.</p>
+    <div class="card-tags"></div>
+    <div class="card-arrow"></div>
+  </a>
+
+  <!-- HOMELESSNESS -->
+  <a class="card" href="topics/homelessness.html" data-tags="homelessness explainer social">
+    <div class="card-icon" style="background:#fff3e0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </div>
+    <h3>Homelessness &amp; Rapid Housing</h3>
+    <p>How TAD-funded projects like the Atlanta Mission Campus and rapid housing initiatives are addressing homelessness in NRI neighborhoods.</p>
+    <div class="card-tags"></div>
+    <div class="card-arrow"></div>
+  </a>
+
+  <!-- ECONOMIC DEVELOPMENT -->
+  <a class="card" href="topics/economic.html" data-tags="economic explainer social">
+    <div class="card-icon" style="background:#e8f4f2;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#2A9D8F" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+    </div>
+    <h3>Economic Development &amp; Small Business</h3>
+    <p>$88M reserved for small business and commercial redevelopment. How TADs are supporting local entrepreneurs and commercial corridors.</p>
+    <div class="card-tags"></div>
+    <div class="card-arrow"></div>
+  </a>
+
+  <!-- ANTI-DISPLACEMENT -->
+  <a class="card" href="topics/antidisplacement.html" data-tags="antidisplacement explainer social">
+    <div class="card-icon" style="background:#e8eef6;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1B3A5C" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </div>
+    <h3>Anti-Displacement</h3>
+    <p>Investment without displacement. How the NRI pairs rising property values with protections that help long-term residents stay and benefit.</p>
+    <div class="card-tags"></div>
+    <div class="card-arrow"></div>
+  </a>
+
+  </div>
+</div>
+
+<!-- CONTACT YOUR ELECTED OFFICIAL -->
+<div class="section-block" style="padding-bottom: 48px;">
+  <div class="section-label">Section 3</div>
+  <div class="section-title">Contact Your Elected Official</div>
+  <div class="coming-soon-section">
+    <div class="cs-badge">Coming Soon</div>
+    <div class="cs-title">Contact Your Elected Official</div>
+    <p>Tools and templates to reach your City Council member, APS board representative, and Fulton County Commissioner directly. Check back soon.</p>
+  </div>
+</div>
 
 <div class="site-footer">
   Source: NRI Commission / Invest Atlanta, 2026 &nbsp;|&nbsp; <a href="https://www.neighborsforaunitedatlanta.org" target="_blank">neighborsforaunitedatlanta.org</a>
