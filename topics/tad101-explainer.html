@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TAD 101 Explainer | NRI Toolkit</title>
+  <style>
+    /* ============================================================
+       PRINT / SCREEN ONE-PAGER TEMPLATE
+       Brand: Navy #1B3A5C | Teal #2A9D8F | White #FFFFFF | Light Gray #F4F7F9
+       Reuse this template for all future topic one-pagers.
+       ============================================================ */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f7f9;
+      color: #222;
+    }
+
+    /* SCREEN TOOLBAR */
+    .toolbar {
+      background: #1B3A5C;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 28px; height: 52px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .toolbar a { color: #B0C8E0; font-size: 0.82rem; text-decoration: none; }
+    .toolbar a:hover { color: #fff; }
+    .toolbar-logo { color: #fff; font-weight: 800; font-size: 0.95rem; text-decoration: none; }
+    .toolbar-logo span { color: #2A9D8F; }
+    .btn-print {
+      background: #2A9D8F; color: #fff; border: none; border-radius: 6px;
+      padding: 8px 20px; font-size: 0.82rem; font-weight: 700;
+      cursor: pointer; letter-spacing: 0.3px;
+    }
+    .btn-print:hover { background: #238a7e; }
+
+    /* PAGE WRAPPER */
+    .page-wrap {
+      max-width: 850px; margin: 28px auto 48px;
+      background: #fff;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    /* HEADER */
+    .doc-header {
+      background: #1B3A5C;
+      padding: 32px 40px 28px;
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 24px;
+    }
+    .doc-header-left {}
+    .doc-label {
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; color: #2A9D8F; margin-bottom: 6px;
+    }
+    .doc-title {
+      font-size: 1.75rem; font-weight: 900; color: #fff; line-height: 1.15;
+      margin-bottom: 8px;
+    }
+    .doc-subtitle {
+      font-size: 0.88rem; color: #B0C8E0; line-height: 1.5; max-width: 480px;
+    }
+    .doc-header-badge {
+      background: rgba(42,157,143,0.18);
+      border: 1.5px solid #2A9D8F;
+      border-radius: 8px;
+      padding: 14px 18px;
+      text-align: center;
+      flex-shrink: 0;
+      min-width: 130px;
+    }
+    .doc-header-badge .badge-num {
+      font-size: 2rem; font-weight: 900; color: #2A9D8F; line-height: 1;
+    }
+    .doc-header-badge .badge-label {
+      font-size: 0.65rem; font-weight: 700; color: #B0C8E0;
+      text-transform: uppercase; letter-spacing: 1px; margin-top: 4px;
+    }
+
+    /* TEAL BAR */
+    .teal-bar { height: 4px; background: #2A9D8F; }
+
+    /* BODY */
+    .doc-body { padding: 36px 40px 32px; }
+
+    /* SECTION HEADING */
+    .section-heading {
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; color: #2A9D8F; margin-bottom: 6px;
+    }
+    .section-title {
+      font-size: 1.1rem; font-weight: 800; color: #1B3A5C;
+      margin-bottom: 14px; padding-bottom: 8px;
+      border-bottom: 2px solid #e4eaf0;
+    }
+
+    /* TWO COLUMN */
+    .two-col {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
+      margin-bottom: 28px;
+    }
+
+    /* TEXT BLOCK */
+    .text-block p {
+      font-size: 0.84rem; color: #444; line-height: 1.65;
+      margin-bottom: 10px;
+    }
+    .text-block p:last-child { margin-bottom: 0; }
+    .text-block strong { color: #1B3A5C; }
+
+    /* STEPS */
+    .steps { margin-bottom: 28px; }
+    .step {
+      display: flex; gap: 14px; align-items: flex-start;
+      margin-bottom: 14px;
+    }
+    .step-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: #1B3A5C; color: #fff;
+      font-size: 0.78rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .step-content {}
+    .step-title { font-size: 0.88rem; font-weight: 700; color: #1B3A5C; margin-bottom: 3px; }
+    .step-desc { font-size: 0.8rem; color: #555; line-height: 1.55; }
+
+    /* STAT ROW */
+    .stat-row {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+      margin-bottom: 28px;
+    }
+    .stat-box {
+      background: #f4f7f9; border-radius: 8px;
+      padding: 16px 14px; text-align: center;
+      border-top: 3px solid #2A9D8F;
+    }
+    .stat-num { font-size: 1.5rem; font-weight: 900; color: #1B3A5C; line-height: 1; }
+    .stat-label { font-size: 0.7rem; color: #666; margin-top: 5px; line-height: 1.4; }
+
+    /* CALLOUT BOX */
+    .callout {
+      background: #e8f4f2; border-left: 4px solid #2A9D8F;
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px; margin-bottom: 28px;
+    }
+    .callout p { font-size: 0.82rem; color: #1B3A5C; line-height: 1.6; }
+    .callout strong { font-weight: 800; }
+
+    /* TAD LIST */
+    .tad-list {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      margin-bottom: 28px;
+    }
+    .tad-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.8rem; color: #333;
+    }
+    .tad-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #2A9D8F; flex-shrink: 0;
+    }
+
+    /* FOOTER */
+    .doc-footer {
+      background: #1B3A5C; padding: 14px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .doc-footer-left { font-size: 0.7rem; color: #B0C8E0; }
+    .doc-footer-right { font-size: 0.7rem; color: #2A9D8F; font-weight: 700; }
+
+    /* PRINT STYLES */
+    @media print {
+      body { background: #fff; }
+      .toolbar { display: none; }
+      .page-wrap {
+        max-width: 100%; margin: 0;
+        box-shadow: none; border-radius: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SCREEN TOOLBAR -->
+<div class="toolbar">
+  <a class="toolbar-logo" href="../index.html">Neighbors for a <span>United Atlanta</span></a>
+  <div style="display:flex;gap:16px;align-items:center;">
+    <a href="../index.html">&#8592; Back to Toolkit</a>
+    <button class="btn-print" onclick="window.print()">Download as PDF</button>
+  </div>
+</div>
+
+<!-- ONE-PAGER -->
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="doc-header-left">
+      <div class="doc-label">TAD 101 &nbsp;|&nbsp; Explainer</div>
+      <div class="doc-title">How Tax Allocation<br>Districts Work</div>
+      <div class="doc-subtitle">A plain-language guide to what TADs are, how they are funded, and what they have delivered for Atlanta neighborhoods.</div>
+    </div>
+    <div class="doc-header-badge">
+      <div class="badge-num">8</div>
+      <div class="badge-label">Active TADs<br>in Atlanta</div>
+    </div>
+  </div>
+  <div class="teal-bar"></div>
+
+  <!-- BODY -->
+  <div class="doc-body">
+
+    <!-- WHAT IS A TAD -->
+    <div class="section-heading">The Basics</div>
+    <div class="section-title">What Is a Tax Allocation District?</div>
+
+    <div class="two-col" style="margin-bottom:24px;">
+      <div class="text-block">
+        <p>A Tax Allocation District (TAD) is a geographic area where the City of Atlanta reinvests a portion of property tax revenue to fund improvements in that same area. When a TAD is created, the existing property tax base is "frozen." As property values grow over time, the additional tax revenue generated by that growth, called the <strong>tax increment</strong>, is captured and reinvested back into the district.</p>
+        <p>TADs do not raise taxes. They redirect a share of the growth in tax revenue that would otherwise flow to the general fund, and put it to work in neighborhoods that need investment most.</p>
+      </div>
+      <div class="text-block">
+        <p>Three taxing jurisdictions participate in Atlanta's TADs: the <strong>City of Atlanta</strong>, <strong>Atlanta Public Schools (APS)</strong>, and <strong>Fulton County</strong>. APS contributes the largest share, roughly 54% of the increment in most TADs.</p>
+        <p>TADs are authorized under Georgia's Redevelopment Powers Law and are administered by Invest Atlanta, the City's economic development authority. Each TAD has a defined boundary, a start date, and an estimated closure date when the district is wound down and all tax revenue flows back to the general fund.</p>
+      </div>
+    </div>
+
+    <!-- HOW IT WORKS STEPS -->
+    <div class="section-heading">Step by Step</div>
+    <div class="section-title">How a TAD Works</div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">A TAD boundary is established</div>
+          <div class="step-desc">The City designates a geographic area in need of investment. The existing assessed property value within that boundary becomes the "base value."</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Property values grow</div>
+          <div class="step-desc">As new development occurs and existing properties increase in value, the tax base grows above the frozen base value.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">The increment is captured</div>
+          <div class="step-desc">The additional tax revenue generated by that growth, the "increment," is collected and held in a dedicated TAD fund rather than flowing to the general fund.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Funds are reinvested in the district</div>
+          <div class="step-desc">TAD funds are used to finance affordable housing, infrastructure, small business support, greenspace, health facilities, and more within the TAD boundary. Funds can be deployed as grants, loans, or bonds.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">The TAD closes and revenue is returned</div>
+          <div class="step-desc">When the TAD reaches its end date, all tax revenue from the area flows back to the City, APS, and Fulton County at the full grown value, not the frozen base.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="section-heading">By the Numbers</div>
+    <div class="section-title">TAD Impact Since Inception</div>
+
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-num">$87M+</div>
+        <div class="stat-label">Awarded in 2025 alone, leveraging $767M in additional investment</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">7,229</div>
+        <div class="stat-label">Affordable housing units funded, with 20+ years of committed affordability</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">$12 : $1</div>
+        <div class="stat-label">For every $1 of TAD investment since inception, $12+ in additional capital has been leveraged</div>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-num">335</div>
+        <div class="stat-label">Projects funded across all TADs since inception</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">$7.16B</div>
+        <div class="stat-label">Cumulative increase in assessed property value across all TADs</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">8.2M ft²</div>
+        <div class="stat-label">New or redeveloped retail and commercial space</div>
+      </div>
+    </div>
+
+    <!-- CALLOUT -->
+    <div class="callout">
+      <p><strong>TADs do not raise taxes.</strong> They capture the growth in tax revenue that results from investment and reinvest it in the same neighborhoods where that growth is happening. When a TAD closes, the full tax base, including all growth, flows back to the City, APS, and Fulton County.</p>
+    </div>
+
+    <!-- ACTIVE TADS -->
+    <div class="section-heading">Atlanta's Active Districts</div>
+    <div class="section-title">The 8 Active TADs</div>
+
+    <div class="tad-list">
+      <div class="tad-item"><div class="tad-dot"></div>Westside TAD (est. 1992, closes 2038)</div>
+      <div class="tad-item"><div class="tad-dot"></div>Perry Bolton TAD (est. 2002, closes 2041)</div>
+      <div class="tad-item"><div class="tad-dot"></div>Eastside TAD (est. 2003, closes 2030)</div>
+      <div class="tad-item"><div class="tad-dot"></div>Atlanta Beltline TAD (est. 2005, closes 2031)</div>
+      <div class="tad-item"><div class="tad-dot"></div>Campbellton Road TAD (est. 2006, closes 2050)</div>
+      <div class="tad-item"><div class="tad-dot"></div>Hollowell / MLK TAD (est. 2006, closes 2050)</div>
+      <div class="tad-item"><div class="tad-dot"></div>Metropolitan Parkway TAD (est. 2006, closes 2050)</div>
+      <div class="tad-item"><div class="tad-dot"></div>Stadium Neighborhoods TAD (est. 2006, closes 2050)</div>
+    </div>
+
+  </div><!-- /doc-body -->
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    <div class="doc-footer-left">Source: NRI Commission / Invest Atlanta, 2026 &nbsp;|&nbsp; neighborsforaunitedatlanta.org</div>
+    <div class="doc-footer-right">TAD 101 Explainer</div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+</body>
+</html>
