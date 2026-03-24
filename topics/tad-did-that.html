@@ -6,90 +6,192 @@
   <title>A TAD Did That | NRI Toolkit</title>
   <link rel="stylesheet" href="../shared.css" />
   <style>
-    .tad-section { margin-bottom: 56px; }
-    .tad-section-header {
-      display: flex; align-items: center; gap: 14px;
-      margin-bottom: 24px; padding-bottom: 12px;
-      border-bottom: 3px solid #2A9D8F;
+
+    /* Accordion */
+    .tad-accordion {
+      margin-bottom: 12px;
+      border: 1px solid #dde4ea;
+      border-radius: 10px;
+      overflow: hidden;
     }
-    .tad-section-header h2 {
-      font-size: 1.25rem; font-weight: 800; color: #1B3A5C; margin: 0;
+    .tad-accordion-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px; cursor: pointer;
+      background: #fff; user-select: none;
+      transition: background 0.15s;
     }
-    .tad-badge {
+    .tad-accordion-header:hover { background: #f4f8fb; }
+    .tad-accordion-header.open { background: #f0f7f6; }
+    .tad-accordion-title {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .tad-accordion-title h2 {
+      font-size: 1.05rem; font-weight: 800; color: #1B3A5C; margin: 0;
+    }
+    .tad-count {
       background: #1B3A5C; color: #fff;
-      font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
-      text-transform: uppercase; padding: 4px 10px; border-radius: 20px;
-      white-space: nowrap;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; padding: 3px 9px; border-radius: 20px;
+    }
+    .tad-chevron {
+      font-size: 1rem; color: #2A9D8F; transition: transform 0.25s;
+      font-style: normal;
+    }
+    .tad-accordion-header.open .tad-chevron { transform: rotate(180deg); }
+
+    .tad-accordion-body {
+      display: none; padding: 20px 20px 24px; background: #f9fbfc;
+      border-top: 1px solid #dde4ea;
+    }
+    .tad-accordion-body.open { display: block; }
+
+    /* Coming soon */
+    .coming-soon {
+      font-size: 0.82rem; font-weight: 600; color: #2A9D8F;
+      padding: 10px 14px; background: #f0f7f6;
+      border-radius: 6px; border: 1px solid #b8ddd9;
+      display: block; margin-bottom: 18px;
     }
 
-    .project-grid {
+    /* Thumbnail grid */
+    .thumb-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 14px;
     }
-
-    .project-card {
-      background: #fff; border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-      overflow: hidden; display: flex; flex-direction: column;
+    .thumb-item {
+      cursor: pointer; text-align: center;
     }
-    .project-card-img {
-      position: relative; width: 100%; aspect-ratio: 1 / 1;
-      overflow: hidden; background: #e0e8f0;
-    }
-    .project-card-img img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
-    .asterisk-badge {
-      position: absolute; top: 10px; right: 10px;
-      background: rgba(27,58,92,0.85); color: #fff;
-      font-size: 0.7rem; font-weight: 700;
-      padding: 3px 8px; border-radius: 4px;
-      letter-spacing: 0.5px;
-    }
-    .project-card-body {
-      padding: 18px 18px 0; flex: 1;
-    }
-    .project-card-body h3 {
-      font-size: 0.97rem; font-weight: 800; color: #1B3A5C;
+    .thumb-name {
+      font-size: 0.72rem; font-weight: 700; color: #1B3A5C;
       margin-bottom: 6px; line-height: 1.3;
     }
-    .project-card-body p {
-      font-size: 0.84rem; color: #444; line-height: 1.6; margin: 0;
+    .thumb-img {
+      width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
+      border-radius: 8px; display: block;
+      border: 2px solid transparent;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .thumb-item:hover .thumb-img {
+      border-color: #2A9D8F;
+      transform: scale(1.03);
     }
 
-    .project-card-footer {
-      padding: 14px 18px 18px;
+    /* Modal overlay */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(10,20,40,0.65); z-index: 1000;
+      align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal-box {
+      background: #fff; border-radius: 14px;
+      max-width: 520px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+      position: relative;
+    }
+    .modal-close {
+      position: absolute; top: 12px; right: 14px;
+      background: rgba(0,0,0,0.08); border: none;
+      border-radius: 50%; width: 32px; height: 32px;
+      font-size: 1.1rem; cursor: pointer; color: #333;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s; z-index: 10;
+    }
+    .modal-close:hover { background: rgba(0,0,0,0.18); }
+
+    .modal-img {
+      width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
+      border-radius: 14px 14px 0 0; display: block;
+    }
+    .modal-body {
+      padding: 20px 22px 24px;
+    }
+    .modal-title {
+      font-size: 1.05rem; font-weight: 800; color: #1B3A5C;
+      margin: 0 0 4px;
+    }
+    .modal-attribution {
+      font-size: 0.72rem; color: #999; font-style: italic;
+      margin-bottom: 16px;
+    }
+
+    /* Caption section */
+    .caption-section {
+      background: #f0f7f6; border-left: 3px solid #2A9D8F;
+      border-radius: 0 8px 8px 0; padding: 14px 16px;
+    }
+    .caption-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: #2A9D8F; margin-bottom: 3px;
+    }
+    .caption-hint {
+      font-size: 0.74rem; color: #666; font-style: italic; margin-bottom: 8px;
+    }
+    .caption-textarea {
+      width: 100%; box-sizing: border-box;
+      border: 1px solid #c5d9d7; border-radius: 6px;
+      padding: 10px 12px; font-size: 0.82rem; color: #222;
+      line-height: 1.6; resize: vertical; min-height: 96px;
+      font-family: inherit; background: #fff;
+      transition: border-color 0.2s;
+    }
+    .caption-textarea:focus {
+      outline: none; border-color: #2A9D8F;
+      box-shadow: 0 0 0 2px rgba(42,157,143,0.15);
+    }
+    .btn-copy {
+      display: inline-block; background: #1B3A5C; color: #fff;
+      border: none; border-radius: 6px; padding: 8px 16px;
+      font-size: 0.78rem; font-weight: 700; cursor: pointer;
+      margin-top: 10px; transition: background 0.2s;
+      font-family: inherit;
+    }
+    .btn-copy:hover { background: #14304e; }
+    .btn-copy.copied { background: #2A9D8F; }
+
+    /* Share buttons */
+    .share-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: #888;
+      margin: 14px 0 6px;
+    }
+    .share-row {
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .btn-share {
+      display: inline-flex; align-items: center; gap: 6px;
+      border: none; border-radius: 6px; padding: 7px 13px;
+      font-size: 0.75rem; font-weight: 700; cursor: pointer;
+      text-decoration: none; font-family: inherit;
+      transition: opacity 0.2s;
+    }
+    .btn-share:hover { opacity: 0.85; }
+    .btn-share.facebook  { background: #1877F2; color: #fff; }
+    .btn-share.twitter   { background: #000; color: #fff; }
+    .btn-share.bluesky   { background: #0085ff; color: #fff; }
+    .btn-share.instagram { background: #E1306C; color: #fff; }
+    .btn-share.linkedin  { background: #0A66C2; color: #fff; }
+    .paste-note {
+      font-size: 0.7rem; color: #999; font-style: italic;
+      margin-top: 6px; display: block;
+    }
+
+    /* Download */
+    .modal-footer {
+      margin-top: 16px; padding-top: 16px;
+      border-top: 1px solid #edf1f5;
     }
     .btn-dl-img {
       display: inline-block; background: #2A9D8F; color: #fff;
-      border-radius: 6px; padding: 8px 16px;
-      font-size: 0.78rem; font-weight: 700; text-decoration: none;
-      margin-top: 12px; transition: background 0.2s;
+      border-radius: 6px; padding: 9px 18px;
+      font-size: 0.8rem; font-weight: 700; text-decoration: none;
+      transition: background 0.2s;
     }
     .btn-dl-img:hover { background: #238a7e; }
-
-    .caption-prompts {
-      background: #f0f7f6; border-left: 3px solid #2A9D8F;
-      border-radius: 0 6px 6px 0; padding: 12px 14px;
-      margin-top: 12px;
-    }
-    .caption-prompts .cp-label {
-      font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
-      text-transform: uppercase; color: #2A9D8F; margin-bottom: 8px;
-    }
-    .caption-prompts ul {
-      margin: 0; padding-left: 16px;
-      font-size: 0.8rem; color: #333; line-height: 1.65;
-    }
-    .caption-prompts ul li { margin-bottom: 4px; }
-    .caption-prompts ul li:last-child { margin-bottom: 0; }
-
-    .footnote {
-      font-size: 0.78rem; color: #666; margin-bottom: 32px;
-      padding: 10px 14px; background: #fff; border-radius: 6px;
-      border: 1px solid #dde4ea;
-    }
   </style>
 </head>
 <body>
@@ -100,600 +202,937 @@
 <div class="hero">
   <div class="topic-label">Topic: A TAD Did That</div>
   <h1>Real Projects. Real Neighborhoods. Real Results.</h1>
-  <p>TADs have funded parks, health clinics, grocery stores, trails, housing, and more across Atlanta. Download any graphic and share it with your own voice.</p>
+  <p>TADs have funded parks, health clinics, grocery stores, trails, housing, and more across Atlanta. Select a TAD corridor below to browse projects. Click any thumbnail to view, download, and share.</p>
 </div>
 <div class="teal-bar"></div>
 <div class="page">
 
-  <div class="footnote">
-    * Image previously posted by the City of Atlanta. &nbsp;Download and repost with your own caption.
-  </div>
-
   <!-- BELTLINE TAD -->
-  <div class="tad-section">
-    <div class="tad-section-header">
-      <h2>Beltline TAD</h2>
-      <span class="tad-badge">5 Projects</span>
+  <div class="tad-accordion">
+    <div class="tad-accordion-header" onclick="toggleAccordion(this)">
+      <div class="tad-accordion-title">
+        <h2>Beltline TAD</h2>
+        <span class="tad-count">5 Projects</span>
+      </div>
+      <i class="tad-chevron">&#8964;</i>
     </div>
-    <div class="project-grid">
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_b8iKZq_WestsideTrailBeltline_6bf8e685.png" alt="Atlanta Beltline Westside Trail" loading="lazy" />
+    <div class="tad-accordion-body">
+      <div class="coming-soon">More content coming soon.</div>
+      <div class="thumb-grid">
+        <div class="thumb-item" onclick="openModal('m-westside-trail')">
+          <div class="thumb-name">Atlanta Beltline Westside Trail</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_b8iKZq_WestsideTrailBeltline_6bf8e685.png" alt="Atlanta Beltline Westside Trail" loading="lazy" />
         </div>
-        <div class="project-card-body">
-          <h3>Atlanta Beltline Westside Trail</h3>
-          <p>A multi-use trail connecting Westside neighborhoods to the broader Beltline network, funded through the Beltline TAD.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
+        <div class="thumb-item" onclick="openModal('m-city-of-refuge')">
+          <div class="thumb-name">City of Refuge Transformation Center</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_JqKG4X_CityofRefugeTransformationCenter_0b54bda6.png" alt="City of Refuge Transformation Center" loading="lazy" />
         </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_b8iKZq_WestsideTrailBeltline_6bf8e685.png" download target="_blank">&#8595; Download Image</a>
+        <div class="thumb-item" onclick="openModal('m-eastside-trail')">
+          <div class="thumb-name">Atlanta Beltline Eastside Trail</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_EGoGYz_EastsideTrailBeltline_17587891.png" alt="Atlanta Beltline Eastside Trail" loading="lazy" />
         </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_JqKG4X_CityofRefugeTransformationCenter_0b54bda6.png" alt="City of Refuge Transformation Center" loading="lazy" />
+        <div class="thumb-item" onclick="openModal('m-ralph-david')">
+          <div class="thumb-name">Ralph David House</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/RalphDavidHouse_c3237b1a.png" alt="Ralph David House" loading="lazy" />
         </div>
-        <div class="project-card-body">
-          <h3>City of Refuge Transformation Center</h3>
-          <p>A new mixed-use development in the West End Heights/Bankhead neighborhood including 25 affordable housing units, supported by a $2 million Beltline TAD grant.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_JqKG4X_CityofRefugeTransformationCenter_0b54bda6.png" download target="_blank">&#8595; Download Image</a>
+        <div class="thumb-item" onclick="openModal('m-skyline')">
+          <div class="thumb-name">Skyline Apartments</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Skyline_7201cff6.png" alt="Skyline Apartments" loading="lazy" />
         </div>
       </div>
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_EGoGYz_EastsideTrailBeltline_17587891.png" alt="Atlanta Beltline Eastside Trail" loading="lazy" />
-        </div>
-        <div class="project-card-body">
-          <h3>Atlanta Beltline Eastside Trail</h3>
-          <p>A 2.25-mile trail connecting Inman Park to Piedmont Park, one of Atlanta's most-used public spaces, funded through the Beltline TAD.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_EGoGYz_EastsideTrailBeltline_17587891.png" download target="_blank">&#8595; Download Image</a>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/RalphDavidHouse_c3237b1a.png" alt="Ralph David House" loading="lazy" />
-          <span class="asterisk-badge">*</span>
-        </div>
-        <div class="project-card-body">
-          <h3>Ralph David House</h3>
-          <p>In 2024, the historic Motel Atlanta was transformed into 54 permanent micro-units for residents earning 30% or less of AMI or previously unhoused, made possible in part by a $550,000 Beltline TAD investment.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/RalphDavidHouse_c3237b1a.png" download target="_blank">&#8595; Download Image</a>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Skyline_7201cff6.png" alt="Skyline Apartments" loading="lazy" />
-          <span class="asterisk-badge">*</span>
-        </div>
-        <div class="project-card-body">
-          <h3>Skyline Apartments</h3>
-          <p>Mixed-income residential development in the Beltline corridor, funded through the Beltline TAD.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Skyline_7201cff6.png" download target="_blank">&#8595; Download Image</a>
-        </div>
-      </div>
-
     </div>
   </div>
 
   <!-- EASTSIDE TAD -->
-  <div class="tad-section">
-    <div class="tad-section-header">
-      <h2>Eastside TAD</h2>
-      <span class="tad-badge">3 Projects</span>
+  <div class="tad-accordion">
+    <div class="tad-accordion-header" onclick="toggleAccordion(this)">
+      <div class="tad-accordion-title">
+        <h2>Eastside TAD</h2>
+        <span class="tad-count">3 Projects</span>
+      </div>
+      <i class="tad-chevron">&#8964;</i>
     </div>
-    <div class="project-grid">
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Ascent_42fedf03.png" alt="Ascent Peachtree" loading="lazy" />
-          <span class="asterisk-badge">*</span>
+    <div class="tad-accordion-body">
+      <div class="coming-soon">More content coming soon.</div>
+      <div class="thumb-grid">
+        <div class="thumb-item" onclick="openModal('m-ascent')">
+          <div class="thumb-name">Ascent Peachtree</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Ascent_42fedf03.png" alt="Ascent Peachtree" loading="lazy" />
         </div>
-        <div class="project-card-body">
-          <h3>Ascent Peachtree</h3>
-          <p>A mixed-use development with affordable and market-rate housing in Midtown, funded through the Eastside TAD.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
+        <div class="thumb-item" onclick="openModal('m-thrive')">
+          <div class="thumb-name">Thrive Sweet Auburn</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ThriveSweetAuburn_df0830aa.png" alt="Thrive Sweet Auburn" loading="lazy" />
         </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Ascent_42fedf03.png" download target="_blank">&#8595; Download Image</a>
+        <div class="thumb-item" onclick="openModal('m-front-porch')">
+          <div class="thumb-name">The Front Porch on Auburn Avenue</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FrontPorch_0c4744c3.png" alt="The Front Porch on Auburn Avenue" loading="lazy" />
         </div>
       </div>
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ThriveSweetAuburn_df0830aa.png" alt="Thrive Sweet Auburn" loading="lazy" />
-          <span class="asterisk-badge">*</span>
-        </div>
-        <div class="project-card-body">
-          <h3>Thrive Sweet Auburn</h3>
-          <p>Affordable housing and community space in the historic Sweet Auburn corridor, funded through the Eastside TAD.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ThriveSweetAuburn_df0830aa.png" download target="_blank">&#8595; Download Image</a>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FrontPorch_0c4744c3.png" alt="The Front Porch on Auburn Avenue" loading="lazy" />
-          <span class="asterisk-badge">*</span>
-        </div>
-        <div class="project-card-body">
-          <h3>The Front Porch on Auburn Avenue</h3>
-          <p>A community gathering and cultural space in the Sweet Auburn neighborhood, funded through the Eastside TAD.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FrontPorch_0c4744c3.png" download target="_blank">&#8595; Download Image</a>
-        </div>
-      </div>
-
     </div>
   </div>
 
   <!-- WESTSIDE TAD -->
-  <div class="tad-section">
-    <div class="tad-section-header">
-      <h2>Westside TAD</h2>
-      <span class="tad-badge">3 Projects</span>
+  <div class="tad-accordion">
+    <div class="tad-accordion-header" onclick="toggleAccordion(this)">
+      <div class="tad-accordion-title">
+        <h2>Westside TAD</h2>
+        <span class="tad-count">3 Projects</span>
+      </div>
+      <i class="tad-chevron">&#8964;</i>
     </div>
-    <div class="project-grid">
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/KathrynJohnstonMemorialPark_81ed0b9c.png" alt="Kathryn Johnston Memorial Park" loading="lazy" />
-          <span class="asterisk-badge">*</span>
+    <div class="tad-accordion-body">
+      <div class="coming-soon">More content coming soon.</div>
+      <div class="thumb-grid">
+        <div class="thumb-item" onclick="openModal('m-kathryn')">
+          <div class="thumb-name">Kathryn Johnston Memorial Park</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/KathrynJohnstonMemorialPark_81ed0b9c.png" alt="Kathryn Johnston Memorial Park" loading="lazy" />
         </div>
-        <div class="project-card-body">
-          <h3>Kathryn Johnston Memorial Park</h3>
-          <p>A 3.5-acre community green space in English Avenue that honors Ms. Johnston's legacy, manages Proctor Creek stormwater challenges, and was funded in part by the Westside TAD Ascension Fund.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
+        <div class="thumb-item" onclick="openModal('m-salvation-army')">
+          <div class="thumb-name">Salvation Army Center of Hope</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATSalvationArmyCenterofHope_d38ccd22.png" alt="Salvation Army Center of Hope" loading="lazy" />
         </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/KathrynJohnstonMemorialPark_81ed0b9c.png" download target="_blank">&#8595; Download Image</a>
+        <div class="thumb-item" onclick="openModal('m-ymca')">
+          <div class="thumb-name">YMCA Leadership and Learning Center</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATYMCALeadership%26LearningCenter_f82a5d8e.png" alt="YMCA Leadership and Learning Center" loading="lazy" />
         </div>
       </div>
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATSalvationArmyCenterofHope_d38ccd22.png" alt="Salvation Army Center of Hope" loading="lazy" />
-          <span class="asterisk-badge">*</span>
-        </div>
-        <div class="project-card-body">
-          <h3>Salvation Army Center of Hope</h3>
-          <p>A comprehensive shelter and services facility for individuals experiencing homelessness on Atlanta's Westside, funded through the Westside TAD.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATSalvationArmyCenterofHope_d38ccd22.png" download target="_blank">&#8595; Download Image</a>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATYMCALeadership%26LearningCenter_f82a5d8e.png" alt="YMCA Leadership and Learning Center" loading="lazy" />
-          <span class="asterisk-badge">*</span>
-        </div>
-        <div class="project-card-body">
-          <h3>YMCA Leadership &amp; Learning Center</h3>
-          <p>A youth development and education facility serving Westside neighborhoods, funded through the Westside TAD.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATYMCALeadership%26LearningCenter_f82a5d8e.png" download target="_blank">&#8595; Download Image</a>
-        </div>
-      </div>
-
     </div>
   </div>
 
   <!-- PERRY BOLTON TAD -->
-  <div class="tad-section">
-    <div class="tad-section-header">
-      <h2>Perry Bolton TAD</h2>
-      <span class="tad-badge">4 Projects</span>
+  <div class="tad-accordion">
+    <div class="tad-accordion-header" onclick="toggleAccordion(this)">
+      <div class="tad-accordion-title">
+        <h2>Perry Bolton TAD</h2>
+        <span class="tad-count">4 Projects</span>
+      </div>
+      <i class="tad-chevron">&#8964;</i>
     </div>
-    <div class="project-grid">
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FINALCenterWellSeniorPrimaryCareATADDidThat_b16eebff.png" alt="CenterWell Senior Primary Care" loading="lazy" />
-          <span class="asterisk-badge">*</span>
+    <div class="tad-accordion-body">
+      <div class="coming-soon">More content coming soon.</div>
+      <div class="thumb-grid">
+        <div class="thumb-item" onclick="openModal('m-centerwell')">
+          <div class="thumb-name">CenterWell Senior Primary Care</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FINALCenterWellSeniorPrimaryCareATADDidThat_b16eebff.png" alt="CenterWell Senior Primary Care" loading="lazy" />
         </div>
-        <div class="project-card-body">
-          <h3>CenterWell Senior Primary Care</h3>
-          <p>A primary care clinic focused on seniors, bringing healthcare access to the Perry Bolton corridor, funded through the Perry Bolton TAD.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
+        <div class="thumb-item" onclick="openModal('m-fire22')">
+          <div class="thumb-name">Fire Station 22</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FireStation22_62a0d27f.png" alt="Fire Station 22" loading="lazy" />
         </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FINALCenterWellSeniorPrimaryCareATADDidThat_b16eebff.png" download target="_blank">&#8595; Download Image</a>
+        <div class="thumb-item" onclick="openModal('m-henris')">
+          <div class="thumb-name">Henri's Bakery and Cafe</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Henris_1ddf0a71.png" alt="Henri's Bakery and Cafe" loading="lazy" />
+        </div>
+        <div class="thumb-item" onclick="openModal('m-publix')">
+          <div class="thumb-name">Publix, Moores Mill</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/PublixMooresMill_01f960ae.png" alt="Publix Moores Mill" loading="lazy" />
         </div>
       </div>
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FireStation22_62a0d27f.png" alt="Fire Station 22" loading="lazy" />
-          <span class="asterisk-badge">*</span>
-        </div>
-        <div class="project-card-body">
-          <h3>Fire Station 22</h3>
-          <p>A rebuilt fire station serving Perry Bolton and surrounding neighborhoods, funded through the Perry Bolton TAD.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FireStation22_62a0d27f.png" download target="_blank">&#8595; Download Image</a>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Henris_1ddf0a71.png" alt="Henri's Bakery and Cafe" loading="lazy" />
-        </div>
-        <div class="project-card-body">
-          <h3>Henri's Bakery &amp; Cafe — Upper West Side</h3>
-          <p>A 95-year-old Atlanta institution receiving TAD-funded renovations to its facility in the Bolton neighborhood.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Henris_1ddf0a71.png" download target="_blank">&#8595; Download Image</a>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/PublixMooresMill_01f960ae.png" alt="Publix Moores Mill" loading="lazy" />
-        </div>
-        <div class="project-card-body">
-          <h3>Publix — Moores Mill, Upper West Side</h3>
-          <p>A full-service grocery store in the Upper West Side area, funded through the Perry Bolton TAD.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/PublixMooresMill_01f960ae.png" download target="_blank">&#8595; Download Image</a>
-        </div>
-      </div>
-
     </div>
   </div>
 
   <!-- HOLLOWELL-MLK TAD -->
-  <div class="tad-section">
-    <div class="tad-section-header">
-      <h2>Hollowell-MLK TAD</h2>
-      <span class="tad-badge">2 Projects</span>
+  <div class="tad-accordion">
+    <div class="tad-accordion-header" onclick="toggleAccordion(this)">
+      <div class="tad-accordion-title">
+        <h2>Hollowell-MLK TAD</h2>
+        <span class="tad-count">2 Projects</span>
+      </div>
+      <i class="tad-chevron">&#8964;</i>
     </div>
-    <div class="project-grid">
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATACFBCommunityFoodCenter_3a05f915.png" alt="Atlanta Community Food Bank" loading="lazy" />
-          <span class="asterisk-badge">*</span>
+    <div class="tad-accordion-body">
+      <div class="coming-soon">More content coming soon.</div>
+      <div class="thumb-grid">
+        <div class="thumb-item" onclick="openModal('m-acfb')">
+          <div class="thumb-name">Atlanta Community Food Bank</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATACFBCommunityFoodCenter_3a05f915.png" alt="Atlanta Community Food Bank" loading="lazy" />
         </div>
-        <div class="project-card-body">
-          <h3>Atlanta Community Food Bank</h3>
-          <p>A community food distribution facility addressing food insecurity on Atlanta's Westside, funded through the Hollowell-MLK TAD.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATACFBCommunityFoodCenter_3a05f915.png" download target="_blank">&#8595; Download Image</a>
+        <div class="thumb-item" onclick="openModal('m-soccer')">
+          <div class="thumb-name">Soccer in the Streets, StationSoccer</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_e59slW_SoccerintheStreets_d23e1d3a.png" alt="Soccer in the Streets StationSoccer" loading="lazy" />
         </div>
       </div>
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_e59slW_SoccerintheStreets_d23e1d3a.png" alt="Soccer in the Streets StationSoccer" loading="lazy" />
-        </div>
-        <div class="project-card-body">
-          <h3>Soccer in the Streets — StationSoccer</h3>
-          <p>A youth soccer and workforce development program with a TAD-funded field in the Hollowell-MLK corridor.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_e59slW_SoccerintheStreets_d23e1d3a.png" download target="_blank">&#8595; Download Image</a>
-        </div>
-      </div>
-
     </div>
   </div>
 
   <!-- CAMPBELLTON ROAD TAD -->
-  <div class="tad-section">
-    <div class="tad-section-header">
-      <h2>Campbellton Road TAD</h2>
-      <span class="tad-badge">2 Projects</span>
+  <div class="tad-accordion">
+    <div class="tad-accordion-header" onclick="toggleAccordion(this)">
+      <div class="tad-accordion-title">
+        <h2>Campbellton Road TAD</h2>
+        <span class="tad-count">2 Projects</span>
+      </div>
+      <i class="tad-chevron">&#8964;</i>
     </div>
-    <div class="project-grid">
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/AtlantaHumanPerformanceCenter_439601fa.png" alt="Atlanta Human Performance Center" loading="lazy" />
+    <div class="tad-accordion-body">
+      <div class="coming-soon">More content coming soon.</div>
+      <div class="thumb-grid">
+        <div class="thumb-item" onclick="openModal('m-ahpc')">
+          <div class="thumb-name">Atlanta Human Performance Center</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/AtlantaHumanPerformanceCenter_439601fa.png" alt="Atlanta Human Performance Center" loading="lazy" />
         </div>
-        <div class="project-card-body">
-          <h3>Atlanta Human Performance Center</h3>
-          <p>A physical therapy and wellness facility serving patients with mobility and accessibility needs, receiving TAD-funded ADA upgrades on Hogan Road in the Greenbriar neighborhood.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/AtlantaHumanPerformanceCenter_439601fa.png" download target="_blank">&#8595; Download Image</a>
+        <div class="thumb-item" onclick="openModal('m-bigdaddy')">
+          <div class="thumb-name">Big Daddy's Kitchen</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/BigDaddy%27sKitchen_8b0c4fe3.png" alt="Big Daddy's Kitchen" loading="lazy" />
         </div>
       </div>
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/BigDaddy%27sKitchen_8b0c4fe3.png" alt="Big Daddy's Kitchen" loading="lazy" />
-        </div>
-        <div class="project-card-body">
-          <h3>Big Daddy's Kitchen</h3>
-          <p>A Southwest Atlanta restaurant institution on Campbellton Road, receiving TAD-funded renovations after 14 years in operation.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/BigDaddy%27sKitchen_8b0c4fe3.png" download target="_blank">&#8595; Download Image</a>
-        </div>
-      </div>
-
     </div>
   </div>
 
   <!-- STADIUM AREA TAD -->
-  <div class="tad-section">
-    <div class="tad-section-header">
-      <h2>Stadium Area TAD</h2>
-      <span class="tad-badge">2 Projects</span>
+  <div class="tad-accordion">
+    <div class="tad-accordion-header" onclick="toggleAccordion(this)">
+      <div class="tad-accordion-title">
+        <h2>Stadium Area TAD</h2>
+        <span class="tad-count">2 Projects</span>
+      </div>
+      <i class="tad-chevron">&#8964;</i>
     </div>
-    <div class="project-grid">
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Water-damagedcommercialretail-Mechanicsville_063756ab.png" alt="Water-damaged commercial retail Mechanicsville" loading="lazy" />
+    <div class="tad-accordion-body">
+      <div class="coming-soon">More content coming soon.</div>
+      <div class="thumb-grid">
+        <div class="thumb-item" onclick="openModal('m-mechanicsville')">
+          <div class="thumb-name">Commercial Retail Rehab, Mechanicsville</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Water-damagedcommercialretail-Mechanicsville_063756ab.png" alt="Commercial Retail Rehab Mechanicsville" loading="lazy" />
         </div>
-        <div class="project-card-body">
-          <h3>Commercial Retail Rehab — Mechanicsville</h3>
-          <p>A blighted commercial property in Mechanicsville being remediated and returned to productive use through the Stadium Area TAD.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Water-damagedcommercialretail-Mechanicsville_063756ab.png" download target="_blank">&#8595; Download Image</a>
+        <div class="thumb-item" onclick="openModal('m-atlanta-voice')">
+          <div class="thumb-name">The Atlanta Voice</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/TheAtlantaVoice_5f04f881.png" alt="The Atlanta Voice" loading="lazy" />
         </div>
       </div>
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/TheAtlantaVoice_5f04f881.png" alt="The Atlanta Voice" loading="lazy" />
-        </div>
-        <div class="project-card-body">
-          <h3>The Atlanta Voice</h3>
-          <p>Historic Black-owned newspaper receiving TAD-funded building modernization to sustain its newsroom in the Stadium Area corridor.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/TheAtlantaVoice_5f04f881.png" download target="_blank">&#8595; Download Image</a>
-        </div>
-      </div>
-
     </div>
   </div>
 
   <!-- METROPOLITAN PARKWAY TAD -->
-  <div class="tad-section">
-    <div class="tad-section-header">
-      <h2>Metropolitan Parkway TAD</h2>
-      <span class="tad-badge">2 Projects</span>
+  <div class="tad-accordion">
+    <div class="tad-accordion-header" onclick="toggleAccordion(this)">
+      <div class="tad-accordion-title">
+        <h2>Metropolitan Parkway TAD</h2>
+        <span class="tad-count">2 Projects</span>
+      </div>
+      <i class="tad-chevron">&#8964;</i>
     </div>
-    <div class="project-grid">
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/GoodwillJobTrainingandRetailCenter_6bd963a0.png" alt="Goodwill Job Training and Retail Center" loading="lazy" />
+    <div class="tad-accordion-body">
+      <div class="coming-soon">More content coming soon.</div>
+      <div class="thumb-grid">
+        <div class="thumb-item" onclick="openModal('m-goodwill')">
+          <div class="thumb-name">Goodwill Job Training and Retail Center</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/GoodwillJobTrainingandRetailCenter_6bd963a0.png" alt="Goodwill Job Training and Retail Center" loading="lazy" />
         </div>
-        <div class="project-card-body">
-          <h3>Goodwill Job Training and Retail Center</h3>
-          <p>Goodwill of North Georgia's first Atlanta career center, combining job training, workforce development, and retail on Metropolitan Parkway, funded through the Metropolitan Parkway TAD.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/GoodwillJobTrainingandRetailCenter_6bd963a0.png" download target="_blank">&#8595; Download Image</a>
+        <div class="thumb-item" onclick="openModal('m-duke-dental')">
+          <div class="thumb-name">Duke Dental Management</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/DukeDentalManagement_d89fa588.png" alt="Duke Dental Management" loading="lazy" />
         </div>
       </div>
-
-      <div class="project-card">
-        <div class="project-card-img">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/DukeDentalManagement_d89fa588.png" alt="Duke Dental Management" loading="lazy" />
-        </div>
-        <div class="project-card-body">
-          <h3>Duke Dental Management</h3>
-          <p>A new dental practice on Cleveland Avenue rehabilitating a long-vacant legacy building to bring dental care back to the community, funded through the Metropolitan Parkway TAD.</p>
-          <div class="caption-prompts">
-            <div class="cp-label">Not sure what to say? Try one of these:</div>
-            <ul>
-              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
-              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
-              <li>"Tag someone who lives near here. This is what's at stake."</li>
-            </ul>
-          </div>
-        </div>
-        <div class="project-card-footer">
-          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/DukeDentalManagement_d89fa588.png" download target="_blank">&#8595; Download Image</a>
-        </div>
-      </div>
-
     </div>
   </div>
 
 </div>
+
+<!-- MODALS -->
+
+<!-- Helper macro: share buttons repeated per modal -->
+<!-- BELTLINE -->
+
+<div class="modal-overlay" id="m-westside-trail" onclick="closeModalOnOverlay(event,'m-westside-trail')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-westside-trail')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_b8iKZq_WestsideTrailBeltline_6bf8e685.png" alt="Atlanta Beltline Westside Trail" />
+    <div class="modal-body">
+      <h2 class="modal-title">Atlanta Beltline Westside Trail</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-westside-trail">The Westside Trail connects neighborhoods that have waited a long time to be connected. TAD funding made it real, and extending the TADs keeps projects like this moving forward. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-westside-trail',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-westside-trail');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-westside-trail');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-westside-trail');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-westside-trail');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_b8iKZq_WestsideTrailBeltline_6bf8e685.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-city-of-refuge" onclick="closeModalOnOverlay(event,'m-city-of-refuge')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-city-of-refuge')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_JqKG4X_CityofRefugeTransformationCenter_0b54bda6.png" alt="City of Refuge Transformation Center" />
+    <div class="modal-body">
+      <h2 class="modal-title">City of Refuge Transformation Center</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-city-of-refuge">25 affordable homes and community space in West End Heights. A $2 million Beltline TAD grant helped make this happen. This is what reinvestment looks like. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-city-of-refuge',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-city-of-refuge');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-city-of-refuge');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-city-of-refuge');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-city-of-refuge');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_JqKG4X_CityofRefugeTransformationCenter_0b54bda6.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-eastside-trail" onclick="closeModalOnOverlay(event,'m-eastside-trail')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-eastside-trail')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_EGoGYz_EastsideTrailBeltline_17587891.png" alt="Atlanta Beltline Eastside Trail" />
+    <div class="modal-body">
+      <h2 class="modal-title">Atlanta Beltline Eastside Trail</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-eastside-trail">2.25 miles connecting Inman Park to Piedmont Park, one of Atlanta's most-used public spaces. TAD funding built it. Extending the TADs keeps the work going. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-eastside-trail',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-eastside-trail');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-eastside-trail');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-eastside-trail');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-eastside-trail');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_EGoGYz_EastsideTrailBeltline_17587891.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-ralph-david" onclick="closeModalOnOverlay(event,'m-ralph-david')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-ralph-david')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/RalphDavidHouse_c3237b1a.png" alt="Ralph David House" />
+    <div class="modal-body">
+      <h2 class="modal-title">Ralph David House</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-ralph-david">A vacant motel on the Westside is now 54 permanent homes for Atlanta residents who needed them most. That is what TAD funding makes possible, and it is why extending the TADs matters. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-ralph-david',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-ralph-david');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-ralph-david');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-ralph-david');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-ralph-david');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/RalphDavidHouse_c3237b1a.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-skyline" onclick="closeModalOnOverlay(event,'m-skyline')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-skyline')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Skyline_7201cff6.png" alt="Skyline Apartments" />
+    <div class="modal-body">
+      <h2 class="modal-title">Skyline Apartments</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-skyline">Mixed-income housing in the Beltline corridor, funded through TAD investment. This is what it looks like when reinvestment reaches neighborhoods that need it. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-skyline',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-skyline');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-skyline');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-skyline');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-skyline');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Skyline_7201cff6.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- EASTSIDE TAD MODALS -->
+
+<div class="modal-overlay" id="m-ascent" onclick="closeModalOnOverlay(event,'m-ascent')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-ascent')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Ascent_42fedf03.png" alt="Ascent Peachtree" />
+    <div class="modal-body">
+      <h2 class="modal-title">Ascent Peachtree</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-ascent">Affordable and market-rate housing in Midtown, made possible through the Eastside TAD. TADs work across Atlanta, not just in one part of the city. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-ascent',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-ascent');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-ascent');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-ascent');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-ascent');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Ascent_42fedf03.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-thrive" onclick="closeModalOnOverlay(event,'m-thrive')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-thrive')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ThriveSweetAuburn_df0830aa.png" alt="Thrive Sweet Auburn" />
+    <div class="modal-body">
+      <h2 class="modal-title">Thrive Sweet Auburn</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-thrive">Affordable housing and community space in historic Sweet Auburn, funded through the Eastside TAD. Reinvestment in Atlanta's most storied corridors is still happening. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-thrive',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-thrive');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-thrive');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-thrive');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-thrive');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ThriveSweetAuburn_df0830aa.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-front-porch" onclick="closeModalOnOverlay(event,'m-front-porch')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-front-porch')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FrontPorch_0c4744c3.png" alt="The Front Porch on Auburn Avenue" />
+    <div class="modal-body">
+      <h2 class="modal-title">The Front Porch on Auburn Avenue</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-front-porch">A community gathering and cultural space on Auburn Avenue, funded through the Eastside TAD. Preserving culture and building community, one investment at a time. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-front-porch',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-front-porch');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-front-porch');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-front-porch');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-front-porch');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FrontPorch_0c4744c3.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- WESTSIDE TAD MODALS -->
+
+<div class="modal-overlay" id="m-kathryn" onclick="closeModalOnOverlay(event,'m-kathryn')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-kathryn')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/KathrynJohnstonMemorialPark_81ed0b9c.png" alt="Kathryn Johnston Memorial Park" />
+    <div class="modal-body">
+      <h2 class="modal-title">Kathryn Johnston Memorial Park</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-kathryn">3.5 acres of green space in English Avenue, honoring Ms. Johnston's legacy and managing stormwater for the community. The Westside TAD Ascension Fund helped make it happen. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-kathryn',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-kathryn');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-kathryn');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-kathryn');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-kathryn');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/KathrynJohnstonMemorialPark_81ed0b9c.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-salvation-army" onclick="closeModalOnOverlay(event,'m-salvation-army')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-salvation-army')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATSalvationArmyCenterofHope_d38ccd22.png" alt="Salvation Army Center of Hope" />
+    <div class="modal-body">
+      <h2 class="modal-title">Salvation Army Center of Hope</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-salvation-army">A comprehensive shelter and services facility for people experiencing homelessness on Atlanta's Westside, funded through the Westside TAD. Reinvestment means taking care of everyone in our community. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-salvation-army',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-salvation-army');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-salvation-army');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-salvation-army');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-salvation-army');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATSalvationArmyCenterofHope_d38ccd22.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-ymca" onclick="closeModalOnOverlay(event,'m-ymca')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-ymca')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATYMCALeadership%26LearningCenter_f82a5d8e.png" alt="YMCA Leadership and Learning Center" />
+    <div class="modal-body">
+      <h2 class="modal-title">YMCA Leadership and Learning Center</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-ymca">Youth development and education on the Westside, funded through the Westside TAD. When TADs work, kids in every part of Atlanta have access to resources like this. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-ymca',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-ymca');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-ymca');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-ymca');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-ymca');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATYMCALeadership%26LearningCenter_f82a5d8e.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- PERRY BOLTON TAD MODALS -->
+
+<div class="modal-overlay" id="m-centerwell" onclick="closeModalOnOverlay(event,'m-centerwell')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-centerwell')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FINALCenterWellSeniorPrimaryCareATADDidThat_b16eebff.png" alt="CenterWell Senior Primary Care" />
+    <div class="modal-body">
+      <h2 class="modal-title">CenterWell Senior Primary Care</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-centerwell">A primary care clinic focused on seniors, now serving the Perry Bolton corridor thanks to TAD investment. Healthcare access is reinvestment too. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-centerwell',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-centerwell');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-centerwell');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-centerwell');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-centerwell');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FINALCenterWellSeniorPrimaryCareATADDidThat_b16eebff.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-fire22" onclick="closeModalOnOverlay(event,'m-fire22')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-fire22')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FireStation22_62a0d27f.png" alt="Fire Station 22" />
+    <div class="modal-body">
+      <h2 class="modal-title">Fire Station 22</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-fire22">A rebuilt fire station serving Perry Bolton and surrounding neighborhoods, funded through the Perry Bolton TAD. Public safety infrastructure is reinvestment too. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-fire22',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-fire22');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-fire22');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-fire22');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-fire22');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FireStation22_62a0d27f.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-henris" onclick="closeModalOnOverlay(event,'m-henris')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-henris')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Henris_1ddf0a71.png" alt="Henri's Bakery and Cafe" />
+    <div class="modal-body">
+      <h2 class="modal-title">Henri's Bakery and Cafe, Upper West Side</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-henris">95 years in Atlanta and still going. TAD-funded renovations are helping Henri's Bakery and Cafe stay rooted in the Bolton neighborhood. That is what reinvestment looks like. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-henris',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-henris');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-henris');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-henris');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-henris');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Henris_1ddf0a71.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-publix" onclick="closeModalOnOverlay(event,'m-publix')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-publix')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/PublixMooresMill_01f960ae.png" alt="Publix Moores Mill" />
+    <div class="modal-body">
+      <h2 class="modal-title">Publix, Moores Mill</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-publix">A full-service grocery store in the Upper West Side, funded through the Perry Bolton TAD. Access to fresh food is a basic need. TADs help make it possible. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-publix',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-publix');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-publix');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-publix');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-publix');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/PublixMooresMill_01f960ae.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- HOLLOWELL-MLK TAD MODALS -->
+
+<div class="modal-overlay" id="m-acfb" onclick="closeModalOnOverlay(event,'m-acfb')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-acfb')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATACFBCommunityFoodCenter_3a05f915.png" alt="Atlanta Community Food Bank" />
+    <div class="modal-body">
+      <h2 class="modal-title">Atlanta Community Food Bank</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-acfb">Since opening in August 2025, this community food distribution center has served nearly 500,000 pounds of food to families on Atlanta's Westside. The Hollowell-MLK TAD helped make it possible. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-acfb',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-acfb');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-acfb');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-acfb');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-acfb');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATACFBCommunityFoodCenter_3a05f915.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-soccer" onclick="closeModalOnOverlay(event,'m-soccer')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-soccer')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj
+0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_e59slW_SoccerintheStreets_d23e1d3a.png" alt="Soccer in the Streets StationSoccer" />
+    <div class="modal-body">
+      <h2 class="modal-title">Soccer in the Streets, StationSoccer</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-soccer">A TAD-funded soccer field giving young people in the Hollowell-MLK corridor a place to play and grow. Youth investment is neighborhood investment. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-soccer',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-soccer');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-soccer');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-soccer');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-soccer');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_e59slW_SoccerintheStreets_d23e1d3a.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAMPBELLTON ROAD TAD MODALS -->
+
+<div class="modal-overlay" id="m-ahpc" onclick="closeModalOnOverlay(event,'m-ahpc')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-ahpc')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/AtlantaHumanPerformanceCenter_439601fa.png" alt="Atlanta Human Performance Center" />
+    <div class="modal-body">
+      <h2 class="modal-title">Atlanta Human Performance Center</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-ahpc">A physical therapy and wellness facility on Hogan Road in Greenbriar, receiving TAD-funded ADA upgrades to better serve patients with mobility needs. Accessibility is reinvestment. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-ahpc',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-ahpc');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-ahpc');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-ahpc');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-ahpc');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/AtlantaHumanPerformanceCenter_439601fa.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-bigdaddy" onclick="closeModalOnOverlay(event,'m-bigdaddy')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-bigdaddy')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/BigDaddy%27sKitchen_8b0c4fe3.png" alt="Big Daddy's Kitchen" />
+    <div class="modal-body">
+      <h2 class="modal-title">Big Daddy's Kitchen</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-bigdaddy">14 years on Campbellton Road and still serving the community. TAD-funded renovations are helping Big Daddy's Kitchen keep its doors open. Supporting local businesses is reinvestment. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-bigdaddy',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-bigdaddy');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-bigdaddy');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-bigdaddy');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-bigdaddy');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/BigDaddy%27sKitchen_8b0c4fe3.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- STADIUM AREA TAD MODALS -->
+
+<div class="modal-overlay" id="m-mechanicsville" onclick="closeModalOnOverlay(event,'m-mechanicsville')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-mechanicsville')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Water-damagedcommercialretail-Mechanicsville_063756ab.png" alt="Commercial Retail Rehab Mechanicsville" />
+    <div class="modal-body">
+      <h2 class="modal-title">Commercial Retail Rehab, Mechanicsville</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-mechanicsville">A blighted commercial property in Mechanicsville is being remediated and returned to productive use through the Stadium Area TAD. Cleaning up and building up, one block at a time. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-mechanicsville',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-mechanicsville');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-mechanicsville');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-mechanicsville');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-mechanicsville');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Water-damagedcommercialretail-Mechanicsville_063756ab.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-atlanta-voice" onclick="closeModalOnOverlay(event,'m-atlanta-voice')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-atlanta-voice')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/TheAtlantaVoice_5f04f881.png" alt="The Atlanta Voice" />
+    <div class="modal-body">
+      <h2 class="modal-title">The Atlanta Voice</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-atlanta-voice">One of Atlanta's historic Black-owned newspapers is getting TAD-funded building upgrades to keep its newsroom running in the Stadium Area corridor. Investing in community voice is reinvestment. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-atlanta-voice',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-atlanta-voice');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-atlanta-voice');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-atlanta-voice');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-atlanta-voice');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/TheAtlantaVoice_5f04f881.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- METROPOLITAN PARKWAY TAD MODALS -->
+
+<div class="modal-overlay" id="m-goodwill" onclick="closeModalOnOverlay(event,'m-goodwill')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-goodwill')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/GoodwillJobTrainingandRetailCenter_6bd963a0.png" alt="Goodwill Job Training and Retail Center" />
+    <div class="modal-body">
+      <h2 class="modal-title">Goodwill Job Training and Retail Center</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-goodwill">Goodwill of North Georgia's first Atlanta career center on Metropolitan Parkway, combining job training, workforce development, and retail. TAD investment is putting people to work. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-goodwill',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-goodwill');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-goodwill');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-goodwill');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-goodwill');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/GoodwillJobTrainingandRetailCenter_6bd963a0.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-duke-dental" onclick="closeModalOnOverlay(event,'m-duke-dental')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m-duke-dental')">&#10005;</button>
+    <img class="modal-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/DukeDentalManagement_d89fa588.png" alt="Duke Dental Management" />
+    <div class="modal-body">
+      <h2 class="modal-title">Duke Dental Management</h2>
+      <p class="modal-attribution">Source: City of Atlanta / Invest Atlanta</p>
+      <div class="caption-section">
+        <div class="caption-label">Your Caption</div>
+        <div class="caption-hint">Edit or post as-is.</div>
+        <textarea class="caption-textarea" id="cap-duke-dental">A new dental practice on Cleveland Avenue bringing care back to a long-vacant building in the community. The Metropolitan Parkway TAD made it possible. Access to dental care is reinvestment. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+        <br/><button class="btn-copy" onclick="copyCaption('cap-duke-dental',this)">Copy Caption</button>
+        <div class="share-label">Share to Social Media</div>
+        <div class="share-row">
+          <a class="btn-share facebook" href="#" onclick="shareToFacebook('cap-duke-dental');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a>
+          <a class="btn-share twitter" href="#" onclick="shareToTwitter('cap-duke-dental');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter / X</a>
+          <a class="btn-share bluesky" href="#" onclick="shareToBluesky('cap-duke-dental');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>Bluesky</a>
+          <a class="btn-share instagram" href="https://www.instagram.com/" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
+          <a class="btn-share linkedin" href="#" onclick="shareToLinkedIn('cap-duke-dental');return false;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        </div>
+        <span class="paste-note">Instagram and Bluesky: copy your caption first, then paste when posting.</span>
+      </div>
+      <div class="modal-footer"><a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/DukeDentalManagement_d89fa588.png" download target="_blank">&#8595; Download Image</a></div>
+    </div>
+  </div>
+</div>
+
 <div class="site-footer">
   Source: NRI Commission / Invest Atlanta, 2026 &nbsp;|&nbsp; <a href="https://neighborsforaunitedatlanta.org" target="_blank">neighborsforaunitedatlanta.org</a>
 </div>
+
+<script>
+function toggleAccordion(header) {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeModalOnOverlay(e, id) {
+  if (e.target === e.currentTarget) closeModal(id);
+}
+
+function getCaption(id) {
+  return document.getElementById(id).value;
+}
+
+function copyCaption(textareaId, btn) {
+  const text = getCaption(textareaId);
+  navigator.clipboard.writeText(text).then(() => showCopied(btn)).catch(() => {
+    document.getElementById(textareaId).select();
+    document.execCommand('copy');
+    showCopied(btn);
+  });
+}
+
+function showCopied(btn) {
+  const orig = btn.textContent;
+  btn.textContent = 'Copied!';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+}
+
+function shareToFacebook(id) {
+  const text = encodeURIComponent(getCaption(id));
+  const url = encodeURIComponent('https://www.neighborsforaunitedatlanta.org');
+  window.open('https://www.facebook.com/sharer/sharer.php?u=' + url + '&quote=' + text, '_blank', 'width=600,height=400');
+}
+
+function shareToTwitter(id) {
+  window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(getCaption(id)), '_blank', 'width=600,height=400');
+}
+
+function shareToBluesky(id) {
+  window.open('https://bsky.app/intent/compose?text=' + encodeURIComponent(getCaption(id)), '_blank', 'width=600,height=500');
+}
+
+function shareToLinkedIn(id) {
+  const url = encodeURIComponent('https://www.neighborsforaunitedatlanta.org');
+  window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + url, '_blank', 'width=600,height=500');
+}
+</script>
 </body>
 </html>
