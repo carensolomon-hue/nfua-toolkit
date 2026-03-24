@@ -54,6 +54,10 @@
     .thumb-item {
       cursor: pointer; text-align: center;
     }
+    .thumb-name {
+      font-size: 0.72rem; font-weight: 700; color: #1B3A5C;
+      margin-bottom: 6px; line-height: 1.3;
+    }
     .thumb-img {
       width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
       border-radius: 8px; display: block;
@@ -64,17 +68,12 @@
       border-color: #2A9D8F;
       transform: scale(1.03);
     }
-    .thumb-name {
-      font-size: 0.72rem; font-weight: 700; color: #1B3A5C;
-      margin-top: 6px; line-height: 1.3;
-    }
 
     .coming-soon {
-      margin-top: 18px;
-      font-size: 0.78rem; color: #999; font-style: italic;
-      padding: 8px 12px; background: #fff;
-      border-radius: 6px; border: 1px dashed #c8d6e0;
-      display: inline-block;
+      font-size: 0.82rem; font-weight: 600; color: #2A9D8F;
+      padding: 10px 14px; background: #f0f7f6;
+      border-radius: 6px; border: 1px solid #b8ddd9;
+      display: block; margin-bottom: 18px;
     }
 
     /* ── Modal overlay ── */
@@ -226,21 +225,21 @@
       </div>
       <i class="tad-chevron">&#8964;</i>
     </div>
-    <div class="tad-accordion-body">
+      <div class="tad-accordion-body">
+      <div class="coming-soon">More content coming soon.</div>
       <div class="thumb-grid">
 
         <div class="thumb-item" onclick="openModal('modal-ralph')">
-          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/RalphDavidHouse_c3237b1a.png" alt="Ralph David House" />
           <div class="thumb-name">Ralph David House</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/RalphDavidHouse_c3237b1a.png" alt="Ralph David House" />
         </div>
 
         <div class="thumb-item" onclick="openModal('modal-westside')">
-          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_b8iKZq_WestsideTrailBeltline_6bf8e685.png" alt="Atlanta Beltline Westside Trail" />
           <div class="thumb-name">Beltline Westside Trail</div>
+          <img class="thumb-img" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_b8iKZq_WestsideTrailBeltline_6bf8e685.png" alt="Atlanta Beltline Westside Trail" />
         </div>
 
       </div>
-      <div class="coming-soon">More Beltline TAD content coming soon.</div>
     </div>
   </div>
 
