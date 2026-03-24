@@ -5,6 +5,92 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>A TAD Did That | NRI Toolkit</title>
   <link rel="stylesheet" href="../shared.css" />
+  <style>
+    .tad-section { margin-bottom: 56px; }
+    .tad-section-header {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 24px; padding-bottom: 12px;
+      border-bottom: 3px solid #2A9D8F;
+    }
+    .tad-section-header h2 {
+      font-size: 1.25rem; font-weight: 800; color: #1B3A5C; margin: 0;
+    }
+    .tad-badge {
+      background: #1B3A5C; color: #fff;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: #fff; border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      overflow: hidden; display: flex; flex-direction: column;
+    }
+    .project-card-img {
+      position: relative; width: 100%; aspect-ratio: 1 / 1;
+      overflow: hidden; background: #e0e8f0;
+    }
+    .project-card-img img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .asterisk-badge {
+      position: absolute; top: 10px; right: 10px;
+      background: rgba(27,58,92,0.85); color: #fff;
+      font-size: 0.7rem; font-weight: 700;
+      padding: 3px 8px; border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .project-card-body {
+      padding: 18px 18px 0; flex: 1;
+    }
+    .project-card-body h3 {
+      font-size: 0.97rem; font-weight: 800; color: #1B3A5C;
+      margin-bottom: 6px; line-height: 1.3;
+    }
+    .project-card-body p {
+      font-size: 0.84rem; color: #444; line-height: 1.6; margin: 0;
+    }
+
+    .project-card-footer {
+      padding: 14px 18px 18px;
+    }
+    .btn-dl-img {
+      display: inline-block; background: #2A9D8F; color: #fff;
+      border-radius: 6px; padding: 8px 16px;
+      font-size: 0.78rem; font-weight: 700; text-decoration: none;
+      margin-top: 12px; transition: background 0.2s;
+    }
+    .btn-dl-img:hover { background: #238a7e; }
+
+    .caption-prompts {
+      background: #f0f7f6; border-left: 3px solid #2A9D8F;
+      border-radius: 0 6px 6px 0; padding: 12px 14px;
+      margin-top: 12px;
+    }
+    .caption-prompts .cp-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: #2A9D8F; margin-bottom: 8px;
+    }
+    .caption-prompts ul {
+      margin: 0; padding-left: 16px;
+      font-size: 0.8rem; color: #333; line-height: 1.65;
+    }
+    .caption-prompts ul li { margin-bottom: 4px; }
+    .caption-prompts ul li:last-child { margin-bottom: 0; }
+
+    .footnote {
+      font-size: 0.78rem; color: #666; margin-bottom: 32px;
+      padding: 10px 14px; background: #fff; border-radius: 6px;
+      border: 1px solid #dde4ea;
+    }
+  </style>
 </head>
 <body>
 <nav class="topnav">
@@ -14,16 +100,597 @@
 <div class="hero">
   <div class="topic-label">Topic: A TAD Did That</div>
   <h1>Real Projects. Real Neighborhoods. Real Results.</h1>
-  <p>Proof-point posts showing what TAD investment has already delivered across Atlanta.</p>
+  <p>TADs have funded parks, health clinics, grocery stores, trails, housing, and more across Atlanta. Download any graphic and share it with your own voice.</p>
 </div>
 <div class="teal-bar"></div>
 <div class="page">
-  <div class="card-block">
-    <div class="section-label">Coming Soon</div>
-    <div class="section-title">Content for This Topic Is Being Added</div>
-    <p>This section is actively being built. Check back soon for the full explainer, downloadable resources, and social media posts for this topic.</p>
-    <p>In the meantime, visit the <a href="food-access.html" style="color:#2A9D8F;font-weight:700;">Food Access</a> topic page to see a fully built example, or return to the <a href="../index.html" style="color:#2A9D8F;font-weight:700;">Toolkit Hub</a>.</p>
+
+  <div class="footnote">
+    * Image previously posted by the City of Atlanta. &nbsp;Download and repost with your own caption.
   </div>
+
+  <!-- BELTLINE TAD -->
+  <div class="tad-section">
+    <div class="tad-section-header">
+      <h2>Beltline TAD</h2>
+      <span class="tad-badge">5 Projects</span>
+    </div>
+    <div class="project-grid">
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_b8iKZq_WestsideTrailBeltline_6bf8e685.png" alt="Atlanta Beltline Westside Trail" loading="lazy" />
+        </div>
+        <div class="project-card-body">
+          <h3>Atlanta Beltline Westside Trail</h3>
+          <p>A multi-use trail connecting Westside neighborhoods to the broader Beltline network, funded through the Beltline TAD.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_b8iKZq_WestsideTrailBeltline_6bf8e685.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_JqKG4X_CityofRefugeTransformationCenter_0b54bda6.png" alt="City of Refuge Transformation Center" loading="lazy" />
+        </div>
+        <div class="project-card-body">
+          <h3>City of Refuge Transformation Center</h3>
+          <p>A new mixed-use development in the West End Heights/Bankhead neighborhood including 25 affordable housing units, supported by a $2 million Beltline TAD grant.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_JqKG4X_CityofRefugeTransformationCenter_0b54bda6.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_EGoGYz_EastsideTrailBeltline_17587891.png" alt="Atlanta Beltline Eastside Trail" loading="lazy" />
+        </div>
+        <div class="project-card-body">
+          <h3>Atlanta Beltline Eastside Trail</h3>
+          <p>A 2.25-mile trail connecting Inman Park to Piedmont Park, one of Atlanta's most-used public spaces, funded through the Beltline TAD.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_EGoGYz_EastsideTrailBeltline_17587891.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/RalphDavidHouse_c3237b1a.png" alt="Ralph David House" loading="lazy" />
+          <span class="asterisk-badge">*</span>
+        </div>
+        <div class="project-card-body">
+          <h3>Ralph David House</h3>
+          <p>In 2024, the historic Motel Atlanta was transformed into 54 permanent micro-units for residents earning 30% or less of AMI or previously unhoused, made possible in part by a $550,000 Beltline TAD investment.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/RalphDavidHouse_c3237b1a.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Skyline_7201cff6.png" alt="Skyline Apartments" loading="lazy" />
+          <span class="asterisk-badge">*</span>
+        </div>
+        <div class="project-card-body">
+          <h3>Skyline Apartments</h3>
+          <p>Mixed-income residential development in the Beltline corridor, funded through the Beltline TAD.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Skyline_7201cff6.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EASTSIDE TAD -->
+  <div class="tad-section">
+    <div class="tad-section-header">
+      <h2>Eastside TAD</h2>
+      <span class="tad-badge">3 Projects</span>
+    </div>
+    <div class="project-grid">
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Ascent_42fedf03.png" alt="Ascent Peachtree" loading="lazy" />
+          <span class="asterisk-badge">*</span>
+        </div>
+        <div class="project-card-body">
+          <h3>Ascent Peachtree</h3>
+          <p>A mixed-use development with affordable and market-rate housing in Midtown, funded through the Eastside TAD.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Ascent_42fedf03.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ThriveSweetAuburn_df0830aa.png" alt="Thrive Sweet Auburn" loading="lazy" />
+          <span class="asterisk-badge">*</span>
+        </div>
+        <div class="project-card-body">
+          <h3>Thrive Sweet Auburn</h3>
+          <p>Affordable housing and community space in the historic Sweet Auburn corridor, funded through the Eastside TAD.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ThriveSweetAuburn_df0830aa.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FrontPorch_0c4744c3.png" alt="The Front Porch on Auburn Avenue" loading="lazy" />
+          <span class="asterisk-badge">*</span>
+        </div>
+        <div class="project-card-body">
+          <h3>The Front Porch on Auburn Avenue</h3>
+          <p>A community gathering and cultural space in the Sweet Auburn neighborhood, funded through the Eastside TAD.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FrontPorch_0c4744c3.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WESTSIDE TAD -->
+  <div class="tad-section">
+    <div class="tad-section-header">
+      <h2>Westside TAD</h2>
+      <span class="tad-badge">3 Projects</span>
+    </div>
+    <div class="project-grid">
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/KathrynJohnstonMemorialPark_81ed0b9c.png" alt="Kathryn Johnston Memorial Park" loading="lazy" />
+          <span class="asterisk-badge">*</span>
+        </div>
+        <div class="project-card-body">
+          <h3>Kathryn Johnston Memorial Park</h3>
+          <p>A 3.5-acre community green space in English Avenue that honors Ms. Johnston's legacy, manages Proctor Creek stormwater challenges, and was funded in part by the Westside TAD Ascension Fund.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/KathrynJohnstonMemorialPark_81ed0b9c.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATSalvationArmyCenterofHope_d38ccd22.png" alt="Salvation Army Center of Hope" loading="lazy" />
+          <span class="asterisk-badge">*</span>
+        </div>
+        <div class="project-card-body">
+          <h3>Salvation Army Center of Hope</h3>
+          <p>A comprehensive shelter and services facility for individuals experiencing homelessness on Atlanta's Westside, funded through the Westside TAD.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATSalvationArmyCenterofHope_d38ccd22.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATYMCALeadership%26LearningCenter_f82a5d8e.png" alt="YMCA Leadership and Learning Center" loading="lazy" />
+          <span class="asterisk-badge">*</span>
+        </div>
+        <div class="project-card-body">
+          <h3>YMCA Leadership &amp; Learning Center</h3>
+          <p>A youth development and education facility serving Westside neighborhoods, funded through the Westside TAD.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATYMCALeadership%26LearningCenter_f82a5d8e.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PERRY BOLTON TAD -->
+  <div class="tad-section">
+    <div class="tad-section-header">
+      <h2>Perry Bolton TAD</h2>
+      <span class="tad-badge">4 Projects</span>
+    </div>
+    <div class="project-grid">
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FINALCenterWellSeniorPrimaryCareATADDidThat_b16eebff.png" alt="CenterWell Senior Primary Care" loading="lazy" />
+          <span class="asterisk-badge">*</span>
+        </div>
+        <div class="project-card-body">
+          <h3>CenterWell Senior Primary Care</h3>
+          <p>A primary care clinic focused on seniors, bringing healthcare access to the Perry Bolton corridor, funded through the Perry Bolton TAD.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FINALCenterWellSeniorPrimaryCareATADDidThat_b16eebff.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FireStation22_62a0d27f.png" alt="Fire Station 22" loading="lazy" />
+          <span class="asterisk-badge">*</span>
+        </div>
+        <div class="project-card-body">
+          <h3>Fire Station 22</h3>
+          <p>A rebuilt fire station serving Perry Bolton and surrounding neighborhoods, funded through the Perry Bolton TAD.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/FireStation22_62a0d27f.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Henris_1ddf0a71.png" alt="Henri's Bakery and Cafe" loading="lazy" />
+        </div>
+        <div class="project-card-body">
+          <h3>Henri's Bakery &amp; Cafe — Upper West Side</h3>
+          <p>A 95-year-old Atlanta institution receiving TAD-funded renovations to its facility in the Bolton neighborhood.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Henris_1ddf0a71.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/PublixMooresMill_01f960ae.png" alt="Publix Moores Mill" loading="lazy" />
+        </div>
+        <div class="project-card-body">
+          <h3>Publix — Moores Mill, Upper West Side</h3>
+          <p>A full-service grocery store in the Upper West Side area, funded through the Perry Bolton TAD.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/PublixMooresMill_01f960ae.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- HOLLOWELL-MLK TAD -->
+  <div class="tad-section">
+    <div class="tad-section-header">
+      <h2>Hollowell-MLK TAD</h2>
+      <span class="tad-badge">2 Projects</span>
+    </div>
+    <div class="project-grid">
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATACFBCommunityFoodCenter_3a05f915.png" alt="Atlanta Community Food Bank" loading="lazy" />
+          <span class="asterisk-badge">*</span>
+        </div>
+        <div class="project-card-body">
+          <h3>Atlanta Community Food Bank</h3>
+          <p>A community food distribution facility addressing food insecurity on Atlanta's Westside, funded through the Hollowell-MLK TAD.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/ATADDIDTHATACFBCommunityFoodCenter_3a05f915.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_e59slW_SoccerintheStreets_d23e1d3a.png" alt="Soccer in the Streets StationSoccer" loading="lazy" />
+        </div>
+        <div class="project-card-body">
+          <h3>Soccer in the Streets — StationSoccer</h3>
+          <p>A youth soccer and workforce development program with a TAD-funded field in the Hollowell-MLK corridor.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/pasted_file_e59slW_SoccerintheStreets_d23e1d3a.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CAMPBELLTON ROAD TAD -->
+  <div class="tad-section">
+    <div class="tad-section-header">
+      <h2>Campbellton Road TAD</h2>
+      <span class="tad-badge">2 Projects</span>
+    </div>
+    <div class="project-grid">
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/AtlantaHumanPerformanceCenter_439601fa.png" alt="Atlanta Human Performance Center" loading="lazy" />
+        </div>
+        <div class="project-card-body">
+          <h3>Atlanta Human Performance Center</h3>
+          <p>A physical therapy and wellness facility serving patients with mobility and accessibility needs, receiving TAD-funded ADA upgrades on Hogan Road in the Greenbriar neighborhood.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/AtlantaHumanPerformanceCenter_439601fa.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/BigDaddy%27sKitchen_8b0c4fe3.png" alt="Big Daddy's Kitchen" loading="lazy" />
+        </div>
+        <div class="project-card-body">
+          <h3>Big Daddy's Kitchen</h3>
+          <p>A Southwest Atlanta restaurant institution on Campbellton Road, receiving TAD-funded renovations after 14 years in operation.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/BigDaddy%27sKitchen_8b0c4fe3.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STADIUM AREA TAD -->
+  <div class="tad-section">
+    <div class="tad-section-header">
+      <h2>Stadium Area TAD</h2>
+      <span class="tad-badge">2 Projects</span>
+    </div>
+    <div class="project-grid">
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Water-damagedcommercialretail-Mechanicsville_063756ab.png" alt="Water-damaged commercial retail Mechanicsville" loading="lazy" />
+        </div>
+        <div class="project-card-body">
+          <h3>Commercial Retail Rehab — Mechanicsville</h3>
+          <p>A blighted commercial property in Mechanicsville being remediated and returned to productive use through the Stadium Area TAD.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/Water-damagedcommercialretail-Mechanicsville_063756ab.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/TheAtlantaVoice_5f04f881.png" alt="The Atlanta Voice" loading="lazy" />
+        </div>
+        <div class="project-card-body">
+          <h3>The Atlanta Voice</h3>
+          <p>Historic Black-owned newspaper receiving TAD-funded building modernization to sustain its newsroom in the Stadium Area corridor.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/TheAtlantaVoice_5f04f881.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- METROPOLITAN PARKWAY TAD -->
+  <div class="tad-section">
+    <div class="tad-section-header">
+      <h2>Metropolitan Parkway TAD</h2>
+      <span class="tad-badge">2 Projects</span>
+    </div>
+    <div class="project-grid">
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/GoodwillJobTrainingandRetailCenter_6bd963a0.png" alt="Goodwill Job Training and Retail Center" loading="lazy" />
+        </div>
+        <div class="project-card-body">
+          <h3>Goodwill Job Training and Retail Center</h3>
+          <p>Goodwill of North Georgia's first Atlanta career center, combining job training, workforce development, and retail on Metropolitan Parkway, funded through the Metropolitan Parkway TAD.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/GoodwillJobTrainingandRetailCenter_6bd963a0.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/DukeDentalManagement_d89fa588.png" alt="Duke Dental Management" loading="lazy" />
+        </div>
+        <div class="project-card-body">
+          <h3>Duke Dental Management</h3>
+          <p>A new dental practice on Cleveland Avenue rehabilitating a long-vacant legacy building to bring dental care back to the community, funded through the Metropolitan Parkway TAD.</p>
+          <div class="caption-prompts">
+            <div class="cp-label">Not sure what to say? Try one of these:</div>
+            <ul>
+              <li>"Did you know a TAD made this possible? This is what reinvestment looks like in Atlanta."</li>
+              <li>"This is in our neighborhood. TADs fund projects like this — extending them keeps it going."</li>
+              <li>"Tag someone who lives near here. This is what's at stake."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/DukeDentalManagement_d89fa588.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 <div class="site-footer">
   Source: NRI Commission / Invest Atlanta, 2026 &nbsp;|&nbsp; <a href="https://neighborsforaunitedatlanta.org" target="_blank">neighborsforaunitedatlanta.org</a>
