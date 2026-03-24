@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Caption Prototype | NRI Toolkit</title>
+  <link rel="stylesheet" href="../shared.css" />
+  <style>
+    .tad-section { margin-bottom: 56px; }
+    .tad-section-header {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 24px; padding-bottom: 12px;
+      border-bottom: 3px solid #2A9D8F;
+    }
+    .tad-section-header h2 {
+      font-size: 1.25rem; font-weight: 800; color: #1B3A5C; margin: 0;
+    }
+    .tad-badge {
+      background: #1B3A5C; color: #fff;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: #fff; border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      overflow: hidden; display: flex; flex-direction: column;
+    }
+    .project-card-img {
+      position: relative; width: 100%; aspect-ratio: 1 / 1;
+      overflow: hidden; background: #e0e8f0;
+    }
+    .project-card-img img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .asterisk-badge {
+      position: absolute; top: 10px; right: 10px;
+      background: rgba(27,58,92,0.85); color: #fff;
+      font-size: 0.7rem; font-weight: 700;
+      padding: 3px 8px; border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .project-card-body {
+      padding: 18px 18px 0; flex: 1;
+    }
+    .project-card-body h3 {
+      font-size: 0.97rem; font-weight: 800; color: #1B3A5C;
+      margin-bottom: 6px; line-height: 1.3;
+    }
+    .project-card-body p.description {
+      font-size: 0.84rem; color: #444; line-height: 1.6; margin: 0 0 14px;
+    }
+
+    /* Caption section */
+    .caption-section {
+      background: #f0f7f6; border-left: 3px solid #2A9D8F;
+      border-radius: 0 6px 6px 0; padding: 12px 14px;
+      margin-top: 4px;
+    }
+    .caption-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: #2A9D8F; margin-bottom: 4px;
+    }
+    .caption-hint {
+      font-size: 0.75rem; color: #555; margin-bottom: 8px; font-style: italic;
+    }
+    .caption-textarea {
+      width: 100%; box-sizing: border-box;
+      border: 1px solid #c5d9d7; border-radius: 6px;
+      padding: 10px 12px; font-size: 0.82rem; color: #222;
+      line-height: 1.6; resize: vertical; min-height: 100px;
+      font-family: inherit; background: #fff;
+      transition: border-color 0.2s;
+    }
+    .caption-textarea:focus {
+      outline: none; border-color: #2A9D8F;
+      box-shadow: 0 0 0 2px rgba(42,157,143,0.15);
+    }
+    .btn-copy {
+      display: inline-block; background: #1B3A5C; color: #fff;
+      border: none; border-radius: 6px; padding: 8px 16px;
+      font-size: 0.78rem; font-weight: 700; cursor: pointer;
+      margin-top: 10px; transition: background 0.2s;
+      font-family: inherit;
+    }
+    .btn-copy:hover { background: #14304e; }
+    .btn-copy.copied { background: #2A9D8F; }
+
+    .project-card-footer {
+      padding: 14px 18px 18px;
+    }
+    .btn-dl-img {
+      display: inline-block; background: #2A9D8F; color: #fff;
+      border-radius: 6px; padding: 8px 16px;
+      font-size: 0.78rem; font-weight: 700; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-dl-img:hover { background: #238a7e; }
+
+    .footnote {
+      font-size: 0.78rem; color: #666; margin-bottom: 32px;
+      padding: 10px 14px; background: #fff; border-radius: 6px;
+      border: 1px solid #dde4ea;
+    }
+
+    .prototype-notice {
+      background: #fff8e1; border: 1px solid #f0c040;
+      border-radius: 8px; padding: 12px 16px;
+      font-size: 0.82rem; color: #7a5c00; margin-bottom: 28px;
+    }
+  </style>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo" href="../index.html">Neighbors for a <span>United Atlanta</span></a>
+  <a class="back" href="tad-did-that.html">&#8592; Back to A TAD Did That</a>
+</nav>
+<div class="hero">
+  <div class="topic-label">Prototype Preview</div>
+  <h1>Caption Design — One Card Example</h1>
+  <p>This is a preview of the new caption feature. Review and approve before it's applied to all 23 cards.</p>
+</div>
+<div class="teal-bar"></div>
+<div class="page">
+
+  <div class="prototype-notice">
+    <strong>Preview only.</strong> This page shows one example card with the new editable caption feature. Once approved, this design will be applied to all 23 project cards.
+  </div>
+
+  <div class="footnote">
+    * Image previously posted by the City of Atlanta. &nbsp;Download and repost with your own caption.
+  </div>
+
+  <div class="tad-section">
+    <div class="tad-section-header">
+      <h2>Beltline TAD</h2>
+      <span class="tad-badge">Example Card</span>
+    </div>
+    <div class="project-grid">
+
+      <div class="project-card">
+        <div class="project-card-img">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/RalphDavidHouse_c3237b1a.png" alt="Ralph David House" loading="lazy" />
+          <span class="asterisk-badge">*</span>
+        </div>
+        <div class="project-card-body">
+          <h3>Ralph David House</h3>
+          <p class="description">In 2024, the historic Motel Atlanta was transformed into 54 permanent micro-units for residents earning 30% or less of AMI or previously unhoused, made possible in part by a $550,000 Beltline TAD investment.</p>
+          <div class="caption-section">
+            <div class="caption-label">Your Caption</div>
+            <div class="caption-hint">Edit or post as-is — this is your voice.</div>
+            <textarea class="caption-textarea" id="caption-ralph">In 2024, the historic Motel Atlanta became 54 permanent homes for Atlanta's most vulnerable residents — made possible by a TAD investment. This is what reinvestment looks like. #NeighborsForAUnitedAtlanta #ExtendTheTADs</textarea>
+            <br/>
+            <button class="btn-copy" onclick="copyCaption('caption-ralph', this)">Copy Caption</button>
+          </div>
+        </div>
+        <div class="project-card-footer">
+          <a class="btn-dl-img" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/RalphDavidHouse_c3237b1a.png" download target="_blank">&#8595; Download Image</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function copyCaption(textareaId, btn) {
+  const ta = document.getElementById(textareaId);
+  navigator.clipboard.writeText(ta.value).then(() => {
+    const original = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    ta.select();
+    document.execCommand('copy');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy Caption';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>
