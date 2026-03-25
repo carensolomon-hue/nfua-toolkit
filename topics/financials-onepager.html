@@ -3,22 +3,106 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Financial Case One-Pager | NRI Toolkit</title>
+  <title>The Financial Case One-Pager | NRI Toolkit</title>
   <link rel="stylesheet" href="../shared.css" />
   <style>
-    .pdf-wrap {
-      max-width: 860px;
+    .doc-wrap {
+      max-width: 820px;
       margin: 0 auto;
-      padding: 32px 16px 48px;
+      padding: 40px 24px 60px;
     }
-    .pdf-embed {
-      width: 100%;
-      height: 900px;
+    .doc-section {
+      margin-bottom: 36px;
+    }
+    .doc-section-label {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: #2A9D8F;
+      margin-bottom: 10px;
+    }
+    .doc-section h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #1B3A5C;
+      margin-bottom: 12px;
+    }
+    .doc-section p {
+      font-size: 0.9rem;
+      color: #333;
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+    .key-takeaway {
+      background: #f0f7f6;
+      border-left: 4px solid #2A9D8F;
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.88rem;
+      color: #1B3A5C;
+      font-weight: 600;
+      line-height: 1.6;
+      margin-top: 14px;
+    }
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-top: 12px;
+    }
+    @media (max-width: 640px) {
+      .benefit-grid { grid-template-columns: 1fr; }
+      .scenario-grid { grid-template-columns: 1fr !important; }
+    }
+    .benefit-card {
+      background: #fff;
+      border: 1.5px solid #e4eaf0;
+      border-radius: 10px;
+      padding: 18px 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .benefit-card h3 {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #1B3A5C;
+      margin-bottom: 8px;
+    }
+    .benefit-card p {
+      font-size: 0.8rem;
+      color: #555;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-top: 12px;
+    }
+    .scenario-card {
+      border-radius: 10px;
+      padding: 18px 16px;
+    }
+    .scenario-card.s1 { background: #fff3f3; border: 1.5px solid #f5c6c6; }
+    .scenario-card.s2 { background: #fff8ec; border: 1.5px solid #f5dfa0; }
+    .scenario-card.s3 { background: #edf7f5; border: 1.5px solid #a8d8cf; }
+    .scenario-card h3 {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #1B3A5C;
+      margin-bottom: 8px;
+    }
+    .scenario-card p {
+      font-size: 0.78rem;
+      color: #444;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .divider {
       border: none;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      display: block;
-      margin-bottom: 28px;
+      border-top: 1.5px solid #e4eaf0;
+      margin: 32px 0;
     }
     .dl-btn {
       display: inline-flex;
@@ -32,21 +116,12 @@
       border-radius: 8px;
       text-decoration: none;
       transition: background 0.15s;
+      margin-top: 8px;
     }
     .dl-btn:hover { background: #2A9D8F; }
-    .mobile-note {
-      display: none;
-      background: #f0f7f6;
-      border-left: 4px solid #2A9D8F;
-      padding: 14px 18px;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      color: #333;
-      margin-bottom: 24px;
-    }
-    @media (max-width: 600px) {
-      .pdf-embed { display: none; }
-      .mobile-note { display: block; }
+    @media print {
+      .topnav, .hero, .teal-bar, .dl-btn { display: none !important; }
+      .doc-wrap { padding: 0; }
     }
   </style>
 </head>
@@ -57,18 +132,88 @@
 </nav>
 <div class="hero">
   <div class="topic-label">One-Pager</div>
-  <h1>The Financial Case for NRI and TAD Extension</h1>
-  <p>A plain-language breakdown of how TAD funding works, who benefits, and what the numbers show.</p>
+  <h1>NRI and TAD Extensions Make Financial Sense for All Atlantans</h1>
+  <p>A plain-language guide to how Atlanta funds neighborhood reinvestment and what is at stake.</p>
 </div>
 <div class="teal-bar"></div>
-<div class="pdf-wrap">
-  <div class="mobile-note">PDF preview is not available on mobile. Use the download button below to view this document.</div>
-  <iframe class="pdf-embed" src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/financials_onepager_08541078.pdf" title="The Financial Case for NRI and TAD Extension"></iframe>
+
+<div class="doc-wrap">
+
+  <!-- HOW TADs WORK -->
+  <div class="doc-section">
+    <div class="doc-section-label">How TADs Work</div>
+    <p>Tax Allocation Districts (TADs) are a key funding source for the NRI because they are uniquely capable of generating large-scale capital without raising taxes.</p>
+    <p>When a TAD is created, the property tax base in that geographic area is frozen. The City of Atlanta, Fulton County, and Atlanta Public Schools (APS) continue to collect taxes on that frozen base every year, just as they always have.</p>
+    <p>As public and private investments are made within the district, property values rise. The increase in tax revenue above the frozen base (the "tax increment") is captured and reinvested directly back into that same neighborhood.</p>
+    <p>This increment can be spent as it comes in (pay-as-you-go) or used to issue bonds for large upfront capital projects like affordable housing, transit, and infrastructure.</p>
+    <div class="key-takeaway">Key takeaway: TAD-funded projects are financed by the incremental growth of property values within the district itself. There is no new tax, and no additional burden is placed on the rest of the city. When the TAD expires, the full, higher tax base is returned to the City, County, and Schools.</div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- WHO BENEFITS -->
+  <div class="doc-section">
+    <div class="doc-section-label">Who Benefits from TADs and How</div>
+    <div class="benefit-grid">
+      <div class="benefit-card">
+        <h3>City of Atlanta</h3>
+        <p>TADs grew in total by 193% in assessed value (2007 to 2024), far outpacing non-TAD areas. A stronger tax base supports better city services and stronger credit ratings.</p>
+      </div>
+      <div class="benefit-card">
+        <h3>Atlanta Public Schools</h3>
+        <p>APS keeps its share of the frozen tax base and receives PILOT (Payment in Lieu of Taxes) payments during the life of the TAD. When it expires, APS inherits a larger tax digest, securing long-term school funding.</p>
+      </div>
+      <div class="benefit-card">
+        <h3>Fulton County</h3>
+        <p>Fulton County TAD "halo" areas grew 145% in assessed value from 2007 to 2024. The County benefits from rising property values in surrounding neighborhoods before the TAD even expires.</p>
+      </div>
+      <div class="benefit-card">
+        <h3>Residents in TADs and NRI Zones</h3>
+        <p>Dedicated capital for housing, blight removal, access to fresh food, and infrastructure, paired with anti-displacement protections so legacy residents stay and benefit from growth.</p>
+      </div>
+      <div class="benefit-card">
+        <h3>Residents Outside TADs</h3>
+        <p>TADs ensure neighborhood growth pays for neighborhood improvements. Without them, the cost of citywide equity may shift to general taxpayers through millage rates or bond measures.</p>
+      </div>
+      <div class="benefit-card">
+        <h3>The Whole City</h3>
+        <p>A more balanced city is a more stable one: stronger credit ratings, lower long-term infrastructure costs, and more consistent economic growth for everyone.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- COST OF INACTION -->
+  <div class="doc-section">
+    <div class="doc-section-label">The Cost of Inaction</div>
+    <p>If TADs are not extended, Atlanta does not lose the NRI, but it loses this powerful funding tool. The consequences fall into three likely scenarios:</p>
+    <div class="scenario-grid">
+      <div class="scenario-card s1">
+        <h3>Scenario 1: Limited or No Investment</h3>
+        <p>The status quo continues. Neighborhoods in desperate need of services, amenities, and development remain waiting. Disinvestment deepens.</p>
+      </div>
+      <div class="scenario-card s2">
+        <h3>Scenario 2: Market Forces Take Over</h3>
+        <p>Private development occurs without public guidance. Growth happens, but communities have little ability to slow displacement or preserve neighborhood identity.</p>
+      </div>
+      <div class="scenario-card s3">
+        <h3>Scenario 3: TADs Extended and Leveraged</h3>
+        <p>TADs are deployed in service of neighborhood goals and paired with anti-displacement programs. Legacy residents stay and benefit from growth. The whole city gains.</p>
+      </div>
+    </div>
+    <p style="margin-top:16px; font-size:0.82rem; color:#555;">If TADs are not extended, alternative funding tools such as increased millage rates, citywide bond measures, or general fund reallocation may become more central to NRI financing. These tools spread costs more broadly across all Atlanta taxpayers rather than drawing from neighborhood-generated growth.</p>
+  </div>
+
+  <hr class="divider" />
+
   <a class="dl-btn" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/financials_onepager_08541078.pdf" download="financials-onepager.pdf">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-    Download One-Pager
+    Download as PDF
   </a>
+
 </div>
+
 <div class="site-footer">
   Source: NRI Commission / Invest Atlanta, 2026 &nbsp;|&nbsp; <a href="https://neighborsforaunitedatlanta.org" target="_blank">neighborsforaunitedatlanta.org</a>
 </div>
