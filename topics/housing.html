@@ -5,6 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Affordable Housing | NRI Toolkit</title>
   <link rel="stylesheet" href="../shared.css" />
+  <style>
+    .resource-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 8px;
+    }
+    @media (max-width: 600px) {
+      .resource-grid { grid-template-columns: 1fr; }
+    }
+    .resource-card {
+      background: #fff;
+      border: 1.5px solid #e4eaf0;
+      border-radius: 12px;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .resource-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+    .resource-icon {
+      width: 48px; height: 48px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px; flex-shrink: 0;
+    }
+    .resource-icon svg { width: 24px; height: 24px; }
+    .resource-type {
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 1.5px;
+      text-transform: uppercase; color: #2A9D8F; margin-bottom: 6px;
+    }
+    .resource-title {
+      font-size: 1.05rem; font-weight: 800; color: #1B3A5C;
+      margin-bottom: 10px; line-height: 1.3;
+    }
+    .resource-desc {
+      font-size: 0.83rem; color: #555; line-height: 1.6;
+      flex-grow: 1; margin-bottom: 20px;
+    }
+    .resource-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #1B3A5C; color: #fff;
+      font-size: 0.82rem; font-weight: 700;
+      padding: 10px 18px; border-radius: 7px;
+      text-decoration: none;
+      align-self: flex-start;
+      transition: background 0.15s;
+    }
+    .resource-cta:hover { background: #2A9D8F; }
+  </style>
 </head>
 <body>
 <nav class="topnav">
@@ -31,17 +86,45 @@
     <p>If TADs are not extended, the NRI does not stop — but the housing investment pipeline shrinks significantly. Alternative funding tools exist but cannot match the scale or speed of TAD financing.</p>
     <div class="highlight-box"><strong>The bottom line:</strong> TADs are the only tool available at the scale and speed needed to fund affordable housing at the level Atlanta requires. Without them, thousands of planned units either stall or require alternative funding that shifts costs to the broader tax base.</div>
   </div>
-  <div style="margin-bottom:40px;">
-    <div class="section-label">Resources</div>
-    <div class="section-title">Download and Share</div>
-    <div class="download-grid">
-      <div class="download-card">
-        <div class="dl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#2A9D8F" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
-        <div class="dl-info"><h4>Housing One-Pager</h4><p>Plain-language explainer. Print, share, or email.</p><a class="btn-dl" href="../downloads/housing-onepager.pdf">Download PDF</a></div>
+  <div class="card-block" style="margin-bottom:40px;">
+    <div class="section-label">Downloads</div>
+    <div class="section-title">Affordable Housing Resources</div>
+    <div class="resource-grid">
+      <!-- ONE-PAGER -->
+      <div class="resource-card">
+        <div class="resource-icon" style="background:#e8eef6;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1B3A5C" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+        </div>
+        <div class="resource-type">One-Pager</div>
+        <div class="resource-title">Affordable Housing and Atlanta's TADs</div>
+        <div class="resource-desc">A plain-language explainer on how Tax Allocation Districts fund affordable housing, what the numbers show, and what is at stake if TADs are not extended.</div>
+        <a class="resource-cta" href="housing-onepager.html" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          View &amp; Download
+        </a>
       </div>
-      <div class="download-card">
-        <div class="dl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#2A9D8F" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
-        <div class="dl-info"><h4>Housing Infographic</h4><p>Visual summary for social sharing or print.</p><a class="btn-dl" href="../downloads/housing-infographic.png">Download PNG</a></div>
+      <!-- INFOGRAPHIC -->
+      <div class="resource-card">
+        <div class="resource-icon" style="background:#e8eef6;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1B3A5C" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <div class="resource-type">Infographic</div>
+        <div class="resource-title">Affordable Housing and Atlanta's TADs</div>
+        <div class="resource-desc">A visual breakdown of how TADs fund affordable housing, the key statistics, and what is at stake for Atlanta's communities.</div>
+        <a class="resource-cta" href="housing-infographic.html" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          View &amp; Download
+        </a>
       </div>
     </div>
   </div>
