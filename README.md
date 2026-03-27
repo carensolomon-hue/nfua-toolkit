@@ -2,7 +2,7 @@
 
 Live site: **https://carensolomon-hue.github.io/nfua-toolkit**
 
-This is the grassroots advocacy toolkit for [neighborsforaunitedatlanta.org](https://neighborsforaunitedatlanta.org). It provides plain-language explainers, downloadable resources, and ready-to-use social media posts for every topic related to the Neighborhood Reinvestment Initiative (NRI) and Tax Allocation Districts (TADs).
+This is the grassroots advocacy toolkit for [neighborsforaunitedatlanta.org](https://neighborsforaunitedatlanta.org). It provides plain-language explainers, downloadable resources, and ready-to-use social media posts for topics related to Atlanta's Neighborhood Reinvestment Initiative (NRI) and the case for extending the city's Tax Allocation Districts (TADs).
 
 ## How to Add or Update Content
 
