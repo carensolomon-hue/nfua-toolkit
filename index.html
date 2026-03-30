@@ -30,6 +30,24 @@
     .hero p { font-size: 1rem; color: #B0C8E0; max-width: 600px; margin: 0 auto 28px; line-height: 1.65; }
     .teal-bar { height: 4px; background: #2A9D8F; }
 
+    /* SECTION TABS */
+    .section-tabs {
+      background: #fff; border-bottom: 2px solid #e4eaf0;
+      position: sticky; top: 58px; z-index: 90;
+      display: flex; justify-content: center; gap: 0;
+    }
+    .section-tab {
+      padding: 14px 28px; font-size: 0.85rem; font-weight: 700;
+      color: #555; text-decoration: none; border-bottom: 3px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .section-tab:hover { color: #1B3A5C; }
+    .section-tab.active { color: #1B3A5C; border-bottom-color: #2A9D8F; }
+    @media (max-width: 600px) {
+      .section-tab { padding: 12px 14px; font-size: 0.78rem; }
+    }
+
     /* SEARCH + FILTERS */
     .controls { max-width: 960px; margin: 0 auto; padding: 32px 24px 0; }
     .search-wrap { position: relative; margin-bottom: 20px; }
@@ -182,6 +200,12 @@
 </div>
 <div class="teal-bar"></div>
 
+<nav class="section-tabs" id="sectionTabs">
+  <a class="section-tab" href="#case" onclick="setActiveTab(this)">The Case for Extension</a>
+  <a class="section-tab" href="#built" onclick="setActiveTab(this)">What TADs Have Built</a>
+  <a class="section-tab" href="#contact" onclick="setActiveTab(this)">Contact Your Elected Official</a>
+</nav>
+
 <div class="controls">
   <div class="search-wrap">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -191,7 +215,7 @@
 </div>
 
 <!-- UNDERSTAND THE CASE -->
-<div class="section-block">
+<div class="section-block" id="case">
   <div class="section-label">Section 1</div>
   <div class="section-title">The Case for Extension</div>
   <div class="grid" id="card-grid-understand">
@@ -224,7 +248,7 @@
 </div>
 
 <!-- SPREAD THE WORD -->
-<div class="section-block">
+<div class="section-block" id="built">
   <div class="section-label">Section 2</div>
   <div class="section-title">What TADs Have Built</div>
   <div class="grid" id="card-grid-spread">
@@ -377,6 +401,33 @@
 
   // Init count
   filterCards();
+
+  // Section tabs
+  function setActiveTab(el) {
+    document.querySelectorAll('.section-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // Scroll-spy: highlight tab based on scroll position
+  const sections = [
+    { id: 'case', tab: 0 },
+    { id: 'built', tab: 1 },
+    { id: 'contact', tab: 2 }
+  ];
+  const tabs = document.querySelectorAll('.section-tab');
+
+  function updateActiveTab() {
+    const scrollY = window.scrollY + 120;
+    let current = 0;
+    sections.forEach(({ id }, i) => {
+      const el = document.getElementById(id);
+      if (el && el.offsetTop <= scrollY) current = i;
+    });
+    tabs.forEach((t, i) => t.classList.toggle('active', i === current));
+  }
+
+  window.addEventListener('scroll', updateActiveTab, { passive: true });
+  updateActiveTab();
 
 </script>
 </body>
