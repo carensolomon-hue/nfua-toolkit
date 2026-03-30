@@ -85,41 +85,9 @@
     .contact-intro p {
       font-size: 0.92rem; color: #444; line-height: 1.7; margin-bottom: 20px;
     }
-    .contact-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #2A9D8F; color: #fff; font-size: 0.92rem; font-weight: 700;
-      padding: 13px 26px; border-radius: 8px; border: none; cursor: pointer;
-      text-decoration: none; transition: background 0.15s;
-    }
-    .contact-btn:hover { background: #238a7d; }
-
-    /* MODAL */
-    .vv-modal-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.55); z-index: 1000;
-      align-items: center; justify-content: center;
-    }
-    .vv-modal-overlay.open { display: flex; }
-    .vv-modal {
-      background: #fff; border-radius: 12px;
-      width: min(680px, 96vw); height: min(88vh, 780px);
-      display: flex; flex-direction: column;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.25);
-      overflow: hidden;
-    }
-    .vv-modal-header {
-      background: #1B3A5C; color: #fff;
-      padding: 14px 20px; display: flex; align-items: center; justify-content: space-between;
-      flex-shrink: 0;
-    }
-    .vv-modal-header span { font-size: 0.95rem; font-weight: 700; }
-    .vv-modal-close {
-      background: none; border: none; color: #fff; font-size: 1.4rem;
-      cursor: pointer; line-height: 1; padding: 0 4px;
-    }
-    .vv-modal-close:hover { color: #2A9D8F; }
-    .vv-modal iframe {
-      flex: 1; border: none; width: 100%;
+    .vv-embed {
+      width: 100%; height: 780px; border: none;
+      border-radius: 8px; display: block;
     }
 
     /* CARD GRID */
@@ -360,26 +328,11 @@
   <div class="section-title">Take Action</div>
   <div class="contact-intro">
     <h3 style="font-size:1rem; font-weight:700; color:#1B3A5C; margin-bottom:12px;">Contact Your Elected Official</h3>
-    <p>Your City Council members, Atlanta Public Schools board members, and Fulton County Commissioners will vote on TAD extensions. Use the tool below to send a message directly to your elected officials urging them to vote YES. It takes less than two minutes.</p>
-    <button class="contact-btn" onclick="openVVModal()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6 6l.86-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.03z"/></svg>
-      Contact Your Elected Official
-    </button>
-  </div>
-</div>
-
-<!-- VOTERVOICE MODAL -->
-<div class="vv-modal-overlay" id="vvModalOverlay" onclick="closeVVModalOnOverlay(event)">
-  <div class="vv-modal">
-    <div class="vv-modal-header">
-      <span>Contact Your Elected Official</span>
-      <button class="vv-modal-close" onclick="closeVVModal()" aria-label="Close">&times;</button>
-    </div>
+    <p>Your City Council members, Atlanta Public Schools board members, and Fulton County Commissioners will vote on TAD extensions. Send a message directly to your elected officials urging them to vote YES. It takes less than two minutes.</p>
     <iframe
-      id="vvFrame"
-      src=""
+      class="vv-embed"
+      src="https://www.votervoice.net/mobile/BAFA/Campaigns/130716/Respond"
       title="Contact Your Elected Official via VoterVoice"
-      loading="lazy"
     ></iframe>
   </div>
 </div>
@@ -425,28 +378,6 @@
   // Init count
   filterCards();
 
-  // VoterVoice modal
-  function openVVModal() {
-    const frame = document.getElementById('vvFrame');
-    if (!frame.src) {
-      frame.src = 'https://www.votervoice.net/mobile/BAFA/Campaigns/130716/Respond';
-    }
-    document.getElementById('vvModalOverlay').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeVVModal() {
-    document.getElementById('vvModalOverlay').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  function closeVVModalOnOverlay(e) {
-    if (e.target === document.getElementById('vvModalOverlay')) closeVVModal();
-  }
-
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeVVModal();
-  });
 </script>
 </body>
 </html>
