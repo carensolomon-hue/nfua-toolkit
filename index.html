@@ -451,9 +451,12 @@
           <option value="2">A Smart Investment for Atlanta's Future</option>
         </select>
       </div>
-      <p style="font-size:0.85rem; color:#555; margin:0 0 12px 0; line-height:1.65;">Each official will receive their own individual email addressed to them personally. You can edit the message text below however you like -- change a word, add a personal note, or replace it entirely.</p>
-      <label style="font-size:0.78rem; font-weight:700; color:#444; display:block; margin-bottom:6px;">Message text (you may edit before sending)</label>
-      <textarea id="msgPreview" rows="14" style="width:100%; padding:16px 18px; font-size:0.85rem; color:#333; line-height:1.75; border:1.5px solid #dde4ea; border-radius:8px; background:#f4f7f9; resize:vertical; outline:none; font-family:inherit;"></textarea>
+      <p style="font-size:0.85rem; color:#555; margin:0 0 12px 0; line-height:1.65;">Each official will receive their own individual email addressed to them personally. You can edit the body of the message however you like -- change a word, add a personal note, or replace it entirely. The greeting and sign-off are fixed.</p>
+      <div style="border:1.5px solid #dde4ea; border-radius:8px; background:#f4f7f9; overflow:hidden;">
+        <div id="msgSalutation" style="padding:14px 18px 0 18px; font-size:0.85rem; color:#333; line-height:1.75; font-family:inherit; background:#eaf0f5; border-bottom:1px solid #dde4ea; font-style:italic;"></div>
+        <textarea id="msgPreview" rows="12" style="width:100%; padding:16px 18px; font-size:0.85rem; color:#333; line-height:1.75; border:none; background:#f4f7f9; resize:vertical; outline:none; font-family:inherit; display:block;"></textarea>
+        <div id="msgSignoff" style="padding:0 18px 14px 18px; font-size:0.85rem; color:#333; line-height:1.75; font-family:inherit; background:#eaf0f5; border-top:1px solid #dde4ea; font-style:italic;"></div>
+      </div>
     </div>
 
     <hr class="contact-divider">
@@ -463,7 +466,7 @@
       <div class="contact-step-label">Step 2</div>
       <div class="contact-step-title">Choose who to contact</div>
 
-      <p style="font-size:0.85rem; color:#555; margin:0 0 18px 0; line-height:1.65;">All officials listed below will vote on TAD extensions. Your message will be sent to all of them.</p>
+      <p style="font-size:0.85rem; color:#555; margin:0 0 18px 0; line-height:1.65;">All officials listed below will vote on TAD extensions, so we recommend keeping everyone selected. To adjust who receives your message, use the checkboxes below.</p>
 
       <div class="officials-group">
         <div class="officials-group-header">
@@ -724,8 +727,7 @@ Sincerely,
         cb.dataset.group = group;
         cb.dataset.index = i;
         cb.checked = true;
-        cb.disabled = true;
-        cb.style.opacity = '0.6';
+        cb.addEventListener('change', updateSelectedCount);
 
         const info = document.createElement('div');
         const nameEl = document.createElement('div');
@@ -750,14 +752,26 @@ Sincerely,
   }
 
   function updateSelectedCount() {
-    const total = document.querySelectorAll('input[data-group]').length;
-    document.getElementById('selectedCount').textContent = `${total} officials will receive your message`;
+    const checked = document.querySelectorAll('input[data-group]:checked').length;
+    document.getElementById('selectedCount').textContent = `${checked} official${checked !== 1 ? 's' : ''} will receive your message`;
   }
 
   // Message dropdown
   function onMsgChange() {
     const idx = parseInt(document.getElementById('msgSelect').value);
-    document.getElementById('msgPreview').value = MESSAGES[idx].body;
+    const fullBody = MESSAGES[idx].body;
+    // Split: first line is salutation, last two lines are sign-off ("Sincerely,\n[Your Name]")
+    const lines = fullBody.split('\n');
+    const salutation = lines[0]; // "Dear [Official Name],"
+    // Find sign-off: last non-empty line is [Your Name], line before is "Sincerely,"
+    let signoffStart = lines.length - 1;
+    while (signoffStart > 0 && lines[signoffStart].trim() === '') signoffStart--;
+    // signoffStart is [Your Name], signoffStart-1 is "Sincerely,"
+    const signoffLines = lines.slice(signoffStart - 1);
+    const bodyLines = lines.slice(1, signoffStart - 1);
+    document.getElementById('msgSalutation').textContent = salutation;
+    document.getElementById('msgPreview').value = bodyLines.join('\n').replace(/^\n+/, '');
+    document.getElementById('msgSignoff').textContent = signoffLines.join('\n');
   }
 
   function updateMessagePreview() {
@@ -775,13 +789,22 @@ Sincerely,
     const neighborhood = document.getElementById('senderNeighborhood').value.trim();
     const msgIdx = parseInt(document.getElementById('msgSelect').value);
     const msg = MESSAGES[msgIdx];
-    // Use the (possibly edited) textarea content
-    const editedBody = document.getElementById('msgPreview').value;
-    // All officials are always recipients (list is locked)
+    // Compose full message from locked salutation + editable body + locked sign-off
+    const salutation = document.getElementById('msgSalutation').textContent;
+    const editedBody = document.getElementById('msgPreview').value.trim();
+    const signoff = document.getElementById('msgSignoff').textContent;
+    // Collect only checked recipients
     const recipients = [];
     ['council', 'aps', 'fulton'].forEach(group => {
-      OFFICIALS[group].forEach(o => recipients.push(o));
+      OFFICIALS[group].forEach((o, i) => {
+        const cb = document.querySelector(`input[data-group="${group}"][data-index="${i}"]`);
+        if (cb && cb.checked) recipients.push(o);
+      });
     });
+    if (recipients.length === 0) {
+      showStatus('Please select at least one official to contact.', 'error');
+      return;
+    }
     const btn = document.getElementById('sendBtn');
     btn.disabled = true;
     btn.textContent = 'Sending...';
@@ -790,10 +813,11 @@ Sincerely,
     let failed = 0;
     for (const official of recipients) {
       try {
-        // Build final message: replace [Your Name] with name + neighborhood if provided
-        const messageBody = editedBody
-          .replaceAll('[Official Name]', official.name)
-          .replaceAll('[Your Name]', neighborhood ? `${name}, ${neighborhood} resident` : name);
+        // Build final message from locked salutation + edited body + locked sign-off
+        const senderLabel = neighborhood ? `${name}, ${neighborhood} resident` : name;
+        const personalSalutation = salutation.replace('[Official Name]', official.name);
+        const personalSignoff = signoff.replace('[Your Name]', senderLabel);
+        const messageBody = `${personalSalutation}\n\n${editedBody}\n\n${personalSignoff}`;
         await emailjs.send('service_45a0tog', 'template_ejmg8o1', {
           to_email: official.email,
           from_name: name,
