@@ -159,6 +159,7 @@
     .official-item input[type=checkbox] { accent-color: #2A9D8F; flex-shrink: 0; }
     .official-item-name { font-size: 0.85rem; font-weight: 600; color: #1B3A5C; }
     .official-item-title { font-size: 0.75rem; color: #777; }
+    .official-item-email { font-size: 0.72rem; color: #2A9D8F; margin-top: 1px; }
     .official-item-vacant {
       font-size: 0.78rem; color: #aaa; font-style: italic;
       padding: 8px 12px; border-radius: 7px; border: 1px dashed #dde4ea;
@@ -450,6 +451,7 @@
           <option value="2">A Smart Investment for Atlanta's Future</option>
         </select>
       </div>
+      <p style="font-size:0.85rem; color:#555; margin:0 0 12px 0; line-height:1.65;">Each official will receive their own individual email addressed to them personally. You can edit the message text below however you like -- change a word, add a personal note, or replace it entirely.</p>
       <label style="font-size:0.78rem; font-weight:700; color:#444; display:block; margin-bottom:6px;">Message text (you may edit before sending)</label>
       <textarea id="msgPreview" rows="14" style="width:100%; padding:16px 18px; font-size:0.85rem; color:#333; line-height:1.75; border:1.5px solid #dde4ea; border-radius:8px; background:#f4f7f9; resize:vertical; outline:none; font-family:inherit;"></textarea>
     </div>
@@ -461,7 +463,7 @@
       <div class="contact-step-label">Step 2</div>
       <div class="contact-step-title">Choose who to contact</div>
 
-      <p style="font-size:0.85rem; color:#555; margin:0 0 18px 0; line-height:1.65;">Each official will receive their own individual email addressed to them personally. You can edit the message text above however you like -- change a word, add a personal note, or replace it entirely. All officials listed below will vote on TAD extensions, so we recommend keeping everyone selected. To adjust who receives your message, use the checkboxes below.</p>
+      <p style="font-size:0.85rem; color:#555; margin:0 0 18px 0; line-height:1.65;">All officials listed below will vote on TAD extensions, so we recommend keeping everyone selected. To adjust who receives your message, use the checkboxes below.</p>
 
       <div class="officials-group">
         <div class="officials-group-header">
@@ -724,8 +726,12 @@ Sincerely,
         const titleEl = document.createElement('div');
         titleEl.className = 'official-item-title';
         titleEl.textContent = o.title;
+        const emailEl = document.createElement('div');
+        emailEl.className = 'official-item-email';
+        emailEl.textContent = o.email;
         info.appendChild(nameEl);
         info.appendChild(titleEl);
+        info.appendChild(emailEl);
 
         label.appendChild(cb);
         label.appendChild(info);
