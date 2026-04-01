@@ -167,8 +167,8 @@
     }
 
     /* Sender info */
-    .sender-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    @media (max-width: 600px) { .sender-fields { grid-template-columns: 1fr; } }
+    .sender-fields { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    @media (max-width: 700px) { .sender-fields { grid-template-columns: 1fr; } }
     .field-group { display: flex; flex-direction: column; gap: 5px; }
     .field-group label { font-size: 0.78rem; font-weight: 700; color: #444; }
     .field-group input {
@@ -463,12 +463,11 @@
       <div class="contact-step-label">Step 2</div>
       <div class="contact-step-title">Choose who to contact</div>
 
-      <p style="font-size:0.85rem; color:#555; margin:0 0 18px 0; line-height:1.65;">All officials listed below will vote on TAD extensions, so we recommend keeping everyone selected. To adjust who receives your message, use the checkboxes below.</p>
+      <p style="font-size:0.85rem; color:#555; margin:0 0 18px 0; line-height:1.65;">All officials listed below will vote on TAD extensions. Your message will be sent to all of them.</p>
 
       <div class="officials-group">
         <div class="officials-group-header">
           <span class="officials-group-title">Atlanta City Council</span>
-          <button class="officials-toggle-all" onclick="toggleGroup('council')">Deselect all</button>
         </div>
         <div class="officials-list" id="list-council"></div>
       </div>
@@ -476,7 +475,6 @@
       <div class="officials-group">
         <div class="officials-group-header">
           <span class="officials-group-title">Atlanta Public Schools Board</span>
-          <button class="officials-toggle-all" onclick="toggleGroup('aps')">Deselect all</button>
         </div>
         <div class="officials-list" id="list-aps"></div>
       </div>
@@ -484,7 +482,6 @@
       <div class="officials-group">
         <div class="officials-group-header">
           <span class="officials-group-title">Fulton County Commissioners</span>
-          <button class="officials-toggle-all" onclick="toggleGroup('fulton')">Deselect all</button>
         </div>
         <div class="officials-list" id="list-fulton"></div>
         <div class="official-item-vacant">District 4 -- Seat currently vacant (Mo Ivory resigned; will not be filled before the November election)</div>
@@ -498,16 +495,26 @@
     <!-- STEP 3: Your info -->
     <div class="contact-step">
       <div class="contact-step-label">Step 3</div>
-      <div class="contact-step-title">Add your name and email</div>
+      <div class="contact-step-title">Add your information</div>
       <div class="sender-fields">
         <div class="field-group">
-          <label for="senderName">Your name</label>
-          <input type="text" id="senderName" placeholder="Jane Smith">
+          <label for="senderName">Your name <span style="color:#c0392b;">*</span></label>
+          <input type="text" id="senderName" placeholder="Jane Smith" required>
         </div>
         <div class="field-group">
-          <label for="senderEmail">Your email (for replies)</label>
-          <input type="email" id="senderEmail" placeholder="you@example.com">
+          <label for="senderEmail">Your email <span style="color:#c0392b;">*</span></label>
+          <input type="email" id="senderEmail" placeholder="you@example.com" required>
         </div>
+        <div class="field-group">
+          <label for="senderNeighborhood">Your neighborhood <span style="font-weight:400; color:#888;">(optional)</span></label>
+          <input type="text" id="senderNeighborhood" placeholder="e.g. Vine City, Westview, Pittsburgh">
+        </div>
+      </div>
+      <div style="margin-top:14px;">
+        <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; font-size:0.85rem; color:#444; line-height:1.5;">
+          <input type="checkbox" id="optInUpdates" style="accent-color:#2A9D8F; margin-top:2px; flex-shrink:0;">
+          <span>I'd like to receive updates from Neighbors for a United Atlanta.</span>
+        </label>
       </div>
     </div>
 
@@ -717,7 +724,8 @@ Sincerely,
         cb.dataset.group = group;
         cb.dataset.index = i;
         cb.checked = true;
-        cb.addEventListener('change', updateSelectedCount);
+        cb.disabled = true;
+        cb.style.opacity = '0.6';
 
         const info = document.createElement('div');
         const nameEl = document.createElement('div');
@@ -741,26 +749,9 @@ Sincerely,
     updateSelectedCount();
   }
 
-  function toggleGroup(group) {
-    const boxes = document.querySelectorAll(`input[data-group="${group}"]`);
-    const anyChecked = Array.from(boxes).some(b => b.checked);
-    boxes.forEach(b => b.checked = !anyChecked);
-    const btn = document.querySelector(`#list-${group}`)?.closest('.officials-group')?.querySelector('.officials-toggle-all');
-    if (btn) btn.textContent = anyChecked ? 'Select all' : 'Deselect all';
-    updateSelectedCount();
-  }
-
   function updateSelectedCount() {
     const total = document.querySelectorAll('input[data-group]').length;
-    const checked = document.querySelectorAll('input[data-group]:checked').length;
-    document.getElementById('selectedCount').textContent = `${checked} of ${total} officials selected`;
-    // Update toggle button labels
-    ['council', 'aps', 'fulton'].forEach(group => {
-      const boxes = document.querySelectorAll(`input[data-group="${group}"]`);
-      const anyChecked = Array.from(boxes).some(b => b.checked);
-      const btn = document.querySelector(`#list-${group}`)?.closest('.officials-group')?.querySelector('.officials-toggle-all');
-      if (btn) btn.textContent = anyChecked ? 'Deselect all' : 'Select all';
-    });
+    document.getElementById('selectedCount').textContent = `${total} officials will receive your message`;
   }
 
   // Message dropdown
@@ -781,20 +772,16 @@ Sincerely,
       showStatus('Please enter your name and email before sending.', 'error');
       return;
     }
+    const neighborhood = document.getElementById('senderNeighborhood').value.trim();
     const msgIdx = parseInt(document.getElementById('msgSelect').value);
     const msg = MESSAGES[msgIdx];
     // Use the (possibly edited) textarea content
     const editedBody = document.getElementById('msgPreview').value;
+    // All officials are always recipients (list is locked)
     const recipients = [];
-    document.querySelectorAll('input[data-group]:checked').forEach(box => {
-      const group = box.dataset.group;
-      const idx = parseInt(box.dataset.index);
-      recipients.push(OFFICIALS[group][idx]);
+    ['council', 'aps', 'fulton'].forEach(group => {
+      OFFICIALS[group].forEach(o => recipients.push(o));
     });
-    if (recipients.length === 0) {
-      showStatus('Please select at least one official to contact.', 'error');
-      return;
-    }
     const btn = document.getElementById('sendBtn');
     btn.disabled = true;
     btn.textContent = 'Sending...';
@@ -803,12 +790,16 @@ Sincerely,
     let failed = 0;
     for (const official of recipients) {
       try {
+        // Build final message: replace [Your Name] with name + neighborhood if provided
+        const messageBody = editedBody
+          .replaceAll('[Official Name]', official.name)
+          .replaceAll('[Your Name]', neighborhood ? `${name}, ${neighborhood} resident` : name);
         await emailjs.send('service_45a0tog', 'template_ejmg8o1', {
           to_email: official.email,
           from_name: name,
           reply_to: email,
           subject: msg.subject,
-          message: editedBody.replaceAll('[Official Name]', official.name).replaceAll('[Your Name]', name)
+          message: messageBody
         });
         sent++;
       } catch (e) {
