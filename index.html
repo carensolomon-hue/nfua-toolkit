@@ -461,6 +461,8 @@
       <div class="contact-step-label">Step 2</div>
       <div class="contact-step-title">Choose who to contact</div>
 
+      <p style="font-size:0.85rem; color:#555; margin:0 0 18px 0; line-height:1.65;">Each official will receive their own individual email addressed to them personally. You can edit the message text above however you like -- change a word, add a personal note, or replace it entirely. All officials listed below will vote on TAD extensions, so we recommend keeping everyone selected. To adjust who receives your message, use the checkboxes below.</p>
+
       <div class="officials-group">
         <div class="officials-group-header">
           <span class="officials-group-title">Atlanta City Council</span>
@@ -800,7 +802,7 @@ Sincerely,
           from_name: name,
           reply_to: email,
           subject: msg.subject,
-          message: editedBody.replace('[Official Name]', official.name).replace('[Your Name]', name)
+          message: editedBody.replaceAll('[Official Name]', official.name).replaceAll('[Your Name]', name)
         });
         sent++;
       } catch (e) {
