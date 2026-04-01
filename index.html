@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NRI Advocacy Toolkit | Neighbors for a United Atlanta</title>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init('RetB_G4B_upXln18s');</script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7f9; color: #222; }
@@ -96,17 +98,99 @@
     .coming-soon-section p { font-size: 0.83rem; color: #888; }
 
     /* CONTACT SECTION */
-    .contact-intro {
+    .contact-wrap {
       background: #fff; border-radius: 12px; border: 1px solid #e4eaf0;
-      padding: 28px 28px 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      padding: 28px 28px 32px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
-    .contact-intro p {
-      font-size: 0.92rem; color: #444; line-height: 1.7; margin-bottom: 20px;
+    .contact-wrap > p {
+      font-size: 0.92rem; color: #444; line-height: 1.7; margin-bottom: 24px;
     }
-    .vv-embed {
-      width: 100%; height: 780px; border: none;
-      border-radius: 8px; display: block;
+    .contact-step-label {
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 1.2px;
+      text-transform: uppercase; color: #2A9D8F; margin-bottom: 8px;
     }
+    .contact-step-title {
+      font-size: 0.95rem; font-weight: 700; color: #1B3A5C; margin-bottom: 14px;
+    }
+    .contact-step { margin-bottom: 28px; }
+    .contact-step:last-child { margin-bottom: 0; }
+    .contact-divider { border: none; border-top: 1px solid #e4eaf0; margin: 24px 0; }
+
+    /* Message selector */
+    .message-options { display: flex; flex-direction: column; gap: 10px; }
+    .message-option {
+      border: 1.5px solid #dde4ea; border-radius: 8px; padding: 14px 16px;
+      cursor: pointer; transition: border-color 0.15s, background 0.15s;
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .message-option:hover { border-color: #2A9D8F; }
+    .message-option.selected { border-color: #2A9D8F; background: #f0faf8; }
+    .message-option input[type=radio] { margin-top: 3px; accent-color: #2A9D8F; flex-shrink: 0; }
+    .message-option-label { font-size: 0.88rem; font-weight: 700; color: #1B3A5C; margin-bottom: 2px; }
+    .message-option-preview { font-size: 0.8rem; color: #666; line-height: 1.5; }
+    .message-preview-box {
+      background: #f4f7f9; border-radius: 8px; border: 1px solid #dde4ea;
+      padding: 16px 18px; font-size: 0.85rem; color: #333; line-height: 1.75;
+      white-space: pre-wrap; margin-top: 14px; max-height: 260px; overflow-y: auto;
+    }
+
+    /* Officials checkboxes */
+    .officials-group { margin-bottom: 18px; }
+    .officials-group-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .officials-group-title {
+      font-size: 0.82rem; font-weight: 800; color: #1B3A5C;
+      text-transform: uppercase; letter-spacing: 0.8px;
+    }
+    .officials-toggle-all {
+      font-size: 0.75rem; color: #2A9D8F; cursor: pointer;
+      background: none; border: none; font-weight: 600; padding: 0;
+    }
+    .officials-toggle-all:hover { text-decoration: underline; }
+    .officials-list { display: flex; flex-direction: column; gap: 6px; }
+    .official-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px; border-radius: 7px; border: 1px solid #e4eaf0;
+      background: #fafbfc; cursor: pointer; transition: background 0.12s;
+    }
+    .official-item:hover { background: #f0faf8; }
+    .official-item input[type=checkbox] { accent-color: #2A9D8F; flex-shrink: 0; }
+    .official-item-name { font-size: 0.85rem; font-weight: 600; color: #1B3A5C; }
+    .official-item-title { font-size: 0.75rem; color: #777; }
+    .official-item-vacant {
+      font-size: 0.78rem; color: #aaa; font-style: italic;
+      padding: 8px 12px; border-radius: 7px; border: 1px dashed #dde4ea;
+      background: #fafbfc;
+    }
+
+    /* Sender info */
+    .sender-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 600px) { .sender-fields { grid-template-columns: 1fr; } }
+    .field-group { display: flex; flex-direction: column; gap: 5px; }
+    .field-group label { font-size: 0.78rem; font-weight: 700; color: #444; }
+    .field-group input {
+      padding: 10px 13px; border: 1.5px solid #dde4ea; border-radius: 7px;
+      font-size: 0.9rem; color: #222; outline: none; transition: border-color 0.2s;
+    }
+    .field-group input:focus { border-color: #2A9D8F; }
+
+    /* Send button */
+    .send-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #1B3A5C; color: #fff; border: none; border-radius: 8px;
+      padding: 13px 28px; font-size: 0.92rem; font-weight: 700;
+      cursor: pointer; transition: background 0.15s; margin-top: 20px;
+    }
+    .send-btn:hover { background: #2A9D8F; }
+    .send-btn:disabled { background: #aaa; cursor: not-allowed; }
+    .send-status {
+      margin-top: 14px; font-size: 0.88rem; font-weight: 600; display: none;
+    }
+    .send-status.success { color: #2A9D8F; display: block; }
+    .send-status.error { color: #c0392b; display: block; }
+    .selected-count { font-size: 0.78rem; color: #888; margin-top: 6px; }
 
     /* CARD GRID */
     .grid { max-width: 960px; margin: 0 auto; padding: 0 24px 64px; display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 20px; }
@@ -350,14 +434,98 @@
 <div class="section-block" id="contact" style="padding-bottom: 48px;">
   <div class="section-label">Section 3</div>
   <div class="section-title">Take Action</div>
-  <div class="contact-intro">
-    <h3 style="font-size:1rem; font-weight:700; color:#1B3A5C; margin-bottom:12px;">Contact Your Elected Official</h3>
-    <p>Your City Council members, Atlanta Public Schools board members, and Fulton County Commissioners will vote on TAD extensions. Send a message directly to your elected officials urging them to vote YES. It takes less than two minutes.</p>
-    <iframe
-      class="vv-embed"
-      src="https://www.votervoice.net/mobile/BAFA/Campaigns/130716/Respond"
-      title="Contact Your Elected Official via VoterVoice"
-    ></iframe>
+  <div class="contact-wrap">
+    <h3 style="font-size:1rem; font-weight:700; color:#1B3A5C; margin-bottom:10px;">Contact Your Elected Official</h3>
+    <p>Your City Council members, Atlanta Public Schools board members, and Fulton County Commissioners will vote on TAD extensions. Use this tool to send a message directly urging them to vote YES. It takes less than two minutes.</p>
+
+    <!-- STEP 1: Choose message -->
+    <div class="contact-step">
+      <div class="contact-step-label">Step 1</div>
+      <div class="contact-step-title">Choose a message</div>
+      <div class="message-options" id="messageOptions">
+        <label class="message-option selected">
+          <input type="radio" name="msgChoice" value="0" checked>
+          <div>
+            <div class="message-option-label">Keep Atlanta Moving Forward</div>
+            <div class="message-option-preview">Focused on the data and the investment case for TAD extension.</div>
+          </div>
+        </label>
+        <label class="message-option">
+          <input type="radio" name="msgChoice" value="1">
+          <div>
+            <div class="message-option-label">Growth Should Include Everyone</div>
+            <div class="message-option-preview">Emphasizes equity and the importance of reaching every neighborhood.</div>
+          </div>
+        </label>
+        <label class="message-option">
+          <input type="radio" name="msgChoice" value="2">
+          <div>
+            <div class="message-option-label">A Smart Investment for Atlanta's Future</div>
+            <div class="message-option-preview">Makes the fiscal responsibility argument, including the Atlantic Station example.</div>
+          </div>
+        </label>
+      </div>
+      <div class="message-preview-box" id="msgPreview"></div>
+    </div>
+
+    <hr class="contact-divider">
+
+    <!-- STEP 2: Choose recipients -->
+    <div class="contact-step">
+      <div class="contact-step-label">Step 2</div>
+      <div class="contact-step-title">Choose who to contact</div>
+
+      <div class="officials-group">
+        <div class="officials-group-header">
+          <span class="officials-group-title">Atlanta City Council</span>
+          <button class="officials-toggle-all" onclick="toggleGroup('council')">Deselect all</button>
+        </div>
+        <div class="officials-list" id="list-council"></div>
+      </div>
+
+      <div class="officials-group">
+        <div class="officials-group-header">
+          <span class="officials-group-title">Atlanta Public Schools Board</span>
+          <button class="officials-toggle-all" onclick="toggleGroup('aps')">Deselect all</button>
+        </div>
+        <div class="officials-list" id="list-aps"></div>
+      </div>
+
+      <div class="officials-group">
+        <div class="officials-group-header">
+          <span class="officials-group-title">Fulton County Commissioners</span>
+          <button class="officials-toggle-all" onclick="toggleGroup('fulton')">Deselect all</button>
+        </div>
+        <div class="officials-list" id="list-fulton"></div>
+        <div class="official-item-vacant">District 4 -- Seat currently vacant (Mo Ivory resigned; will not be filled before the November election)</div>
+      </div>
+
+      <div class="selected-count" id="selectedCount"></div>
+    </div>
+
+    <hr class="contact-divider">
+
+    <!-- STEP 3: Your info -->
+    <div class="contact-step">
+      <div class="contact-step-label">Step 3</div>
+      <div class="contact-step-title">Add your name and email</div>
+      <div class="sender-fields">
+        <div class="field-group">
+          <label for="senderName">Your name</label>
+          <input type="text" id="senderName" placeholder="Jane Smith">
+        </div>
+        <div class="field-group">
+          <label for="senderEmail">Your email (for replies)</label>
+          <input type="email" id="senderEmail" placeholder="you@example.com">
+        </div>
+      </div>
+    </div>
+
+    <button class="send-btn" id="sendBtn" onclick="sendEmails()">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4l16 8-16 8V4z"/></svg>
+      Send Messages
+    </button>
+    <div class="send-status" id="sendStatus"></div>
   </div>
 </div>
 
@@ -428,6 +596,237 @@
 
   window.addEventListener('scroll', updateActiveTab, { passive: true });
   updateActiveTab();
+
+
+  // ---- CONTACT TOOL ----
+  const MESSAGES = [
+    {
+      title: 'Keep Atlanta Moving Forward',
+      subject: 'Please Vote YES on Extending Atlanta\'s Tax Allocation Districts',
+      body: `Dear [Official Name],
+
+I'm writing as a resident of Atlanta to urge you to vote yes on extending the city's Tax Allocation Districts.
+
+This decision is about whether Atlanta continues investing in neighborhoods that have been overlooked for decades, or slows that progress at a critical moment.
+
+TADs generate strong returns, leveraging $12 in private investment for every $1 of public investment.
+
+At the same time, protections are in place for Atlanta Public Schools and Fulton County. APS continues to receive its full share of the frozen base value, benefits from annual capped contributions and PILOT payments, and ultimately receives significantly higher tax revenue when a TAD closes.
+
+Extending TADs does not raise tax rates. It ensures that the growth already happening continues to be reinvested into housing, infrastructure, and neighborhood improvements that benefit the entire city.
+
+The Neighborhood Reinvestment Initiative is already underway. The question is whether we give it the resources to succeed at scale, or limit its impact.
+
+I urge you to vote yes and keep Atlanta moving forward.
+
+Sincerely,
+[Your Name]`
+    },
+    {
+      title: 'Growth Should Include Everyone',
+      subject: 'Please Vote YES on Extending Atlanta\'s Tax Allocation Districts',
+      body: `Dear [Official Name],
+
+I'm writing as an Atlanta resident who wants to see our city grow in a way that includes everyone.
+
+We all know that opportunity in Atlanta isn't evenly distributed. Neighborhoods just miles apart can have dramatically different outcomes. The Neighborhood Reinvestment Initiative is a real effort to address that, and Tax Allocation Districts are one of the most effective tools we have to make it happen.
+
+More than $87 million in TAD funding has been deployed citywide, with a significant share supporting housing. These are real investments already happening in Atlanta communities.
+
+TADs also drive growth where it hasn't happened on its own. Areas with TAD investment have seen significantly higher increases in property value than those without, strengthening the city's overall financial health.
+
+Importantly, this approach protects our schools. APS continues to receive funding from the base value, benefits from negotiated caps and PILOT payments, and ultimately gains access to the full increased tax base when a TAD closes.
+
+This vote is about whether we continue expanding opportunity, or slow progress in the neighborhoods that need it most.
+
+I urge you to vote yes on extending Atlanta's TADs and support growth that reaches every part of our city.
+
+Sincerely,
+[Your Name]`
+    },
+    {
+      title: "A Smart Investment for Atlanta's Future",
+      subject: 'Please Vote YES on Extending Atlanta\'s Tax Allocation Districts',
+      body: `Dear [Official Name],
+
+I'm writing to encourage you to vote in favor of extending Atlanta's Tax Allocation Districts.
+
+This is not just a development decision, it's a fiscally responsible one.
+
+TADs allow Atlanta to reinvest growth without increasing tax rates. They capture the additional value created in a district and use it to fund infrastructure, housing, and economic development, especially in areas where the market alone has not delivered.
+
+The return on investment is significant. Public investment through TADs generates $12 in private investment for every $1 invested. That kind of leverage strengthens Atlanta's tax base and reduces the need for broader funding sources.
+
+We've already seen the long-term impact. At Atlantic Station, a former industrial site was transformed into a thriving mixed-use district that now contributes tens of millions annually to public services, including Atlanta Public Schools.
+
+Meanwhile, APS and Fulton County are protected during the life of a TAD through base value protections, negotiated caps, and PILOT payments, and ultimately benefit from the full increased value once a TAD closes.
+
+Without extending TADs, the Neighborhood Reinvestment Initiative will continue, but at a smaller scale, more slowly, and with fewer resources.
+
+Extending TADs is the most efficient way to continue this work and ensure Atlanta's growth benefits the entire city.
+
+I urge you to vote yes.
+
+Sincerely,
+[Your Name]`
+    }
+  ];
+
+  const OFFICIALS = {
+    council: [
+      { name: 'Marci Collier Overstreet', title: 'Council President', email: 'MCOverstreet@atlantaga.gov' },
+      { name: 'Jason Winston', title: 'Council Member, District 1', email: 'jwinston@atlantaga.gov' },
+      { name: 'Kelsea Bond', title: 'Council Member, District 2', email: 'Kbond@atlantaga.gov' },
+      { name: 'Byron Amos', title: 'Council Member, District 3', email: 'bdamos@atlantaga.gov' },
+      { name: 'Jason Dozier', title: 'Council Member, District 4', email: 'jdozier@atlantaga.gov' },
+      { name: 'Liliana Bakhtiari', title: 'Council Member, District 5', email: 'lbakhtiari@atlantaga.gov' },
+      { name: 'Alex Wan', title: 'Council Member, District 6', email: 'awan@atlantaga.gov' },
+      { name: 'Thomas Worthy', title: 'Council Member, District 7', email: 'Tworthy@atlantaga.gov' },
+      { name: 'Mary Norwood', title: 'Council Member, District 8', email: 'mnorwood@atlantaga.gov' },
+      { name: 'Dustin Hillis', title: 'Council Member, District 9', email: 'drhillis@atlantaga.gov' },
+      { name: 'Andrea L. Boone', title: 'Council Member, District 10', email: 'aboone@atlantaga.gov' },
+      { name: 'Wayne Martin', title: 'Council Member, District 11', email: 'Wmartin@atlantaga.gov' },
+      { name: 'Antonio Lewis', title: 'Council Member, District 12', email: 'anlewis@atlantaga.gov' },
+      { name: 'Michael Julian Bond', title: 'Council Member, Post 1 At-Large', email: 'mbond@atlantaga.gov' },
+      { name: 'Matt Westmoreland', title: 'Council Member, Post 2 At-Large', email: 'mswestmoreland@atlantaga.gov' },
+      { name: 'Eshé Collins', title: 'Council Member, Post 3 At-Large', email: 'ESCollins@atlantaga.gov' }
+    ],
+    aps: [
+      { name: 'Jessica Johnson', title: 'Board Chair, At-Large Seat 9', email: 'jessica.johnson@atlanta.k12.ga.us' },
+      { name: 'Alfred "Shivy" Brooks', title: 'Board Member, At-Large Seat 7', email: 'alfred.brooks@atlanta.k12.ga.us' },
+      { name: 'Dr. Kaycee Brock', title: 'Board Member, At-Large Seat 8', email: 'kaycee.brock@atlanta.k12.ga.us' },
+      { name: 'Erika Mitchell', title: 'Board Member, District 5', email: 'emitchell@atlanta.k12.ga.us' },
+      { name: 'Jennifer McDonald', title: 'Board Member, District 4', email: 'jennifer.mcdonald@atlanta.k12.ga.us' },
+      { name: 'Katie Howard', title: 'Board Member, District 1', email: 'katie.howard@atlanta.k12.ga.us' },
+      { name: 'Ken Zeff', title: 'Board Vice Chair, District 3', email: 'ken.zeff@atlanta.k12.ga.us' },
+      { name: 'Patreece Hutcherson', title: 'Board Member, District 6', email: 'patreece.hutcherson@atlanta.k12.ga.us' },
+      { name: 'Tony Mitchell', title: 'Board Member, District 2', email: 'tony.mitchell@atlanta.k12.ga.us' }
+    ],
+    fulton: [
+      { name: 'Robb Pitts', title: 'Chair, Fulton County Board of Commissioners', email: 'Robb.Pitts@fultoncountyga.gov' },
+      { name: 'Bridget Thorne', title: 'Commissioner, District 1', email: 'Bridget.Thorne@fultoncountyga.gov' },
+      { name: 'Bob Ellis', title: 'Commissioner, District 2', email: 'Bob.Ellis@fultoncountyga.gov' },
+      { name: 'Dana Barrett', title: 'Commissioner, District 3', email: 'Dana.Barrett@fultoncountyga.gov' },
+      { name: 'Marvin S. Arrington Jr.', title: 'Commissioner, District 5', email: 'Marvin.Arrington@fultoncountyga.gov' },
+      { name: 'Khadijah Abdur-Rahman', title: 'Commissioner, District 6 & Vice Chair', email: 'Khadijah.Abdur-Rahman@fultoncountyga.gov' }
+    ]
+  };
+
+  // Render officials checkboxes
+  function renderOfficials() {
+    ['council', 'aps', 'fulton'].forEach(group => {
+      const list = document.getElementById('list-' + group);
+      list.innerHTML = '';
+      OFFICIALS[group].forEach((o, i) => {
+        const item = document.createElement('label');
+        item.className = 'official-item';
+        item.innerHTML = `<input type="checkbox" data-group="${group}" data-index="${i}" checked>
+          <div><div class="official-item-name">${o.name}</div><div class="official-item-title">${o.title}</div></div>`;
+        item.querySelector('input').addEventListener('change', updateSelectedCount);
+        list.appendChild(item);
+      });
+    });
+    updateSelectedCount();
+  }
+
+  function toggleGroup(group) {
+    const boxes = document.querySelectorAll(`input[data-group="${group}"]`);
+    const anyChecked = Array.from(boxes).some(b => b.checked);
+    boxes.forEach(b => b.checked = !anyChecked);
+    const btn = document.querySelector(`#list-${group}`)?.closest('.officials-group')?.querySelector('.officials-toggle-all');
+    if (btn) btn.textContent = anyChecked ? 'Select all' : 'Deselect all';
+    updateSelectedCount();
+  }
+
+  function updateSelectedCount() {
+    const total = document.querySelectorAll('input[data-group]').length;
+    const checked = document.querySelectorAll('input[data-group]:checked').length;
+    document.getElementById('selectedCount').textContent = `${checked} of ${total} officials selected`;
+    // Update toggle button labels
+    ['council', 'aps', 'fulton'].forEach(group => {
+      const boxes = document.querySelectorAll(`input[data-group="${group}"]`);
+      const anyChecked = Array.from(boxes).some(b => b.checked);
+      const btn = document.querySelector(`#list-${group}`)?.closest('.officials-group')?.querySelector('.officials-toggle-all');
+      if (btn) btn.textContent = anyChecked ? 'Deselect all' : 'Select all';
+    });
+  }
+
+  // Message preview
+  function updateMessagePreview() {
+    const selected = document.querySelector('input[name="msgChoice"]:checked');
+    const idx = selected ? parseInt(selected.value) : 0;
+    document.getElementById('msgPreview').textContent = MESSAGES[idx].body;
+  }
+
+  document.querySelectorAll('input[name="msgChoice"]').forEach(r => {
+    r.addEventListener('change', function() {
+      document.querySelectorAll('.message-option').forEach(o => o.classList.remove('selected'));
+      this.closest('.message-option').classList.add('selected');
+      updateMessagePreview();
+    });
+  });
+
+  // Send emails
+  async function sendEmails() {
+    const name = document.getElementById('senderName').value.trim();
+    const email = document.getElementById('senderEmail').value.trim();
+    if (!name || !email) {
+      showStatus('Please enter your name and email before sending.', 'error');
+      return;
+    }
+    const selected = document.querySelector('input[name="msgChoice"]:checked');
+    const msgIdx = selected ? parseInt(selected.value) : 0;
+    const msg = MESSAGES[msgIdx];
+    const recipients = [];
+    document.querySelectorAll('input[data-group]:checked').forEach(box => {
+      const group = box.dataset.group;
+      const idx = parseInt(box.dataset.index);
+      recipients.push(OFFICIALS[group][idx]);
+    });
+    if (recipients.length === 0) {
+      showStatus('Please select at least one official to contact.', 'error');
+      return;
+    }
+    const btn = document.getElementById('sendBtn');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    showStatus('', '');
+    let sent = 0;
+    let failed = 0;
+    for (const official of recipients) {
+      const body = msg.body.replace('[Official Name]', official.name).replace('[Your Name]', name);
+      try {
+        await emailjs.send('service_45a0tog', 'template_ejmg8o1', {
+          to_email: official.email,
+          from_name: name,
+          reply_to: email,
+          subject: msg.subject,
+          message: body
+        });
+        sent++;
+      } catch (e) {
+        console.error('Failed to send to', official.email, e);
+        failed++;
+      }
+    }
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4l16 8-16 8V4z"/></svg> Send Messages';
+    if (failed === 0) {
+      showStatus(`Your message was sent to ${sent} official${sent !== 1 ? 's' : ''}. Thank you for taking action!`, 'success');
+    } else {
+      showStatus(`Sent to ${sent} official${sent !== 1 ? 's' : ''}. ${failed} could not be delivered. Please try again.`, 'error');
+    }
+  }
+
+  function showStatus(msg, type) {
+    const el = document.getElementById('sendStatus');
+    el.textContent = msg;
+    el.className = 'send-status ' + type;
+  }
+
+  // Init
+  renderOfficials();
+  updateMessagePreview();
 
 </script>
 </body>
