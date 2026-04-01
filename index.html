@@ -583,7 +583,8 @@
   window.addEventListener('scroll', updateActiveTab, { passive: true });
   updateActiveTab();
 
-
+</script>
+<script>
   // ---- CONTACT TOOL ----
   var MESSAGES = [
     {
@@ -822,9 +823,11 @@ Sincerely,
     el.className = 'send-status ' + type;
   }
 
-  // Init (script is at end of body so DOM is already ready)
-  renderOfficials();
-  updateMessagePreview();
+  // Init -- defer to ensure DOM is fully ready
+  setTimeout(function() {
+    renderOfficials();
+    updateMessagePreview();
+  }, 0);
 
 </script>
 </body>
