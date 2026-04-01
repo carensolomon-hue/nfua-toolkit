@@ -442,30 +442,16 @@
     <div class="contact-step">
       <div class="contact-step-label">Step 1</div>
       <div class="contact-step-title">Choose a message</div>
-      <div class="message-options" id="messageOptions">
-        <label class="message-option selected">
-          <input type="radio" name="msgChoice" value="0" checked>
-          <div>
-            <div class="message-option-label">Keep Atlanta Moving Forward</div>
-            <div class="message-option-preview">Focused on the data and the investment case for TAD extension.</div>
-          </div>
-        </label>
-        <label class="message-option">
-          <input type="radio" name="msgChoice" value="1">
-          <div>
-            <div class="message-option-label">Growth Should Include Everyone</div>
-            <div class="message-option-preview">Emphasizes equity and the importance of reaching every neighborhood.</div>
-          </div>
-        </label>
-        <label class="message-option">
-          <input type="radio" name="msgChoice" value="2">
-          <div>
-            <div class="message-option-label">A Smart Investment for Atlanta's Future</div>
-            <div class="message-option-preview">Makes the fiscal responsibility argument, including the Atlantic Station example.</div>
-          </div>
-        </label>
+      <div class="field-group" style="max-width:420px; margin-bottom:16px;">
+        <label for="msgSelect" style="font-size:0.78rem; font-weight:700; color:#444;">Select a letter</label>
+        <select id="msgSelect" onchange="onMsgChange()" style="padding:10px 13px; border:1.5px solid #dde4ea; border-radius:7px; font-size:0.9rem; color:#222; background:#fff; outline:none; width:100%;">
+          <option value="0">Keep Atlanta Moving Forward</option>
+          <option value="1">Growth Should Include Everyone</option>
+          <option value="2">A Smart Investment for Atlanta's Future</option>
+        </select>
       </div>
-      <div class="message-preview-box" id="msgPreview"></div>
+      <label style="font-size:0.78rem; font-weight:700; color:#444; display:block; margin-bottom:6px;">Message text (you may edit before sending)</label>
+      <textarea id="msgPreview" rows="14" style="width:100%; padding:16px 18px; font-size:0.85rem; color:#333; line-height:1.75; border:1.5px solid #dde4ea; border-radius:8px; background:#f4f7f9; resize:vertical; outline:none; font-family:inherit;"></textarea>
     </div>
 
     <hr class="contact-divider">
@@ -712,18 +698,35 @@ Sincerely,
     ]
   };
 
-  // Render officials checkboxes
+  // Render officials checkboxes (safe DOM creation to avoid innerHTML quote issues)
   function renderOfficials() {
     ['council', 'aps', 'fulton'].forEach(group => {
       const list = document.getElementById('list-' + group);
       list.innerHTML = '';
       OFFICIALS[group].forEach((o, i) => {
-        const item = document.createElement('label');
-        item.className = 'official-item';
-        item.innerHTML = `<input type="checkbox" data-group="${group}" data-index="${i}" checked>
-          <div><div class="official-item-name">${o.name}</div><div class="official-item-title">${o.title}</div></div>`;
-        item.querySelector('input').addEventListener('change', updateSelectedCount);
-        list.appendChild(item);
+        const label = document.createElement('label');
+        label.className = 'official-item';
+
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.dataset.group = group;
+        cb.dataset.index = i;
+        cb.checked = true;
+        cb.addEventListener('change', updateSelectedCount);
+
+        const info = document.createElement('div');
+        const nameEl = document.createElement('div');
+        nameEl.className = 'official-item-name';
+        nameEl.textContent = o.name;
+        const titleEl = document.createElement('div');
+        titleEl.className = 'official-item-title';
+        titleEl.textContent = o.title;
+        info.appendChild(nameEl);
+        info.appendChild(titleEl);
+
+        label.appendChild(cb);
+        label.appendChild(info);
+        list.appendChild(label);
       });
     });
     updateSelectedCount();
@@ -751,20 +754,15 @@ Sincerely,
     });
   }
 
-  // Message preview
-  function updateMessagePreview() {
-    const selected = document.querySelector('input[name="msgChoice"]:checked');
-    const idx = selected ? parseInt(selected.value) : 0;
-    document.getElementById('msgPreview').textContent = MESSAGES[idx].body;
+  // Message dropdown
+  function onMsgChange() {
+    const idx = parseInt(document.getElementById('msgSelect').value);
+    document.getElementById('msgPreview').value = MESSAGES[idx].body;
   }
 
-  document.querySelectorAll('input[name="msgChoice"]').forEach(r => {
-    r.addEventListener('change', function() {
-      document.querySelectorAll('.message-option').forEach(o => o.classList.remove('selected'));
-      this.closest('.message-option').classList.add('selected');
-      updateMessagePreview();
-    });
-  });
+  function updateMessagePreview() {
+    onMsgChange();
+  }
 
   // Send emails
   async function sendEmails() {
@@ -774,9 +772,10 @@ Sincerely,
       showStatus('Please enter your name and email before sending.', 'error');
       return;
     }
-    const selected = document.querySelector('input[name="msgChoice"]:checked');
-    const msgIdx = selected ? parseInt(selected.value) : 0;
+    const msgIdx = parseInt(document.getElementById('msgSelect').value);
     const msg = MESSAGES[msgIdx];
+    // Use the (possibly edited) textarea content
+    const editedBody = document.getElementById('msgPreview').value;
     const recipients = [];
     document.querySelectorAll('input[data-group]:checked').forEach(box => {
       const group = box.dataset.group;
@@ -794,14 +793,13 @@ Sincerely,
     let sent = 0;
     let failed = 0;
     for (const official of recipients) {
-      const body = msg.body.replace('[Official Name]', official.name).replace('[Your Name]', name);
       try {
         await emailjs.send('service_45a0tog', 'template_ejmg8o1', {
           to_email: official.email,
           from_name: name,
           reply_to: email,
           subject: msg.subject,
-          message: body
+          message: editedBody.replace('[Official Name]', official.name).replace('[Your Name]', name)
         });
         sent++;
       } catch (e) {
@@ -824,7 +822,7 @@ Sincerely,
     el.className = 'send-status ' + type;
   }
 
-  // Init
+  // Init (script is at end of body so DOM is already ready)
   renderOfficials();
   updateMessagePreview();
 
