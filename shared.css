@@ -73,3 +73,13 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7f9; color: #
 
 .site-footer { background: #1B3A5C; color: #B0C8E0; text-align: center; padding: 24px; font-size: 0.82rem; }
 .site-footer a { color: #2A9D8F; text-decoration: none; }
+
+.grid {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px 64px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
