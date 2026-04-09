@@ -27,7 +27,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7f9; color: #
 
 .page { max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
 
-.section-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #2A9D8F; margin-bottom: 8px; }
+.section-label { font-size: 0.1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #2A9D8F; margin-bottom: 8px; }
 .section-title { font-size: 1.35rem; font-weight: 800; color: #1B3A5C; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #e0e8f0; }
 
 .card-block { background: #fff; border-radius: 10px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 40px; }
