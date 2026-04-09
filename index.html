@@ -135,21 +135,39 @@
     }
 
     /* Officials checkboxes */
-    .officials-group { margin-bottom: 18px; }
+    .officials-group { margin-bottom: 12px; }
     .officials-group-header {
       display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 8px;
+      padding: 10px 14px; background: #f4f7f9; border: 1px solid #e4eaf0;
+      border-radius: 8px; cursor: pointer; user-select: none;
+      transition: background 0.12s;
+    }
+    .officials-group-header:hover { background: #eaf3f2; }
+    .officials-group-left {
+      display: flex; align-items: center; gap: 10px;
     }
     .officials-group-title {
       font-size: 0.82rem; font-weight: 800; color: #1B3A5C;
       text-transform: uppercase; letter-spacing: 0.8px;
     }
+    .officials-group-count {
+      font-size: 0.75rem; color: #888; font-weight: 400;
+    }
+    .officials-group-arrow {
+      font-size: 0.75rem; color: #2A9D8F; transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+    .officials-group-arrow.open { transform: rotate(180deg); }
+    .officials-list {
+      display: none; flex-direction: column; gap: 6px;
+      padding: 10px 0 4px 0;
+    }
+    .officials-list.open { display: flex; }
     .officials-toggle-all {
       font-size: 0.75rem; color: #2A9D8F; cursor: pointer;
       background: none; border: none; font-weight: 600; padding: 0;
     }
     .officials-toggle-all:hover { text-decoration: underline; }
-    .officials-list { display: flex; flex-direction: column; gap: 6px; }
     .official-item {
       display: flex; align-items: center; gap: 10px;
       padding: 8px 12px; border-radius: 7px; border: 1px solid #e4eaf0;
@@ -240,7 +258,7 @@
       font-size: 1.15rem; font-weight: 700; color: #1B3A5C; margin-bottom: 20px;
     }
     .start-here-actions {
-      display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;
+      display: flex; gap: 24px; flex-wrap: wrap;
     }
     .start-here-action {
       display: flex; gap: 14px; align-items: flex-start; flex: 1; min-width: 220px;
@@ -282,11 +300,11 @@
 <div class="hero">
 <h1>
   Take Action:<br>
-  Advocate to Extend Atlanta’s TADs
+  Advocate to Extend Atlanta's TADs
 </h1>
-  <p>You’ve seen what’s at stake. Now it’s time to act.
+  <p>You've seen what's at stake. Now it's time to act.
 
-Atlanta leaders are deciding whether to extend Tax Allocation Districts — one of the city’s most powerful tools for funding neighborhood reinvestment at scale.
+Atlanta leaders are deciding whether to extend Tax Allocation Districts — one of the city's most powerful tools for funding neighborhood reinvestment at scale.
 
 Your voice matters in that decision.</p>
 </div>
@@ -305,15 +323,128 @@ Your voice matters in that decision.</p>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     <input type="text" id="search" placeholder="Search topics, TADs, or content types…" oninput="filterCards()" />
   </div>
-
 </div>
 
-  <!-- UNDERSTAND THE CASE -->
-<div class="section-block" id="answers">
-<div class="section-label">Start Here</div>
- <div class="section-title">The Basics</div>
+<!-- EMAIL YOUR ELECTED OFFICIALS -->
+<div class="section-block" id="contact" style="padding-bottom: 32px;">
+  <div class="section-label">Start Here</div>
+  <div class="section-title">Email Your Elected Officials</div>
+  <p style="font-size:0.95rem; color:#444; line-height:1.7; margin-bottom:20px;">Atlanta leaders are deciding whether to extend Tax Allocation Districts, and they need to hear from you.</p>
+  <div class="contact-wrap">
+    <p>Your City Council members, Atlanta Public Schools board members, and Fulton County Commissioners will vote on TAD extensions. Use this tool to send a message directly urging them to vote YES. It takes less than two minutes.</p>
+
+    <!-- STEP 1: Choose message -->
+    <div class="contact-step">
+      <div class="contact-step-label">Step 1</div>
+      <div class="contact-step-title">Choose a message</div>
+      <div class="field-group" style="max-width:420px; margin-bottom:16px;">
+        <label for="msgSelect" style="font-size:0.78rem; font-weight:700; color:#444;">Select a letter</label>
+        <select id="msgSelect" onchange="onMsgChange()" style="padding:10px 13px; border:1.5px solid #dde4ea; border-radius:7px; font-size:0.9rem; color:#222; background:#fff; outline:none; width:100%;">
+          <option value="0">Growth Should Include Everyone</option>
+          <option value="1">Keep Atlanta Moving Forward</option>
+          <option value="2">A Smart Investment for Atlanta's Future</option>
+        </select>
+      </div>
+      <p style="font-size:0.85rem; color:#555; margin:0 0 12px 0; line-height:1.65;">Each official will receive their own individual email addressed to them personally. You can edit the body of the message however you like -- change a word, add a personal note, or replace it entirely. The greeting and sign-off are fixed.</p>
+      <div style="border:1.5px solid #dde4ea; border-radius:8px; background:#f4f7f9; overflow:hidden;">
+        <div id="msgSalutation" style="padding:14px 18px 0 18px; font-size:0.85rem; color:#333; line-height:1.75; font-family:inherit; background:#eaf0f5; border-bottom:1px solid #dde4ea; font-style:italic;"></div>
+        <textarea id="msgPreview" rows="12" style="width:100%; padding:16px 18px; font-size:0.85rem; color:#333; line-height:1.75; border:none; background:#f4f7f9; resize:vertical; outline:none; font-family:inherit; display:block;"></textarea>
+        <div id="msgSignoff" style="padding:0 18px 14px 18px; font-size:0.85rem; color:#333; line-height:1.75; font-family:inherit; background:#eaf0f5; border-top:1px solid #dde4ea; font-style:italic;"></div>
+      </div>
+    </div>
+
+    <hr class="contact-divider">
+
+    <!-- STEP 2: Choose recipients -->
+    <div class="contact-step">
+      <div class="contact-step-label">Step 2</div>
+      <div class="contact-step-title">Choose who to contact</div>
+
+      <p style="font-size:0.85rem; color:#555; margin:0 0 18px 0; line-height:1.65;">All officials listed below will vote on TAD extensions, so we recommend keeping everyone selected. To adjust who receives your message, use the checkboxes below.</p>
+
+      <!-- Atlanta City Council (collapsible) -->
+      <div class="officials-group">
+        <div class="officials-group-header" onclick="toggleGroup('council')">
+          <div class="officials-group-left">
+            <span class="officials-group-title">Atlanta City Council</span>
+            <span class="officials-group-count" id="count-council"></span>
+          </div>
+          <span class="officials-group-arrow" id="arrow-council">&#9660;</span>
+        </div>
+        <div class="officials-list" id="list-council"></div>
+      </div>
+
+      <!-- APS Board (collapsible) -->
+      <div class="officials-group">
+        <div class="officials-group-header" onclick="toggleGroup('aps')">
+          <div class="officials-group-left">
+            <span class="officials-group-title">Atlanta Public Schools Board</span>
+            <span class="officials-group-count" id="count-aps"></span>
+          </div>
+          <span class="officials-group-arrow" id="arrow-aps">&#9660;</span>
+        </div>
+        <div class="officials-list" id="list-aps"></div>
+      </div>
+
+      <!-- Fulton County Commissioners (collapsible) -->
+      <div class="officials-group">
+        <div class="officials-group-header" onclick="toggleGroup('fulton')">
+          <div class="officials-group-left">
+            <span class="officials-group-title">Fulton County Commissioners</span>
+            <span class="officials-group-count" id="count-fulton"></span>
+          </div>
+          <span class="officials-group-arrow" id="arrow-fulton">&#9660;</span>
+        </div>
+        <div class="officials-list" id="list-fulton">
+          <div class="official-item-vacant">District 4 -- Seat currently vacant</div>
+        </div>
+      </div>
+
+      <div class="selected-count" id="selectedCount"></div>
+    </div>
+
+    <hr class="contact-divider">
+
+    <!-- STEP 3: Your info -->
+    <div class="contact-step">
+      <div class="contact-step-label">Step 3</div>
+      <div class="contact-step-title">Add your information</div>
+      <div class="sender-fields">
+        <div class="field-group">
+          <label for="senderName">Your name <span style="color:#c0392b;">*</span></label>
+          <input type="text" id="senderName" placeholder="Jane Smith" required>
+        </div>
+        <div class="field-group">
+          <label for="senderEmail">Your email <span style="color:#c0392b;">*</span></label>
+          <input type="email" id="senderEmail" placeholder="you@example.com" required>
+        </div>
+        <div class="field-group">
+          <label for="senderNeighborhood">Your neighborhood <span style="font-weight:400; color:#888;">(optional)</span></label>
+          <input type="text" id="senderNeighborhood" placeholder="e.g. Vine City, Westview, Pittsburgh">
+        </div>
+      </div>
+      <div style="margin-top:14px;">
+        <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; font-size:0.85rem; color:#444; line-height:1.5;">
+          <input type="checkbox" id="optInUpdates" style="accent-color:#2A9D8F; margin-top:2px; flex-shrink:0;">
+          <span>I'd like to receive updates from Neighbors for a United Atlanta.</span>
+        </label>
+      </div>
+    </div>
+
+    <button class="send-btn" id="sendBtn" onclick="sendEmails()">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4l16 8-16 8V4z"/></svg>
+      Send Messages
+    </button>
+    <div class="send-status" id="sendStatus"></div>
+  </div>
+</div>
+
+<!-- THE BASICS -->
+<div class="section-block" id="answers" style="padding-top: 32px;">
+  <div class="section-label">The Basics</div>
+  <div class="section-title">What You Need to Know</div>
   <p>
-Atlanta leaders are deciding whether to extend Tax Allocation Districts, and they need to hear from you.
+Atlanta is considering extending its existing Tax Allocation Districts (TADs) to continue investing in neighborhoods that have been left behind. These districts already exist. The proposal would allow that investment to continue over time, supporting housing, infrastructure, and economic opportunity across the city.
 </p>
 <br>
 <div class="grid" id="card-grid-understand">
@@ -326,8 +457,8 @@ Atlanta leaders are deciding whether to extend Tax Allocation Districts, and the
       <line x1="12" y1="16" x2="12.01" y2="16"></line>
     </svg>
   </div>
-  <h3>What’s Actually Being Proposed?</h3>
-<p><strong>What’s being proposed?</strong> A simple explanation of Atlanta’s TAD extension proposal and its long-term benefits for the city.</p>
+  <h3>What's Actually Being Proposed?</h3>
+<p><strong>What's being proposed?</strong> A simple explanation of Atlanta's TAD extension proposal and its long-term benefits for the city.</p>
   <div class="card-tags"></div>
   <div class="card-arrow"></div>
 </a>
@@ -369,7 +500,6 @@ Atlanta leaders are deciding whether to extend Tax Allocation Districts, and the
   <div class="card-arrow"></div>
 </a>
 
-
   </div>
 </div>
 
@@ -389,8 +519,6 @@ Atlanta leaders are deciding whether to extend Tax Allocation Districts, and the
     <div class="card-tags"></div>
     <div class="card-arrow"></div>
   </a>
-
-  
 
   <!-- AFFORDABLE HOUSING -->
   <a class="card" href="topics/housing.html" data-tags="housing explainer social onepager">
@@ -472,104 +600,6 @@ Atlanta leaders are deciding whether to extend Tax Allocation Districts, and the
   </div>
 </div>
 
-<!-- CONTACT YOUR ELECTED OFFICIAL -->
-<div class="section-block" id="contact" style="padding-bottom: 48px;">
-  <div class="section-label">Section 3</div>
-  <div class="section-title">Take Action</div>
-  <div class="contact-wrap">
-    <h3 style="font-size:1rem; font-weight:700; color:#1B3A5C; margin-bottom:10px;">Contact Your Elected Official</h3>
-    <p>Your City Council members, Atlanta Public Schools board members, and Fulton County Commissioners will vote on TAD extensions. Use this tool to send a message directly urging them to vote YES. It takes less than two minutes.</p>
-
-    <!-- STEP 1: Choose message -->
-    <div class="contact-step">
-      <div class="contact-step-label">Step 1</div>
-      <div class="contact-step-title">Choose a message</div>
-      <div class="field-group" style="max-width:420px; margin-bottom:16px;">
-        <label for="msgSelect" style="font-size:0.78rem; font-weight:700; color:#444;">Select a letter</label>
-        <select id="msgSelect" onchange="onMsgChange()" style="padding:10px 13px; border:1.5px solid #dde4ea; border-radius:7px; font-size:0.9rem; color:#222; background:#fff; outline:none; width:100%;">
-          <option value="0">Growth Should Include Everyone</option>
-          <option value="1">Keep Atlanta Moving Forward</option>
-          <option value="2">A Smart Investment for Atlanta's Future</option>
-        </select>
-      </div>
-      <p style="font-size:0.85rem; color:#555; margin:0 0 12px 0; line-height:1.65;">Each official will receive their own individual email addressed to them personally. You can edit the body of the message however you like -- change a word, add a personal note, or replace it entirely. The greeting and sign-off are fixed.</p>
-      <div style="border:1.5px solid #dde4ea; border-radius:8px; background:#f4f7f9; overflow:hidden;">
-        <div id="msgSalutation" style="padding:14px 18px 0 18px; font-size:0.85rem; color:#333; line-height:1.75; font-family:inherit; background:#eaf0f5; border-bottom:1px solid #dde4ea; font-style:italic;"></div>
-        <textarea id="msgPreview" rows="12" style="width:100%; padding:16px 18px; font-size:0.85rem; color:#333; line-height:1.75; border:none; background:#f4f7f9; resize:vertical; outline:none; font-family:inherit; display:block;"></textarea>
-        <div id="msgSignoff" style="padding:0 18px 14px 18px; font-size:0.85rem; color:#333; line-height:1.75; font-family:inherit; background:#eaf0f5; border-top:1px solid #dde4ea; font-style:italic;"></div>
-      </div>
-    </div>
-
-    <hr class="contact-divider">
-
-    <!-- STEP 2: Choose recipients -->
-    <div class="contact-step">
-      <div class="contact-step-label">Step 2</div>
-      <div class="contact-step-title">Choose who to contact</div>
-
-      <p style="font-size:0.85rem; color:#555; margin:0 0 18px 0; line-height:1.65;">All officials listed below will vote on TAD extensions, so we recommend keeping everyone selected. To adjust who receives your message, use the checkboxes below.</p>
-
-      <div class="officials-group">
-        <div class="officials-group-header">
-          <span class="officials-group-title">Atlanta City Council</span>
-        </div>
-        <div class="officials-list" id="list-council"></div>
-      </div>
-
-      <div class="officials-group">
-        <div class="officials-group-header">
-          <span class="officials-group-title">Atlanta Public Schools Board</span>
-        </div>
-        <div class="officials-list" id="list-aps"></div>
-      </div>
-
-      <div class="officials-group">
-        <div class="officials-group-header">
-          <span class="officials-group-title">Fulton County Commissioners</span>
-        </div>
-        <div class="officials-list" id="list-fulton"></div>
-        <div class="official-item-vacant">District 4 -- Seat currently vacant</div>
-      </div>
-
-      <div class="selected-count" id="selectedCount"></div>
-    </div>
-
-    <hr class="contact-divider">
-
-    <!-- STEP 3: Your info -->
-    <div class="contact-step">
-      <div class="contact-step-label">Step 3</div>
-      <div class="contact-step-title">Add your information</div>
-      <div class="sender-fields">
-        <div class="field-group">
-          <label for="senderName">Your name <span style="color:#c0392b;">*</span></label>
-          <input type="text" id="senderName" placeholder="Jane Smith" required>
-        </div>
-        <div class="field-group">
-          <label for="senderEmail">Your email <span style="color:#c0392b;">*</span></label>
-          <input type="email" id="senderEmail" placeholder="you@example.com" required>
-        </div>
-        <div class="field-group">
-          <label for="senderNeighborhood">Your neighborhood <span style="font-weight:400; color:#888;">(optional)</span></label>
-          <input type="text" id="senderNeighborhood" placeholder="e.g. Vine City, Westview, Pittsburgh">
-        </div>
-      </div>
-      <div style="margin-top:14px;">
-        <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; font-size:0.85rem; color:#444; line-height:1.5;">
-          <input type="checkbox" id="optInUpdates" style="accent-color:#2A9D8F; margin-top:2px; flex-shrink:0;">
-          <span>I'd like to receive updates from Neighbors for a United Atlanta.</span>
-        </label>
-      </div>
-    </div>
-
-    <button class="send-btn" id="sendBtn" onclick="sendEmails()">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4l16 8-16 8V4z"/></svg>
-      Send Messages
-    </button>
-    <div class="send-status" id="sendStatus"></div>
-  </div>
-</div>
-
 <div class="site-footer">
   Source: NRI Commission / Invest Atlanta, 2026 &nbsp;|&nbsp; <a href="https://www.neighborsforaunitedatlanta.org" target="_blank">neighborsforaunitedatlanta.org</a>
 </div>
@@ -604,8 +634,9 @@ Atlanta leaders are deciding whether to extend Tax Allocation Districts, and the
     });
 
     const label = document.getElementById('count-label');
-    label.textContent = visible === 12 ? '' : `(${visible} shown)`;
-    document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+    if (label) label.textContent = visible === 12 ? '' : `(${visible} shown)`;
+    const noResults = document.getElementById('no-results');
+    if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
   }
 
   // Init count
@@ -619,9 +650,9 @@ Atlanta leaders are deciding whether to extend Tax Allocation Districts, and the
 
   // Scroll-spy: highlight tab based on scroll position
   const sections = [
-    { id: 'case', tab: 0 },
-    { id: 'built', tab: 1 },
-    { id: 'contact', tab: 2 }
+    { id: 'contact', tab: 0 },
+    { id: 'answers', tab: 1 },
+    { id: 'built', tab: 2 }
   ];
   const tabs = document.querySelectorAll('.section-tab');
 
@@ -637,6 +668,15 @@ Atlanta leaders are deciding whether to extend Tax Allocation Districts, and the
 
   window.addEventListener('scroll', updateActiveTab, { passive: true });
   updateActiveTab();
+
+  // Toggle collapsible officials group
+  function toggleGroup(group) {
+    const list = document.getElementById('list-' + group);
+    const arrow = document.getElementById('arrow-' + group);
+    const isOpen = list.classList.contains('open');
+    list.classList.toggle('open', !isOpen);
+    arrow.classList.toggle('open', !isOpen);
+  }
 
 </script>
 <script>
@@ -758,7 +798,11 @@ Sincerely,
   function renderOfficials() {
     ['council', 'aps', 'fulton'].forEach(group => {
       const list = document.getElementById('list-' + group);
+      // Clear existing items but keep the vacant notice for fulton
+      const vacantNotice = list.querySelector('.official-item-vacant');
       list.innerHTML = '';
+      if (vacantNotice) list.appendChild(vacantNotice);
+
       OFFICIALS[group].forEach((o, i) => {
         const label = document.createElement('label');
         label.className = 'official-item';
@@ -786,15 +830,26 @@ Sincerely,
 
         label.appendChild(cb);
         label.appendChild(info);
-        list.appendChild(label);
+        list.insertBefore(label, vacantNotice || null);
       });
+
+      // Update count badge
+      updateGroupCount(group);
     });
     updateSelectedCount();
+  }
+
+  function updateGroupCount(group) {
+    const total = OFFICIALS[group].length;
+    const checked = document.querySelectorAll(`input[data-group="${group}"]:checked`).length;
+    const countEl = document.getElementById('count-' + group);
+    if (countEl) countEl.textContent = `(${checked} of ${total} selected)`;
   }
 
   function updateSelectedCount() {
     const checked = document.querySelectorAll('input[data-group]:checked').length;
     document.getElementById('selectedCount').textContent = `${checked} official${checked !== 1 ? 's' : ''} will receive your message`;
+    ['council', 'aps', 'fulton'].forEach(updateGroupCount);
   }
 
   // Message dropdown
