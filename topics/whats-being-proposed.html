@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What's Actually Being Proposed? | NRI Toolkit</title>
+  <link rel="stylesheet" href="../shared.css" />
+  <style>
+    .asset-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 8px;
+    }
+    @media (max-width: 680px) {
+      .asset-grid { grid-template-columns: 1fr; }
+    }
+    .asset-card {
+      background: #fff;
+      border: 1.5px solid #e4eaf0;
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .asset-type {
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 1.5px;
+      text-transform: uppercase; color: #2A9D8F; margin-bottom: 8px;
+    }
+    .asset-title {
+      font-size: 1rem; font-weight: 800; color: #1B3A5C;
+      margin-bottom: 12px; line-height: 1.3;
+    }
+    .asset-desc {
+      font-size: 0.83rem; color: #555; line-height: 1.6;
+      margin-bottom: 16px; flex-grow: 1;
+    }
+    .asset-img {
+      width: 100%; border-radius: 8px;
+      border: 1px solid #e4eaf0;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .btn-row {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto;
+    }
+    .btn-dl {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #1B3A5C; color: #fff;
+      font-size: 0.8rem; font-weight: 700;
+      padding: 9px 16px; border-radius: 7px;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .btn-dl:hover { background: #2A9D8F; }
+    /* Social post section */
+    .social-section {
+      background: #f4f7f9;
+      border: 1.5px solid #e4eaf0;
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 28px;
+    }
+    .social-section .section-label {
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 1.5px;
+      text-transform: uppercase; color: #2A9D8F; margin-bottom: 6px;
+    }
+    .social-section .section-title {
+      font-size: 0.95rem; font-weight: 800; color: #1B3A5C;
+      margin-bottom: 16px; padding-bottom: 10px;
+      border-bottom: 2px solid #e0e8ef;
+    }
+    .social-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+    @media (max-width: 680px) {
+      .social-layout { grid-template-columns: 1fr; }
+    }
+    .social-img-wrap img {
+      width: 100%; border-radius: 8px;
+      border: 1px solid #e4eaf0;
+      display: block; margin-bottom: 12px;
+    }
+    .caption-box {
+      background: #fff;
+      border: 1px solid #dde4ea;
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 0.86rem;
+      line-height: 1.7;
+      color: #333;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-bottom: 12px;
+    }
+    .btn-copy {
+      background: #1B3A5C; color: #fff; border: none;
+      border-radius: 6px; padding: 9px 18px;
+      font-size: 0.8rem; font-weight: 700;
+      cursor: pointer; transition: background 0.2s;
+      margin-bottom: 16px;
+    }
+    .btn-copy:hover { background: #14304f; }
+    .btn-copy.copied { background: #2A9D8F; }
+    .share-label {
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 1px;
+      text-transform: uppercase; color: #888; margin-bottom: 8px;
+    }
+    .share-btns {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;
+    }
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; border-radius: 7px;
+      font-size: 0.78rem; font-weight: 700;
+      text-decoration: none; transition: opacity 0.15s;
+    }
+    .share-btn:hover { opacity: 0.85; }
+    .share-btn.x { background: #000; color: #fff; }
+    .share-btn.fb { background: #1877F2; color: #fff; }
+    .share-btn.bluesky { background: #0085ff; color: #fff; }
+    .share-btn.linkedin { background: #0A66C2; color: #fff; }
+    .manual-note {
+      font-size: 0.78rem; color: #777; line-height: 1.5;
+      background: #fff; border-radius: 6px; padding: 10px 14px;
+      border: 1px solid #e4eaf0;
+    }
+  </style>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo" href="../index.html">Neighbors for a <span>United Atlanta</span></a>
+  <a class="back" href="../index.html">&#8592; Back to Toolkit</a>
+</nav>
+<div class="hero">
+  <div class="topic-label">The Basics</div>
+  <h1>What's Actually Being Proposed?</h1>
+  <p>Extending Atlanta's existing Tax Allocation Districts through 2055 — and ending Atlanta's tale of two cities.</p>
+</div>
+<div class="teal-bar"></div>
+<div class="page">
+
+  <!-- ASSETS -->
+  <div class="card-block">
+    <div class="section-label">Downloads</div>
+    <div class="section-title">Shareable Assets</div>
+    <div class="asset-grid">
+
+      <!-- EXPLAINER PNG -->
+      <div class="asset-card">
+        <div class="asset-type">Explainer</div>
+        <div class="asset-title">What's Actually Being Proposed?</div>
+        <div class="asset-desc">A shareable explainer covering the full proposal — what TAD extension means, what it funds, and what it is not.</div>
+        <img class="asset-img"
+          src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/whats-proposed-explainer-nwsDmbhzkXGcujyeqko9PX.png"
+          alt="What's Actually Being Proposed — explainer graphic" />
+        <div class="btn-row">
+          <a class="btn-dl"
+            href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/whats-proposed-explainer-nwsDmbhzkXGcujyeqko9PX.png"
+            download="whats-being-proposed-explainer.png" target="_blank">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </a>
+        </div>
+      </div>
+
+      <!-- SOCIAL POST -->
+      <div class="asset-card">
+        <div class="asset-type">Social Post</div>
+        <div class="asset-title">End Atlanta's Tale of Two Cities</div>
+        <div class="asset-desc">Ready-to-share social graphic. Download the image, copy the caption below, and post to your platforms.</div>
+        <img class="asset-img"
+          src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/EndtheTaleofTwoCities_cf1c127c.png"
+          alt="End Atlanta's Tale of Two Cities — social post graphic" />
+        <div class="btn-row">
+          <a class="btn-dl"
+            href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/EndtheTaleofTwoCities_cf1c127c.png"
+            download="end-tale-of-two-cities.png" target="_blank">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SOCIAL POST CAPTION -->
+  <div class="social-section">
+    <div class="section-label">Share on Social</div>
+    <div class="section-title">Caption + Share Links — End Atlanta's Tale of Two Cities</div>
+    <div class="social-layout">
+      <div class="social-img-wrap">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/EndtheTaleofTwoCities_cf1c127c.png"
+          alt="Social post graphic" />
+        <a class="btn-dl"
+          href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/EndtheTaleofTwoCities_cf1c127c.png"
+          download="end-tale-of-two-cities.png" target="_blank" style="width:100%;justify-content:center;">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Image
+        </a>
+      </div>
+      <div>
+        <div class="share-label">Caption — click to copy</div>
+        <div class="caption-box" id="caption-1">What's actually being proposed?
+
+Extending Atlanta's existing TADs through 2055 to fund the Neighborhood Reinvestment Initiative (NRI) at the scale it requires.
+
+That means keeping growth dollars working in the neighborhoods that generated them — especially communities that have experienced decades of disinvestment — instead of leaving outcomes to market forces alone.
+
+This is about closing real gaps:
+• life expectancy
+• income
+• access to opportunity
+
+And doing it with a tool that already works.
+
+Not a new tax.
+Not a tax increase.
+Not taking from schools.
+
+Learn more. Contact your elected officials.
+www.extendthetads.com
+
+#ExtendTheTADs #ExtendAtlantasTADs #TADsROI #EndAtlantasTaleOf2Cities #7Miles≠20Years #ATLNeighborhoods</div>
+        <button class="btn-copy" onclick="copyCaption('caption-1', this)">Copy Caption</button>
+
+        <div class="share-label">Share directly</div>
+        <div class="share-btns">
+          <a class="share-btn x" href="https://twitter.com/intent/tweet?text=What%27s%20actually%20being%20proposed%3F%20Extending%20Atlanta%27s%20existing%20TADs%20through%202055.%20Not%20a%20new%20tax.%20Not%20a%20tax%20increase.%20Not%20taking%20from%20schools.%20Learn%20more%3A%20www.extendthetads.com%20%23ExtendTheTADs%20%23ATLNeighborhoods" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            Post to X
+          </a>
+          <a class="share-btn fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Share on Facebook
+          </a>
+          <a class="share-btn bluesky" href="https://bsky.app/intent/compose?text=What%27s%20actually%20being%20proposed%3F%20Extending%20Atlanta%27s%20existing%20TADs%20through%202055.%20Not%20a%20new%20tax.%20Not%20a%20tax%20increase.%20Not%20taking%20from%20schools.%20www.extendthetads.com%20%23ExtendTheTADs" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>
+            Post to Bluesky
+          </a>
+          <a class="share-btn linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            Share on LinkedIn
+          </a>
+        </div>
+        <div class="manual-note">
+          <strong>Instagram &amp; TikTok:</strong> Download the image above, then open the app, create a new post, attach the image, and paste the caption from above.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <p>Neighbors for a United Atlanta &nbsp;|&nbsp; <a href="https://www.neighborsforaunitedatlanta.org" target="_blank">neighborsforaunitedatlanta.org</a></p>
+</footer>
+
+<script>
+function copyCaption(id, btn) {
+  const text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy Caption';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>

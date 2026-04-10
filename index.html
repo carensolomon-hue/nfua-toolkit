@@ -81,6 +81,86 @@
       font-size: 0.95rem; font-weight: 800; color: #1B3A5C; margin-bottom: 20px;
       padding-bottom: 10px; border-bottom: 2px solid #e4eaf0;
     }
+    /* SHARE ON SOCIAL */
+    .social-post-card {
+      background: #fff;
+      border: 1.5px solid #e4eaf0;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+    @media (max-width: 640px) {
+      .social-post-card { grid-template-columns: 1fr; }
+    }
+    .spc-graphic img {
+      width: 100%; border-radius: 8px;
+      border: 1px solid #e4eaf0;
+      display: block; margin-bottom: 10px;
+    }
+    .btn-spc-dl {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      background: #1B3A5C; color: #fff;
+      font-size: 0.78rem; font-weight: 700;
+      padding: 9px 14px; border-radius: 7px;
+      text-decoration: none; width: 100%;
+      transition: background 0.15s;
+    }
+    .btn-spc-dl:hover { background: #2A9D8F; }
+    .spc-meta-label {
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 1.2px;
+      text-transform: uppercase; color: #1B3A5C;
+      margin-bottom: 12px;
+    }
+    .spc-caption-label {
+      font-size: 0.68rem; font-weight: 800; letter-spacing: 1px;
+      text-transform: uppercase; color: #888; margin-bottom: 6px;
+    }
+    .spc-caption {
+      background: #f4f7f9;
+      border: 1px solid #dde4ea;
+      border-radius: 7px;
+      padding: 14px;
+      font-size: 0.84rem;
+      line-height: 1.7;
+      color: #333;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-bottom: 10px;
+    }
+    .btn-copy-spc {
+      background: #1B3A5C; color: #fff; border: none;
+      border-radius: 6px; padding: 8px 16px;
+      font-size: 0.78rem; font-weight: 700;
+      cursor: pointer; transition: background 0.2s;
+      margin-bottom: 14px; display: block;
+    }
+    .btn-copy-spc:hover { background: #14304f; }
+    .btn-copy-spc.copied { background: #2A9D8F; }
+    .spc-share-label {
+      font-size: 0.68rem; font-weight: 800; letter-spacing: 1px;
+      text-transform: uppercase; color: #888; margin-bottom: 8px;
+    }
+    .spc-share-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .spc-share-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 7px 12px; border-radius: 6px;
+      font-size: 0.76rem; font-weight: 700;
+      text-decoration: none; transition: opacity 0.15s;
+    }
+    .spc-share-btn:hover { opacity: 0.85; }
+    .spc-x { background: #000; color: #fff; }
+    .spc-fb { background: #1877F2; color: #fff; }
+    .spc-bluesky { background: #0085ff; color: #fff; }
+    .spc-li { background: #0A66C2; color: #fff; }
+    .spc-manual-note {
+      font-size: 0.77rem; color: #666; line-height: 1.5;
+      background: #f4f7f9; border-radius: 6px; padding: 10px 14px;
+      border: 1px solid #e4eaf0;
+    }
     .coming-soon-section {
       background: #f9fbfc; border: 1.5px dashed #c5d9d7;
       border-radius: 12px; padding: 28px 24px;
@@ -436,6 +516,70 @@ Your voice matters in that decision.</p>
       Send Messages
     </button>
     <div class="send-status" id="sendStatus"></div>
+  </div>
+</div>
+
+<!-- SHARE ON SOCIAL -->
+<div class="section-block" id="social" style="padding-top: 32px; padding-bottom: 8px;">
+  <div class="section-label">Share on Social</div>
+  <div class="section-title">Spread the Word</div>
+  <div class="social-post-card">
+    <div class="spc-graphic">
+      <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/EndtheTaleofTwoCities_cf1c127c.png"
+        alt="End Atlanta's Tale of Two Cities — social post graphic" />
+      <a class="btn-spc-dl"
+        href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/EndtheTaleofTwoCities_cf1c127c.png"
+        download="end-tale-of-two-cities.png" target="_blank">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Image
+      </a>
+    </div>
+    <div class="spc-content">
+      <div class="spc-meta-label">Post #1 &mdash; What&rsquo;s Actually Being Proposed?</div>
+      <div class="spc-caption-label">Caption &mdash; click to copy</div>
+      <div class="spc-caption" id="spc-caption-1">What's actually being proposed?
+
+Extending Atlanta's existing TADs through 2055 to fund the Neighborhood Reinvestment Initiative (NRI) at the scale it requires.
+
+That means keeping growth dollars working in the neighborhoods that generated them — especially communities that have experienced decades of disinvestment — instead of leaving outcomes to market forces alone.
+
+This is about closing real gaps:
+• life expectancy
+• income
+• access to opportunity
+
+And doing it with a tool that already works.
+
+Not a new tax.
+Not a tax increase.
+Not taking from schools.
+
+Learn more. Contact your elected officials.
+www.extendthetads.com
+
+#ExtendTheTADs #ExtendAtlantasTADs #TADsROI #EndAtlantasTaleOf2Cities #7Miles≠20Years #ATLNeighborhoods</div>
+      <button class="btn-copy-spc" onclick="copySpcCaption('spc-caption-1', this)">Copy Caption</button>
+      <div class="spc-share-label">Share directly</div>
+      <div class="spc-share-btns">
+        <a class="spc-share-btn spc-x" href="https://twitter.com/intent/tweet?text=What%27s%20actually%20being%20proposed%3F%20Extending%20Atlanta%27s%20existing%20TADs%20through%202055.%20Not%20a%20new%20tax.%20Not%20a%20tax%20increase.%20Not%20taking%20from%20schools.%20www.extendthetads.com%20%23ExtendTheTADs%20%23ATLNeighborhoods" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X
+        </a>
+        <a class="spc-share-btn spc-fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Facebook
+        </a>
+        <a class="spc-share-btn spc-bluesky" href="https://bsky.app/intent/compose?text=What%27s%20actually%20being%20proposed%3F%20Extending%20Atlanta%27s%20existing%20TADs%20through%202055.%20Not%20a%20new%20tax.%20Not%20a%20tax%20increase.%20Not%20taking%20from%20schools.%20www.extendthetads.com%20%23ExtendTheTADs" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>
+          Bluesky
+        </a>
+        <a class="spc-share-btn spc-li" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+      <div class="spc-manual-note"><strong>Instagram &amp; TikTok:</strong> Download the image, open the app, create a new post, attach the image, and paste the caption above.</div>
+    </div>
   </div>
 </div>
 
@@ -942,12 +1086,23 @@ Sincerely,
     el.className = 'send-status ' + type;
   }
 
-  // Init -- defer to ensure DOM is fully ready
+   // Init -- defer to ensure DOM is fully ready
   setTimeout(function() {
     renderOfficials();
     updateMessagePreview();
   }, 0);
 
+  function copySpcCaption(id, btn) {
+    const text = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy Caption';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
 </script>
 </body>
 </html>
