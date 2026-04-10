@@ -126,6 +126,34 @@
         .share-btn.linkedin { background: #0A66C2; color: #fff; }
         .share-btn.ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; border: none; cursor: pointer; }
         .share-btn.tt { background: #010101; color: #fff; border: none; cursor: pointer; }
+    /* Lightbox */
+    .asset-img-lightbox { cursor: zoom-in; }
+    .lightbox-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.88); z-index: 9999;
+      align-items: center; justify-content: center;
+    }
+    .lightbox-overlay.open { display: flex; }
+    .lightbox-inner {
+      position: relative; max-width: 92vw; max-height: 92vh;
+    }
+    .lightbox-inner img {
+      max-width: 90vw; max-height: 88vh;
+      border-radius: 8px; box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+      display: block;
+    }
+    .lightbox-close {
+      position: absolute; top: -14px; right: -14px;
+      background: #fff; color: #1B3A5C;
+      border: none; border-radius: 50%;
+      width: 32px; height: 32px;
+      font-size: 1.1rem; font-weight: 900;
+      cursor: pointer; line-height: 32px; text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    /* PDF button */
+    .btn-dl-pdf { background: #C9A84C !important; }
+    .btn-dl-pdf:hover { background: #b8942e !important; }
     .manual-note {
       font-size: 0.78rem; color: #777; line-height: 1.5;
       background: #fff; border-radius: 6px; padding: 10px 14px;
@@ -156,16 +184,23 @@
       <div class="asset-card">
         <div class="asset-type">Explainer</div>
         <div class="asset-title">What's Actually Being Proposed?</div>
-        <div class="asset-desc">A shareable explainer covering the full proposal — what TAD extension means, what it funds, and what it is not.</div>
-        <img class="asset-img"
-          src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/whats-proposed-explainer-nwsDmbhzkXGcujyeqko9PX.png"
-          alt="What's Actually Being Proposed — explainer graphic" />
+        <div class="asset-desc">A shareable explainer covering the full proposal — what TAD extension means, what it funds, and what it is not. Click the image to view full size.</div>
+        <img class="asset-img asset-img-lightbox"
+          src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/whats-proposed-explainer_75370ee6.png"
+          alt="What's Actually Being Proposed — explainer graphic"
+          onclick="openLightbox(this.src, this.alt)" />
         <div class="btn-row">
           <a class="btn-dl"
-            href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/whats-proposed-explainer-nwsDmbhzkXGcujyeqko9PX.png"
+            href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/whats-proposed-explainer_75370ee6.png"
             download="whats-being-proposed-explainer.png" target="_blank">
             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download
+            Download PNG
+          </a>
+          <a class="btn-dl btn-dl-pdf"
+            href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/whats-being-proposed-explainer_606e2f38.pdf"
+            download="whats-being-proposed-explainer.pdf" target="_blank">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Download PDF
           </a>
         </div>
       </div>
@@ -268,7 +303,30 @@ www.extendthetads.com
   <p>Neighbors for a United Atlanta &nbsp;|&nbsp; <a href="https://www.neighborsforaunitedatlanta.org" target="_blank">neighborsforaunitedatlanta.org</a></p>
 </footer>
 
+<!-- LIGHTBOX OVERLAY -->
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+  <div class="lightbox-inner" onclick="event.stopPropagation()">
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+</div>
+
 <script>
+function openLightbox(src, alt) {
+  const overlay = document.getElementById('lightboxOverlay');
+  const img = document.getElementById('lightboxImg');
+  img.src = src;
+  img.alt = alt || '';
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightboxOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
 function igTikTokShare(captionId, imgUrl, filename) {
   const text = document.getElementById(captionId).innerText;
   navigator.clipboard.writeText(text).catch(() => {});
