@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Do TADs Take Money from APS? | NRI Toolkit</title>
+  <link rel="stylesheet" href="../shared.css" />
+  <style>
+    .asset-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 8px;
+    }
+    @media (max-width: 680px) {
+      .asset-grid { grid-template-columns: 1fr; }
+    }
+    .asset-card {
+      background: #fff;
+      border: 1.5px solid #e4eaf0;
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .asset-type {
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 1.5px;
+      text-transform: uppercase; color: #2A9D8F; margin-bottom: 8px;
+    }
+    .asset-title {
+      font-size: 1rem; font-weight: 800; color: #1B3A5C;
+      margin-bottom: 12px; line-height: 1.3;
+    }
+    .asset-desc {
+      font-size: 0.83rem; color: #555; line-height: 1.6;
+      margin-bottom: 16px; flex-grow: 1;
+    }
+    .asset-img {
+      width: 100%; border-radius: 8px;
+      border: 1px solid #e4eaf0;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .btn-row {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto;
+    }
+    .btn-dl {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #1B3A5C; color: #fff;
+      font-size: 0.8rem; font-weight: 700;
+      padding: 9px 16px; border-radius: 7px;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .btn-dl:hover { background: #2A9D8F; }
+    .social-section {
+      background: #f4f7f9;
+      border: 1.5px solid #e4eaf0;
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 28px;
+    }
+    .social-section .section-label {
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 1.5px;
+      text-transform: uppercase; color: #2A9D8F; margin-bottom: 6px;
+    }
+    .social-section .section-title {
+      font-size: 0.95rem; font-weight: 800; color: #1B3A5C;
+      margin-bottom: 16px; padding-bottom: 10px;
+      border-bottom: 2px solid #e0e8ef;
+    }
+    .social-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+    @media (max-width: 680px) {
+      .social-layout { grid-template-columns: 1fr; }
+    }
+    .social-img-wrap img {
+      width: 100%; border-radius: 8px;
+      border: 1px solid #e4eaf0;
+      display: block; margin-bottom: 12px;
+    }
+    .caption-box {
+      background: #fff;
+      border: 1px solid #dde4ea;
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 0.86rem;
+      line-height: 1.7;
+      color: #333;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-bottom: 12px;
+    }
+    .btn-copy {
+      background: #1B3A5C; color: #fff; border: none;
+      border-radius: 6px; padding: 9px 18px;
+      font-size: 0.8rem; font-weight: 700;
+      cursor: pointer; transition: background 0.2s;
+      margin-bottom: 16px;
+    }
+    .btn-copy:hover { background: #14304f; }
+    .btn-copy.copied { background: #2A9D8F; }
+    .share-label {
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 1px;
+      text-transform: uppercase; color: #888; margin-bottom: 8px;
+    }
+    .share-btns {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;
+    }
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; border-radius: 7px;
+      font-size: 0.78rem; font-weight: 700;
+      text-decoration: none; transition: opacity 0.15s;
+    }
+    .share-btn:hover { opacity: 0.85; }
+    .share-btn.x { background: #000; color: #fff; }
+    .share-btn.fb { background: #1877F2; color: #fff; }
+    .share-btn.bluesky { background: #0085ff; color: #fff; }
+    .share-btn.linkedin { background: #0A66C2; color: #fff; }
+    .share-btn.ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; border: none; cursor: pointer; }
+    .share-btn.tt { background: #010101; color: #fff; border: none; cursor: pointer; }
+    .asset-img-lightbox { cursor: zoom-in; }
+    .lightbox-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.88); z-index: 9999;
+      align-items: center; justify-content: center;
+    }
+    .lightbox-overlay.open { display: flex; }
+    .lightbox-inner {
+      position: relative; max-width: 92vw; max-height: 92vh;
+    }
+    .lightbox-inner img {
+      max-width: 90vw; max-height: 88vh;
+      border-radius: 8px; box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+      display: block;
+    }
+    .lightbox-close {
+      position: absolute; top: -14px; right: -14px;
+      background: #fff; color: #1B3A5C;
+      border: none; border-radius: 50%;
+      width: 32px; height: 32px;
+      font-size: 1.1rem; font-weight: 900;
+      cursor: pointer; line-height: 32px; text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .btn-dl-pdf { background: #C9A84C !important; }
+    .btn-dl-pdf:hover { background: #b8942e !important; }
+    .social-section + .social-section { margin-top: 20px; }
+  </style>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo" href="../index.html">Neighbors for a <span>United Atlanta</span></a>
+  <a class="back" href="../index.html">&#8592; Back to Toolkit</a>
+</nav>
+<div class="hero">
+  <div class="topic-label">The Basics</div>
+  <h1>Do TADs Take Money from Atlanta Public Schools?</h1>
+  <p>For better student outcomes, this isn't the right question.</p>
+</div>
+<div class="teal-bar"></div>
+<div class="page">
+
+  <!-- ASSETS -->
+  <div class="card-block">
+    <div class="section-label">Downloads</div>
+    <div class="section-title">Shareable Assets</div>
+    <div class="asset-grid">
+
+      <!-- EXPLAINER -->
+      <div class="asset-card">
+        <div class="asset-type">Explainer</div>
+        <div class="asset-title">Do TADs Take Money from APS?</div>
+        <div class="asset-desc">A shareable explainer on what APS's own data shows, what actually drives student outcomes, and how TADs support schools by building stable communities. Click the image to view full size.</div>
+        <img class="asset-img asset-img-lightbox"
+          src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-explainer-v3_919d9419.png"
+          alt="Do TADs Take Money from APS — explainer infographic"
+          onclick="openLightbox(this.src, this.alt)" />
+        <div class="btn-row">
+          <a class="btn-dl"
+            href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-explainer-v3_919d9419.png"
+            download="aps-tad-explainer.png" target="_blank">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download PNG
+          </a>
+          <a class="btn-dl btn-dl-pdf"
+            href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-explainer_44a8691c.pdf"
+            download="aps-tad-explainer.pdf" target="_blank">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Download PDF
+          </a>
+        </div>
+      </div>
+
+      <!-- SOCIAL POST -->
+      <div class="asset-card">
+        <div class="asset-type">Social Post</div>
+        <div class="asset-title">APS Spending Has Doubled. Outcomes Haven't.</div>
+        <div class="asset-desc">Ready-to-share social graphic. Download the image, copy the caption below, and post to your platforms.</div>
+        <img class="asset-img"
+          src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-social_24e0dfd7.png"
+          alt="APS spending has doubled. Outcomes haven't. — social post graphic" />
+        <div class="btn-row">
+          <a class="btn-dl"
+            href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-social_24e0dfd7.png"
+            download="aps-tad-social.png" target="_blank">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SOCIAL CAPTION 1 — Explainer -->
+  <div class="social-section">
+    <div class="section-label">Share on Social</div>
+    <div class="section-title">Caption + Share Links — Do TADs Take Money from APS?</div>
+    <div class="social-layout">
+      <div class="social-img-wrap">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-explainer-v3_919d9419.png"
+          alt="APS TAD explainer infographic" />
+        <a class="btn-dl"
+          href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-explainer-v3_919d9419.png"
+          download="aps-tad-explainer.png" target="_blank" style="width:100%;justify-content:center;">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Image
+        </a>
+      </div>
+      <div>
+        <div class="share-label">Caption — click to copy</div>
+        <div class="caption-box" id="caption-aps-1">Do TADs take money from Atlanta Public Schools?
+
+That's the wrong question.
+
+The right question is: what actually moves the needle for students?
+
+Stable neighborhoods. Stable families. Stable enrollment. Better student outcomes.
+
+APS spending has more than doubled since 2010. Grade 3-5 ELA proficiency for economically disadvantaged students remains at 21%.
+
+Spending alone does not work. Place-based investment does.
+
+Extend the TADs. Fix the root cause.
+
+Learn more. Contact your elected officials.
+www.extendthetads.com
+
+#ExtendTheTADs #ExtendAtlantasTADs #TADsROI #EndAtlantasTaleOf2Cities #7Miles≠20Years #ATLNeighborhoods</div>
+        <button class="btn-copy" onclick="copyCaption('caption-aps-1', this)">Copy Caption</button>
+        <div class="share-label">Share directly</div>
+        <div class="share-btns">
+          <a class="share-btn x" href="https://twitter.com/intent/tweet?text=Do%20TADs%20take%20money%20from%20APS%3F%20That%27s%20the%20wrong%20question.%20Stable%20neighborhoods%20drive%20student%20outcomes.%20Extend%20the%20TADs.%20Fix%20the%20root%20cause.%20www.extendthetads.com%20%23ExtendTheTADs%20%23ATLNeighborhoods" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            Post to X
+          </a>
+          <a class="share-btn fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Share on Facebook
+          </a>
+          <a class="share-btn bluesky" href="https://bsky.app/intent/compose?text=Do%20TADs%20take%20money%20from%20APS%3F%20That%27s%20the%20wrong%20question.%20Stable%20neighborhoods%20drive%20student%20outcomes.%20Extend%20the%20TADs.%20www.extendthetads.com%20%23ExtendTheTADs" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561.526.902.74.29.94 0 1.986 0 2.657c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>
+            Post to Bluesky
+          </a>
+          <a class="share-btn linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            Share on LinkedIn
+          </a>
+          <button class="share-btn ig" onclick="igTikTokShare('caption-aps-1','https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-explainer-v3_919d9419.png','aps-tad-explainer.png')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+            Instagram
+          </button>
+          <button class="share-btn tt" onclick="igTikTokShare('caption-aps-1','https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-explainer-v3_919d9419.png','aps-tad-explainer.png')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+            TikTok
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOCIAL CAPTION 2 — Social graphic -->
+  <div class="social-section">
+    <div class="section-label">Share on Social</div>
+    <div class="section-title">Caption + Share Links — APS Spending Has Doubled. Outcomes Haven't.</div>
+    <div class="social-layout">
+      <div class="social-img-wrap">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-social_24e0dfd7.png"
+          alt="APS spending has doubled. Outcomes haven't. — social graphic" />
+        <a class="btn-dl"
+          href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-social_24e0dfd7.png"
+          download="aps-tad-social.png" target="_blank" style="width:100%;justify-content:center;">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Image
+        </a>
+      </div>
+      <div>
+        <div class="share-label">Caption — click to copy</div>
+        <div class="caption-box" id="caption-aps-2">APS spending has doubled since 2010.
+
+Student outcomes haven't.
+
+More money hasn't fixed the problem because it isn't just funding. It's neighborhood instability. It's families who can't afford to stay. It's kids having to change schools frequently and the layered challenges that come with multiple moves.
+
+TADs help build whole, healthy, connected communities where families can afford to live, stay, and thrive and where schools can do the same.
+
+Extend the TADs. Fix the root cause.
+
+Learn more. Contact your elected officials.
+www.extendthetads.com
+
+#ExtendTheTADs #ExtendAtlantasTADs #TADsROI #EndAtlantasTaleOf2Cities #7Miles≠20Years #ATLNeighborhoods</div>
+        <button class="btn-copy" onclick="copyCaption('caption-aps-2', this)">Copy Caption</button>
+        <div class="share-label">Share directly</div>
+        <div class="share-btns">
+          <a class="share-btn x" href="https://twitter.com/intent/tweet?text=APS%20spending%20has%20doubled%20since%202010.%20Student%20outcomes%20haven%27t.%20The%20problem%20isn%27t%20just%20funding.%20Extend%20the%20TADs.%20Fix%20the%20root%20cause.%20www.extendthetads.com%20%23ExtendTheTADs%20%23ATLNeighborhoods" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            Post to X
+          </a>
+          <a class="share-btn fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Share on Facebook
+          </a>
+          <a class="share-btn bluesky" href="https://bsky.app/intent/compose?text=APS%20spending%20has%20doubled%20since%202010.%20Student%20outcomes%20haven%27t.%20Extend%20the%20TADs.%20Fix%20the%20root%20cause.%20www.extendthetads.com%20%23ExtendTheTADs" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561.526.902.74.29.94 0 1.986 0 2.657c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>
+            Post to Bluesky
+          </a>
+          <a class="share-btn linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            Share on LinkedIn
+          </a>
+          <button class="share-btn ig" onclick="igTikTokShare('caption-aps-2','https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-social_24e0dfd7.png','aps-tad-social.png')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+            Instagram
+          </button>
+          <button class="share-btn tt" onclick="igTikTokShare('caption-aps-2','https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-social_24e0dfd7.png','aps-tad-social.png')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+            TikTok
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<footer class="site-footer">
+  <p>Neighbors for a United Atlanta &nbsp;|&nbsp; <a href="https://www.neighborsforaunitedatlanta.org" target="_blank">neighborsforaunitedatlanta.org</a></p>
+</footer>
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+  <div class="lightbox-inner" onclick="event.stopPropagation()">
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+</div>
+<script>
+function openLightbox(src, alt) {
+  const overlay = document.getElementById('lightboxOverlay');
+  const img = document.getElementById('lightboxImg');
+  img.src = src;
+  img.alt = alt || '';
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightboxOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+function igTikTokShare(captionId, imgUrl, filename) {
+  const text = document.getElementById(captionId).innerText;
+  navigator.clipboard.writeText(text).catch(() => {});
+  const a = document.createElement('a');
+  a.href = imgUrl;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+function copyCaption(id, btn) {
+  const text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy Caption';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>
