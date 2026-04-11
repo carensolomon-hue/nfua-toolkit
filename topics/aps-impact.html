@@ -7,13 +7,13 @@
   <link rel="stylesheet" href="../shared.css" />
   <style>
     .asset-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
+      display: flex;
+      justify-content: center;
       margin-top: 8px;
     }
-    @media (max-width: 680px) {
-      .asset-grid { grid-template-columns: 1fr; }
+    .asset-card {
+      max-width: 560px;
+      width: 100%;
     }
     .asset-card {
       background: #fff;
@@ -239,5 +239,12 @@ function copyCaption(id, btn) {
   });
 }
 </script>
+<!-- Lightbox -->
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+  <div class="lightbox-inner" onclick="event.stopPropagation()">
+    <button class="lightbox-close" onclick="closeLightbox()">&#215;</button>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+</div>
 </body>
 </html>
