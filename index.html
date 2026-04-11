@@ -4,11 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NRI Advocacy Toolkit | Neighbors for a United Atlanta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>emailjs.init('RetB_G4B_upXln18s');</script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7f9; color: #222; }
+    body { font-family: 'DM Sans', 'Segoe UI', Arial, sans-serif; background: #f4f7f9; color: #222; }
 
     /* NAV */
     .topnav {
@@ -17,20 +19,86 @@
       padding: 0 32px; height: 58px; position: sticky; top: 0; z-index: 100;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
-    .topnav .logo { color: #fff; font-weight: 800; font-size: 1rem; text-decoration: none; letter-spacing: 0.2px; }
+    .topnav .logo { color: #fff; font-family: 'DM Serif Display', serif; font-size: 1.05rem; text-decoration: none; }
     .topnav .logo span { color: #2A9D8F; }
     .topnav .site-link { color: #B0C8E0; font-size: 0.82rem; text-decoration: none; }
     .topnav .site-link:hover { color: #fff; }
 
-    /* HERO */
-    .hero {
-      background: linear-gradient(135deg, #1B3A5C 55%, #14304f 100%);
-      color: #fff; padding: 52px 32px 44px; text-align: center;
+    /* HERO CARDS */
+    .hero-section { max-width: 960px; margin: 28px auto 0; padding: 0 24px; }
+    .hero-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .hero-card { background: #1B3A5C; border: 2px solid #C9A84C; border-radius: 12px; cursor: pointer; transition: transform 0.18s, box-shadow 0.18s; box-shadow: 0 4px 16px rgba(27,58,92,0.18); }
+    .hero-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(27,58,92,0.28); }
+    .hero-card.open { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+    .hero-card-header { padding: 20px 20px 12px; display: flex; flex-direction: column; gap: 5px; }
+    .hero-card-icon { width: 38px; height: 38px; background: rgba(201,168,76,0.18); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+    .hero-card-icon svg { width: 20px; height: 20px; stroke: #C9A84C; fill: none; stroke-width: 2; }
+    .hero-card-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; color: #C9A84C; }
+    .hero-card-title { font-size: 1.05rem; color: #fff; line-height: 1.3; font-family: 'DM Serif Display', serif; }
+    .hero-card-desc { font-size: 0.78rem; color: #B0C8E0; line-height: 1.6; padding: 0 20px 14px; }
+    .hero-card-cta { display: flex; align-items: center; justify-content: space-between; padding: 11px 20px; background: rgba(201,168,76,0.12); border-top: 1px solid rgba(201,168,76,0.25); font-size: 0.76rem; font-weight: 600; color: #C9A84C; border-radius: 0 0 10px 10px; }
+    .hero-card.open .hero-card-cta { border-radius: 0; }
+    .hero-card-cta svg { width: 15px; height: 15px; stroke: #C9A84C; fill: none; stroke-width: 2.5; transition: transform 0.2s; }
+    .hero-card.open .hero-card-cta svg { transform: rotate(90deg); }
+    .hero-row2 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 18px; }
+    /* FULL-WIDTH DRAWERS */
+    .full-drawer { display: none; background: #fff; border: 2px solid #C9A84C; border-top: 3px solid #C9A84C; border-radius: 0 0 12px 12px; box-shadow: 0 6px 24px rgba(27,58,92,0.10); margin-top: -2px; }
+    .full-drawer.open { display: block; }
+    .drawer-inner { padding: 32px 28px 36px; max-width: 860px; margin: 0 auto; }
+    /* BASICS GRID IN DRAWER */
+    .basics-grid-drawer { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .basics-card-drawer { background: #f4f7f9; border: 1.5px solid #e4eaf0; border-radius: 10px; padding: 18px; text-decoration: none; color: inherit; transition: box-shadow 0.15s, transform 0.15s; display: block; }
+    .basics-card-drawer:hover { box-shadow: 0 4px 16px rgba(27,58,92,0.12); transform: translateY(-2px); }
+    .basics-card-drawer-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: #1B3A5C; margin-bottom: 5px; }
+    .basics-card-drawer h4 { font-size: 0.95rem; color: #1B3A5C; margin-bottom: 6px; line-height: 1.3; font-family: 'DM Serif Display', serif; }
+    .basics-card-drawer p { font-size: 0.78rem; color: #555; line-height: 1.6; }
+    /* SOCIAL ACCORDION IN DRAWER */
+    .social-accordion { display: flex; flex-direction: column; gap: 10px; }
+    .social-acc-item { border: 1.5px solid #e4eaf0; border-radius: 10px; overflow: hidden; background: #fff; }
+    .social-acc-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; cursor: pointer; background: #f4f7f9; }
+    .social-acc-header:hover { background: #eaf0f5; }
+    .social-acc-cat { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: #1B3A5C; }
+    .social-acc-count { font-size: 0.75rem; color: #888; margin-left: 10px; }
+    .social-acc-arrow { font-size: 0.75rem; color: #888; transition: transform 0.2s; }
+    .social-acc-item.open .social-acc-arrow { transform: rotate(180deg); }
+    .social-acc-body { display: none; padding: 18px; border-top: 1px solid #e4eaf0; }
+    .social-acc-item.open .social-acc-body { display: block; }
+    .spc-post { display: grid; grid-template-columns: 140px 1fr; gap: 16px; align-items: start; margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid #f0f0f0; }
+    .spc-post:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .spc-post img { width: 100%; border-radius: 6px; border: 1px solid #e4eaf0; display: block; margin-bottom: 7px; }
+    .spc-post-title { font-size: 0.95rem; color: #1B3A5C; margin-bottom: 8px; font-family: 'DM Serif Display', serif; }
+    .caption-box-drawer { background: #f4f7f9; border: 1px solid #dde4ea; border-radius: 6px; padding: 10px 12px; font-size: 0.78rem; line-height: 1.7; color: #333; white-space: pre-wrap; word-break: break-word; max-height: 140px; overflow-y: auto; margin-bottom: 9px; }
+    .btn-copy-drawer { background: #1B3A5C; color: #fff; border: none; border-radius: 6px; padding: 7px 16px; font-size: 0.74rem; font-weight: 600; cursor: pointer; margin-bottom: 10px; font-family: 'DM Sans', sans-serif; }
+    .btn-copy-drawer:hover { background: #14304f; }
+    .btn-copy-drawer.copied { background: #2A7A4F; }
+    .share-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .share-btn { display: inline-flex; align-items: center; gap: 4px; padding: 6px 10px; border-radius: 5px; font-size: 0.7rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+    .share-btn:hover { opacity: 0.85; }
+    .btn-x { background: #000; color: #fff; }
+    .btn-fb { background: #1877F2; color: #fff; }
+    .btn-bs { background: #0085ff; color: #fff; }
+    .btn-li { background: #0A66C2; color: #fff; }
+    .btn-ig { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: #fff; }
+    .btn-tt { background: #010101; color: #fff; }
+    /* CONTACT US CARD */
+    .contact-us-card { background: #1B3A5C; border: 2px solid #C9A84C; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+    .contact-us-card .hero-card-label { color: #C9A84C; }
+    .contact-us-card .hero-card-title { color: #fff; font-family: 'DM Serif Display', serif; font-size: 1.05rem; }
+    .contact-us-card a { color: #C9A84C; font-size: 0.88rem; font-weight: 600; text-decoration: none; word-break: break-all; }
+    .contact-us-card a:hover { text-decoration: underline; }
+    .contact-us-card .hero-card-desc { color: #B0C8E0; font-size: 0.78rem; line-height: 1.6; padding: 0; }
+    /* COMING SOON CARD */
+    .coming-soon-card { background: #1B3A5C; border: 2px solid rgba(201,168,76,0.35); border-radius: 12px; padding: 20px; opacity: 0.7; }
+    .coming-soon-card .hero-card-label { color: #C9A84C; font-size: 0.6rem; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 5px; }
+    .coming-soon-card .hero-card-title { color: #fff; font-family: 'DM Serif Display', serif; font-size: 1.05rem; margin-bottom: 8px; }
+    .coming-soon-card .hero-card-desc { color: #B0C8E0; font-size: 0.78rem; line-height: 1.6; padding: 0; }
+    .coming-soon-badge { display: inline-block; background: rgba(201,168,76,0.18); color: #C9A84C; font-size: 0.6rem; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; margin-top: 10px; }
+    .gold-divider { border: none; border-top: 1.5px solid #C9A84C; margin: 32px 0; }
+    @media (max-width: 700px) {
+      .hero-cards, .hero-row2 { grid-template-columns: 1fr; }
+      .basics-grid-drawer { grid-template-columns: 1fr; }
+      .spc-post { grid-template-columns: 1fr; }
     }
-    .hero h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 12px; }
-    .hero h1 span { color: #2A9D8F; }
-    .hero p { font-size: 1rem; color: #B0C8E0; max-width: 600px; margin: 0 auto 28px; line-height: 1.65; }
-    .teal-bar { height: 4px; background: #2A9D8F; }
 
     /* SECTION TABS */
     .section-tabs {
@@ -379,24 +447,11 @@
   <a class="site-link" href="https://www.neighborsforaunitedatlanta.org" target="_blank">← Back to Main Site</a>
 </nav>
 
-<div class="hero">
-<h1>
-  Take Action:<br>
-  Advocate to Extend Atlanta's TADs
-</h1>
-  <p>You've seen what's at stake. Now it's time to act.
-
-Atlanta leaders are deciding whether to extend Tax Allocation Districts — one of the city's most powerful tools for funding neighborhood reinvestment at scale.
-
-Your voice matters in that decision.</p>
-</div>
-<div class="teal-bar"></div>
-
 <nav class="section-tabs" id="sectionTabs">
-  <a class="section-tab" href="#contact" onclick="setActiveTab(this)">Start Here</a>
-  <a class="section-tab" href="#social" onclick="setActiveTab(this)">Share on Social</a>
-  <a class="section-tab" href="#answers" onclick="setActiveTab(this)">The Basics</a>
-  <a class="section-tab" href="#built" onclick="setActiveTab(this)">What TADs Have Built</a>
+  <a class="section-tab" href="#" onclick="toggleHeroCard('email'); return false;">Start Here</a>
+  <a class="section-tab" href="#" onclick="toggleHeroCard('basics'); return false;">The Basics</a>
+  <a class="section-tab" href="#" onclick="toggleHeroCard('social'); return false;">Share on Social</a>
+  <a class="section-tab" href="#" onclick="toggleHeroCard('built'); return false;">What TADs Have Built</a>
 </nav>
 
 <div class="controls" style="margin-bottom: 0;">
@@ -406,139 +461,182 @@ Your voice matters in that decision.</p>
   </div>
 </div>
 
-<!-- EMAIL YOUR ELECTED OFFICIALS -->
-<div class="section-block" id="contact" style="padding-bottom: 32px;">
-  <div class="section-label">Start Here</div>
-  <div class="section-title">Email Your Elected Officials</div>
-  <p style="font-size:0.95rem; color:#444; line-height:1.7; margin-bottom:20px;">Atlanta leaders are deciding whether to extend Tax Allocation Districts, and they need to hear from you.</p>
-  <div class="contact-wrap">
-    <p>Your City Council members, Atlanta Public Schools board members, and Fulton County Commissioners will vote on TAD extensions. Use this tool to send a message directly urging them to vote YES. It takes less than two minutes.</p>
-
-    <!-- STEP 1: Choose message -->
-    <div class="contact-step">
-      <div class="contact-step-label">Step 1</div>
-      <div class="contact-step-title">Choose a message</div>
-      <div class="field-group" style="max-width:420px; margin-bottom:16px;">
-        <label for="msgSelect" style="font-size:0.78rem; font-weight:700; color:#444;">Select a letter</label>
-        <select id="msgSelect" onchange="onMsgChange()" style="padding:10px 13px; border:1.5px solid #dde4ea; border-radius:7px; font-size:0.9rem; color:#222; background:#fff; outline:none; width:100%;">
-          <option value="0">Growth Should Include Everyone</option>
-          <option value="1">Keep Atlanta Moving Forward</option>
-          <option value="2">A Smart Investment for Atlanta's Future</option>
-        </select>
+<div class="hero-section">
+  <!-- ROW 1 -->
+  <div class="hero-cards">
+    <div class="hero-card" id="card-email" onclick="toggleHeroCard('email')">
+      <div class="hero-card-header">
+        <div class="hero-card-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg></div>
+        <div class="hero-card-label">Start Here</div>
+        <div class="hero-card-title">Email Your Elected Officials</div>
       </div>
-      <p style="font-size:0.85rem; color:#555; margin:0 0 12px 0; line-height:1.65;">Each official will receive their own individual email addressed to them personally. You can edit the body of the message however you like -- change a word, add a personal note, or replace it entirely. The greeting and sign-off are fixed.</p>
-      <div style="border:1.5px solid #dde4ea; border-radius:8px; background:#f4f7f9; overflow:hidden;">
-        <div id="msgSalutation" style="padding:14px 18px 0 18px; font-size:0.85rem; color:#333; line-height:1.75; font-family:inherit; background:#eaf0f5; border-bottom:1px solid #dde4ea; font-style:italic;"></div>
-        <textarea id="msgPreview" rows="12" style="width:100%; padding:16px 18px; font-size:0.85rem; color:#333; line-height:1.75; border:none; background:#f4f7f9; resize:vertical; outline:none; font-family:inherit; display:block;"></textarea>
-        <div id="msgSignoff" style="padding:0 18px 14px 18px; font-size:0.85rem; color:#333; line-height:1.75; font-family:inherit; background:#eaf0f5; border-top:1px solid #dde4ea; font-style:italic;"></div>
-      </div>
+      <div class="hero-card-desc">Atlanta leaders are deciding whether to extend the TADs. Send a message directly. It takes less than two minutes.</div>
+      <div class="hero-card-cta"><span>Open</span><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>
-
-    <hr class="contact-divider">
-
-    <!-- STEP 2: Choose recipients -->
-    <div class="contact-step">
-      <div class="contact-step-label">Step 2</div>
-      <div class="contact-step-title">Choose who to contact</div>
-
-      <p style="font-size:0.85rem; color:#555; margin:0 0 18px 0; line-height:1.65;">All officials listed below will vote on TAD extensions, so we recommend keeping everyone selected. To adjust who receives your message, use the checkboxes below.</p>
-
-      <!-- Atlanta City Council (collapsible) -->
-      <div class="officials-group">
-        <div class="officials-group-header" onclick="toggleGroup('council')">
-          <div class="officials-group-left">
-            <span class="officials-group-title">Atlanta City Council</span>
-            <span class="officials-group-count" id="count-council"></span>
-          </div>
-          <span class="officials-group-arrow" id="arrow-council">&#9660;</span>
-        </div>
-        <div class="officials-list" id="list-council"></div>
+    <div class="hero-card" id="card-basics" onclick="toggleHeroCard('basics')">
+      <div class="hero-card-header">
+        <div class="hero-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <div class="hero-card-label">The Basics</div>
+        <div class="hero-card-title">The Case for Extending TADs</div>
       </div>
-
-      <!-- APS Board (collapsible) -->
-      <div class="officials-group">
-        <div class="officials-group-header" onclick="toggleGroup('aps')">
-          <div class="officials-group-left">
-            <span class="officials-group-title">Atlanta Public Schools Board</span>
-            <span class="officials-group-count" id="count-aps"></span>
-          </div>
-          <span class="officials-group-arrow" id="arrow-aps">&#9660;</span>
-        </div>
-        <div class="officials-list" id="list-aps"></div>
-      </div>
-
-      <!-- Fulton County Commissioners (collapsible) -->
-      <div class="officials-group">
-        <div class="officials-group-header" onclick="toggleGroup('fulton')">
-          <div class="officials-group-left">
-            <span class="officials-group-title">Fulton County Commissioners</span>
-            <span class="officials-group-count" id="count-fulton"></span>
-          </div>
-          <span class="officials-group-arrow" id="arrow-fulton">&#9660;</span>
-        </div>
-        <div class="officials-list" id="list-fulton">
-          <div class="official-item-vacant">District 4 -- Seat currently vacant</div>
-        </div>
-      </div>
-
-      <div class="selected-count" id="selectedCount"></div>
+      <div class="hero-card-desc">What it is, what it funds, and why it matters for Atlanta and the whole region.</div>
+      <div class="hero-card-cta"><span>Open</span><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>
-
-    <hr class="contact-divider">
-
-    <!-- STEP 3: Your info -->
-    <div class="contact-step">
-      <div class="contact-step-label">Step 3</div>
-      <div class="contact-step-title">Add your information</div>
-      <div class="sender-fields">
-        <div class="field-group">
-          <label for="senderName">Your name <span style="color:#c0392b;">*</span></label>
-          <input type="text" id="senderName" placeholder="Jane Smith" required>
-        </div>
-        <div class="field-group">
-          <label for="senderEmail">Your email <span style="color:#c0392b;">*</span></label>
-          <input type="email" id="senderEmail" placeholder="you@example.com" required>
-        </div>
-        <div class="field-group">
-          <label for="senderNeighborhood">Your neighborhood <span style="font-weight:400; color:#888;">(optional)</span></label>
-          <input type="text" id="senderNeighborhood" placeholder="e.g. Vine City, Westview, Pittsburgh">
-        </div>
+    <div class="hero-card" id="card-social" onclick="toggleHeroCard('social')">
+      <div class="hero-card-header">
+        <div class="hero-card-icon"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
+        <div class="hero-card-label">Share on Social</div>
+        <div class="hero-card-title">Share on Social Media</div>
       </div>
-      <div style="margin-top:14px;">
-        <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; font-size:0.85rem; color:#444; line-height:1.5;">
-          <input type="checkbox" id="optInUpdates" style="accent-color:#2A9D8F; margin-top:2px; flex-shrink:0;">
-          <span>I'd like to receive updates from Neighbors for a United Atlanta.</span>
-        </label>
-      </div>
+      <div class="hero-card-desc">Ready-to-post graphics and captions organized by topic. Download, copy, and post.</div>
+      <div class="hero-card-cta"><span>Open</span><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>
-
-    <button class="send-btn" id="sendBtn" onclick="sendEmails()">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4l16 8-16 8V4z"/></svg>
-      Send Messages
-    </button>
-    <div class="send-status" id="sendStatus"></div>
   </div>
-</div>
-
-<!-- SHARE ON SOCIAL -->
-<div class="section-block" id="social" style="padding-top: 32px; padding-bottom: 8px;">
-  <div class="section-label">Share on Social</div>
-  <div class="section-title">Spread the Word</div>
-  <div class="social-post-card">
-    <div class="spc-graphic">
-      <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/EndtheTaleofTwoCities_cf1c127c.png"
-        alt="End Atlanta's Tale of Two Cities — social post graphic" />
-      <a class="btn-spc-dl"
-        href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/EndtheTaleofTwoCities_cf1c127c.png"
-        download="end-tale-of-two-cities.png" target="_blank">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Download Image
-      </a>
+  <!-- DRAWERS FOR ROW 1 -->
+  <div class="full-drawer" id="drawer-email">
+    <div class="drawer-inner">
+      <p style="font-size:0.92rem; color:#444; line-height:1.7; margin-bottom:20px;">Atlanta leaders are deciding whether to extend Tax Allocation Districts, and they need to hear from you.</p>
+      <div class="contact-wrap">
+        <p>Your City Council members, Atlanta Public Schools board members, and Fulton County Commissioners will vote on TAD extensions. Use this tool to send a message directly urging them to vote YES. It takes less than two minutes.</p>
+        <!-- STEP 1: Choose message -->
+        <div class="contact-step">
+          <div class="contact-step-label">Step 1</div>
+          <div class="contact-step-title">Choose a message</div>
+          <div class="field-group" style="max-width:420px; margin-bottom:16px;">
+            <label for="msgSelect" style="font-size:0.78rem; font-weight:700; color:#444;">Select a letter</label>
+            <select id="msgSelect" onchange="onMsgChange()" style="padding:10px 13px; border:1.5px solid #dde4ea; border-radius:7px; font-size:0.9rem; color:#222; background:#fff; outline:none; width:100%;">
+              <option value="0">Growth Should Include Everyone</option>
+              <option value="1">Keep Atlanta Moving Forward</option>
+              <option value="2">A Smart Investment for Atlanta's Future</option>
+            </select>
+          </div>
+          <p style="font-size:0.85rem; color:#555; margin:0 0 12px 0; line-height:1.65;">Each official will receive their own individual email addressed to them personally. You can edit the body of the message however you like -- change a word, add a personal note, or replace it entirely. The greeting and sign-off are fixed.</p>
+          <div style="border:1.5px solid #dde4ea; border-radius:8px; background:#f4f7f9; overflow:hidden;">
+            <div id="msgSalutation" style="padding:14px 18px 0 18px; font-size:0.85rem; color:#333; line-height:1.75; font-family:inherit; background:#eaf0f5; border-bottom:1px solid #dde4ea; font-style:italic;"></div>
+            <textarea id="msgPreview" rows="12" style="width:100%; padding:16px 18px; font-size:0.85rem; color:#333; line-height:1.75; border:none; background:#f4f7f9; resize:vertical; outline:none; font-family:inherit; display:block;"></textarea>
+            <div id="msgSignoff" style="padding:0 18px 14px 18px; font-size:0.85rem; color:#333; line-height:1.75; font-family:inherit; background:#eaf0f5; border-top:1px solid #dde4ea; font-style:italic;"></div>
+          </div>
+        </div>
+        <hr class="contact-divider">
+        <!-- STEP 2: Choose recipients -->
+        <div class="contact-step">
+          <div class="contact-step-label">Step 2</div>
+          <div class="contact-step-title">Choose who to contact</div>
+          <p style="font-size:0.85rem; color:#555; margin:0 0 18px 0; line-height:1.65;">All officials listed below will vote on TAD extensions, so we recommend keeping everyone selected. To adjust who receives your message, use the checkboxes below.</p>
+          <div class="officials-group">
+            <div class="officials-group-header" onclick="toggleGroup('council')">
+              <div class="officials-group-left">
+                <span class="officials-group-title">Atlanta City Council</span>
+                <span class="officials-group-count" id="count-council"></span>
+              </div>
+              <span class="officials-group-arrow" id="arrow-council">&#9660;</span>
+            </div>
+            <div class="officials-list" id="list-council"></div>
+          </div>
+          <div class="officials-group">
+            <div class="officials-group-header" onclick="toggleGroup('aps')">
+              <div class="officials-group-left">
+                <span class="officials-group-title">Atlanta Public Schools Board</span>
+                <span class="officials-group-count" id="count-aps"></span>
+              </div>
+              <span class="officials-group-arrow" id="arrow-aps">&#9660;</span>
+            </div>
+            <div class="officials-list" id="list-aps"></div>
+          </div>
+          <div class="officials-group">
+            <div class="officials-group-header" onclick="toggleGroup('fulton')">
+              <div class="officials-group-left">
+                <span class="officials-group-title">Fulton County Commissioners</span>
+                <span class="officials-group-count" id="count-fulton"></span>
+              </div>
+              <span class="officials-group-arrow" id="arrow-fulton">&#9660;</span>
+            </div>
+            <div class="officials-list" id="list-fulton">
+              <div class="official-item-vacant">District 4 -- Seat currently vacant</div>
+            </div>
+          </div>
+          <div class="selected-count" id="selectedCount"></div>
+        </div>
+        <hr class="contact-divider">
+        <!-- STEP 3: Your info -->
+        <div class="contact-step">
+          <div class="contact-step-label">Step 3</div>
+          <div class="contact-step-title">Add your information</div>
+          <div class="sender-fields">
+            <div class="field-group">
+              <label for="senderName">Your name <span style="color:#c0392b;">*</span></label>
+              <input type="text" id="senderName" placeholder="Jane Smith" required>
+            </div>
+            <div class="field-group">
+              <label for="senderEmail">Your email <span style="color:#c0392b;">*</span></label>
+              <input type="email" id="senderEmail" placeholder="you@example.com" required>
+            </div>
+            <div class="field-group">
+              <label for="senderNeighborhood">Your neighborhood <span style="font-weight:400; color:#888;">(optional)</span></label>
+              <input type="text" id="senderNeighborhood" placeholder="e.g. Vine City, Westview, Pittsburgh">
+            </div>
+          </div>
+          <div style="margin-top:14px;">
+            <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; font-size:0.85rem; color:#444; line-height:1.5;">
+              <input type="checkbox" id="optInUpdates" style="accent-color:#2A9D8F; margin-top:2px; flex-shrink:0;">
+              <span>I'd like to receive updates from Neighbors for a United Atlanta.</span>
+            </label>
+          </div>
+        </div>
+        <button class="send-btn" id="sendBtn" onclick="sendEmails()">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4l16 8-16 8V4z"/></svg>
+          Send Messages
+        </button>
+        <div class="send-status" id="sendStatus"></div>
+      </div>
     </div>
-    <div class="spc-content">
-      <div class="spc-meta-label">Post #1 &mdash; What&rsquo;s Actually Being Proposed?</div>
-      <div class="spc-caption-label">Caption &mdash; click to copy</div>
-      <div class="spc-caption" id="spc-caption-1">What's actually being proposed?
+  </div>
+  <div class="full-drawer" id="drawer-basics">
+    <div class="drawer-inner">
+      <div class="basics-grid-drawer">
+        <a class="basics-card-drawer" href="topics/whats-being-proposed.html">
+          <div class="basics-card-drawer-label">TAD Basics</div>
+          <h4>What's Actually Being Proposed?</h4>
+          <p>A simple explanation of Atlanta's TAD extension proposal and its long-term benefits for the city.</p>
+        </a>
+        <a class="basics-card-drawer" href="topics/financials.html">
+          <div class="basics-card-drawer-label">Financials</div>
+          <h4>The Financial Case for NRI and TAD Extension</h4>
+          <p>How TADs generate long-term return on investment for the City, APS, Fulton County, and taxpayers.</p>
+        </a>
+        <a class="basics-card-drawer" href="topics/aps-impact.html">
+          <div class="basics-card-drawer-label">Schools</div>
+          <h4>Do TADs Take Money from Atlanta Public Schools?</h4>
+          <p>No. APS continues to receive its full base property tax revenue. TADs use only the growth above that base.</p>
+        </a>
+        <a class="basics-card-drawer" href="topics/why-it-matters.html">
+          <div class="basics-card-drawer-label">Metro Atlanta</div>
+          <h4>Why This Matters Across Metro Atlanta</h4>
+          <p>When parts of Atlanta fall behind, it impacts economic growth, public safety, and long-term costs region-wide.</p>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="full-drawer" id="drawer-social">
+    <div class="drawer-inner">
+      <div class="social-accordion">
+        <div class="social-acc-item" id="acc-tad">
+          <div class="social-acc-header" onclick="event.stopPropagation(); toggleSocialAcc('tad')">
+            <span><span class="social-acc-cat">TAD Basics</span><span class="social-acc-count">1 post</span></span>
+            <span class="social-acc-arrow">&#9660;</span>
+          </div>
+          <div class="social-acc-body">
+            <div class="spc-post">
+              <div>
+                <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/EndtheTaleofTwoCities_cf1c127c.png" alt="End Atlanta's Tale of Two Cities" />
+                <a class="btn-spc-dl" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/EndtheTaleofTwoCities_cf1c127c.png" download="end-tale-of-two-cities.png" target="_blank">
+                  <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Download
+                </a>
+              </div>
+              <div>
+                <div class="spc-post-title">End Atlanta's Tale of Two Cities</div>
+                <div class="caption-box-drawer" id="drawer-cap-1">What's actually being proposed?
 
 Extending Atlanta's existing TADs through 2055 to fund the Neighborhood Reinvestment Initiative (NRI) at the scale it requires.
 
@@ -559,51 +657,36 @@ Learn more. Contact your elected officials.
 www.extendthetads.com
 
 #ExtendTheTADs #ExtendAtlantasTADs #TADsROI #EndAtlantasTaleOf2Cities #7Milesnot20Years #ATLNeighborhoods</div>
-      <button class="btn-copy-spc" onclick="copySpcCaption('spc-caption-1', this)">Copy Caption</button>
-      <div class="spc-share-label">Share directly</div>
-      <div class="spc-share-btns">
-        <a class="spc-share-btn spc-x" href="https://twitter.com/intent/tweet?text=What%27s%20actually%20being%20proposed%3F%20Extending%20Atlanta%27s%20existing%20TADs%20through%202055.%20Not%20a%20new%20tax.%20Not%20a%20tax%20increase.%20Not%20taking%20from%20schools.%20www.extendthetads.com%20%23ExtendTheTADs%20%23ATLNeighborhoods" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          X
-        </a>
-        <a class="spc-share-btn spc-fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-          Facebook
-        </a>
-        <a class="spc-share-btn spc-bluesky" href="https://bsky.app/intent/compose?text=What%27s%20actually%20being%20proposed%3F%20Extending%20Atlanta%27s%20existing%20TADs%20through%202055.%20Not%20a%20new%20tax.%20Not%20a%20tax%20increase.%20Not%20taking%20from%20schools.%20www.extendthetads.com%20%23ExtendTheTADs" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>
-          Bluesky
-        </a>
-        <a class="spc-share-btn spc-li" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          LinkedIn
-        </a>
-        <button class="spc-share-btn spc-ig" onclick="igTikTokShare('spc-caption-1','https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/EndtheTaleofTwoCities_cf1c127c.png','end-tale-of-two-cities.png')">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-          Instagram
-        </button>
-        <button class="spc-share-btn spc-tt" onclick="igTikTokShare('spc-caption-1','https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/EndtheTaleofTwoCities_cf1c127c.png','end-tale-of-two-cities.png')">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
-          TikTok
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="social-post-card" style="margin-top: 20px;">
-    <div class="spc-graphic">
-      <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-explainer-v3_919d9419.png"
-        alt="Do TADs Take Money from APS &mdash; explainer infographic" />
-      <a class="btn-spc-dl"
-        href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-explainer-v3_919d9419.png"
-        download="aps-tad-explainer.png" target="_blank">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Download Image
-      </a>
-    </div>
-    <div class="spc-content">
-      <div class="spc-meta-label">Post #2 &mdash; Do TADs Take Money from APS?</div>
-      <div class="spc-caption-label">Caption &mdash; click to copy</div>
-      <div class="spc-caption" id="spc-caption-2">Do TADs take money from Atlanta Public Schools?
+                <button class="btn-copy-drawer" onclick="event.stopPropagation(); copyDrawerCaption('drawer-cap-1', this)">Copy Caption</button>
+                <div class="share-row">
+                  <a class="share-btn btn-x" href="https://twitter.com/intent/tweet?text=What%27s%20actually%20being%20proposed%3F%20Extending%20Atlanta%27s%20existing%20TADs%20through%202055.%20Not%20a%20new%20tax.%20Not%20a%20tax%20increase.%20Not%20taking%20from%20schools.%20www.extendthetads.com%20%23ExtendTheTADs%20%23ATLNeighborhoods" target="_blank" rel="noopener">X</a>
+                  <a class="share-btn btn-fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">Facebook</a>
+                  <a class="share-btn btn-bs" href="https://bsky.app/intent/compose?text=What%27s%20actually%20being%20proposed%3F%20Extending%20Atlanta%27s%20existing%20TADs%20through%202055.%20Not%20a%20new%20tax.%20Not%20a%20tax%20increase.%20Not%20taking%20from%20schools.%20www.extendthetads.com%20%23ExtendTheTADs" target="_blank" rel="noopener">Bluesky</a>
+                  <a class="share-btn btn-li" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">LinkedIn</a>
+                  <button class="share-btn btn-ig" onclick="event.stopPropagation(); igTikTokShare('drawer-cap-1','https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/EndtheTaleofTwoCities_cf1c127c.png','end-tale-of-two-cities.png')">Instagram</button>
+                  <button class="share-btn btn-tt" onclick="event.stopPropagation(); igTikTokShare('drawer-cap-1','https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/EndtheTaleofTwoCities_cf1c127c.png','end-tale-of-two-cities.png')">TikTok</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="social-acc-item" id="acc-schools">
+          <div class="social-acc-header" onclick="event.stopPropagation(); toggleSocialAcc('schools')">
+            <span><span class="social-acc-cat">Schools</span><span class="social-acc-count">2 posts</span></span>
+            <span class="social-acc-arrow">&#9660;</span>
+          </div>
+          <div class="social-acc-body">
+            <div class="spc-post">
+              <div>
+                <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-explainer-v3_919d9419.png" alt="Do TADs Take Money from APS?" />
+                <a class="btn-spc-dl" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-explainer-v3_919d9419.png" download="aps-tad-explainer.png" target="_blank">
+                  <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Download
+                </a>
+              </div>
+              <div>
+                <div class="spc-post-title">Do TADs Take Money from APS?</div>
+                <div class="caption-box-drawer" id="drawer-cap-2">Do TADs take money from Atlanta Public Schools?
 
 That's the wrong question.
 
@@ -621,164 +704,85 @@ Learn more. Contact your elected officials.
 www.extendthetads.com
 
 #ExtendTheTADs #ExtendAtlantasTADs #TADsROI #EndAtlantasTaleOf2Cities #7Miles&#8800;20Years #ATLNeighborhoods</div>
-      <button class="btn-copy-spc" onclick="copySpcCaption('spc-caption-2', this)">Copy Caption</button>
-      <div class="spc-share-label">Share directly</div>
-      <div class="spc-share-btns">
-        <a class="spc-share-btn spc-x" href="https://twitter.com/intent/tweet?text=Do%20TADs%20take%20money%20from%20APS%3F%20That%27s%20the%20wrong%20question.%20Stable%20neighborhoods%20drive%20student%20outcomes.%20Extend%20the%20TADs.%20Fix%20the%20root%20cause.%20www.extendthetads.com%20%23ExtendTheTADs%20%23ATLNeighborhoods" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          X
-        </a>
-        <a class="spc-share-btn spc-fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-          Facebook
-        </a>
-        <a class="spc-share-btn spc-bluesky" href="https://bsky.app/intent/compose?text=Do%20TADs%20take%20money%20from%20APS%3F%20That%27s%20the%20wrong%20question.%20Stable%20neighborhoods%20drive%20student%20outcomes.%20Extend%20the%20TADs.%20www.extendthetads.com%20%23ExtendTheTADs" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>
-          Bluesky
-        </a>
-        <a class="spc-share-btn spc-li" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          LinkedIn
-        </a>
-        <button class="spc-share-btn spc-ig" onclick="igTikTokShare('spc-caption-2','https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-explainer-v3_919d9419.png','aps-tad-explainer.png')">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-          Instagram
-        </button>
-        <button class="spc-share-btn spc-tt" onclick="igTikTokShare('spc-caption-2','https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-explainer-v3_919d9419.png','aps-tad-explainer.png')">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
-          TikTok
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="social-post-card" style="margin-top: 20px;">
-    <div class="spc-graphic">
-      <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-social_24e0dfd7.png"
-        alt="APS spending has doubled. Outcomes haven't. &mdash; social post graphic" />
-      <a class="btn-spc-dl"
-        href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-social_24e0dfd7.png"
-        download="aps-tad-social.png" target="_blank">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Download Image
-      </a>
-    </div>
-    <div class="spc-content">
-      <div class="spc-meta-label">Post #3 &mdash; APS Spending Has Doubled. Outcomes Haven&rsquo;t.</div>
-      <div class="spc-caption-label">Caption &mdash; click to copy</div>
-      <div class="spc-caption" id="spc-caption-3">APS spending has doubled since 2010.
+                <button class="btn-copy-drawer" onclick="event.stopPropagation(); copyDrawerCaption('drawer-cap-2', this)">Copy Caption</button>
+                <div class="share-row">
+                  <a class="share-btn btn-x" href="https://twitter.com/intent/tweet?text=Do%20TADs%20take%20money%20from%20APS%3F%20That%27s%20the%20wrong%20question.%20Stable%20neighborhoods%20drive%20student%20outcomes.%20Extend%20the%20TADs.%20Fix%20the%20root%20cause.%20www.extendthetads.com%20%23ExtendTheTADs%20%23ATLNeighborhoods" target="_blank" rel="noopener">X</a>
+                  <a class="share-btn btn-fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">Facebook</a>
+                  <a class="share-btn btn-bs" href="https://bsky.app/intent/compose?text=Do%20TADs%20take%20money%20from%20APS%3F%20That%27s%20the%20wrong%20question.%20Stable%20neighborhoods%20drive%20student%20outcomes.%20Extend%20the%20TADs.%20www.extendthetads.com%20%23ExtendTheTADs" target="_blank" rel="noopener">Bluesky</a>
+                  <a class="share-btn btn-li" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">LinkedIn</a>
+                  <button class="share-btn btn-ig" onclick="event.stopPropagation(); igTikTokShare('drawer-cap-2','https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-explainer-v3_919d9419.png','aps-tad-explainer.png')">Instagram</button>
+                  <button class="share-btn btn-tt" onclick="event.stopPropagation(); igTikTokShare('drawer-cap-2','https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-explainer-v3_919d9419.png','aps-tad-explainer.png')">TikTok</button>
+                </div>
+              </div>
+            </div>
+            <div class="spc-post">
+              <div>
+                <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-social_24e0dfd7.png" alt="APS Spending Has Doubled" />
+                <a class="btn-spc-dl" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-social_24e0dfd7.png" download="aps-tad-social.png" target="_blank">
+                  <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Download
+                </a>
+              </div>
+              <div>
+                <div class="spc-post-title">APS Spending Has Doubled. Outcomes Haven't.</div>
+                <div class="caption-box-drawer" id="drawer-cap-3">APS spending has more than doubled since 2010.
 
-Student outcomes haven't.
+Grade 3-5 ELA proficiency for economically disadvantaged students remains at 21%.
 
-More money hasn't fixed the problem because it isn't just funding. It's neighborhood instability. It's families who can't afford to stay. It's kids having to change schools frequently and the layered challenges that come with multiple moves.
+Spending alone does not work.
 
-TADs help build whole, healthy, connected communities where families can afford to live, stay, and thrive and where schools can do the same.
+Stable neighborhoods drive stable families, stable enrollment, and better outcomes.
 
 Extend the TADs. Fix the root cause.
 
 Learn more. Contact your elected officials.
 www.extendthetads.com
 
-#ExtendTheTADs #ExtendAtlantasTADs #TADsROI #EndAtlantasTaleOf2Cities #7Miles&#8800;20Years #ATLNeighborhoods</div>
-      <button class="btn-copy-spc" onclick="copySpcCaption('spc-caption-3', this)">Copy Caption</button>
-      <div class="spc-share-label">Share directly</div>
-      <div class="spc-share-btns">
-        <a class="spc-share-btn spc-x" href="https://twitter.com/intent/tweet?text=APS%20spending%20has%20doubled%20since%202010.%20Student%20outcomes%20haven%27t.%20The%20problem%20isn%27t%20just%20funding.%20Extend%20the%20TADs.%20Fix%20the%20root%20cause.%20www.extendthetads.com%20%23ExtendTheTADs%20%23ATLNeighborhoods" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          X
-        </a>
-        <a class="spc-share-btn spc-fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-          Facebook
-        </a>
-        <a class="spc-share-btn spc-bluesky" href="https://bsky.app/intent/compose?text=APS%20spending%20has%20doubled%20since%202010.%20Student%20outcomes%20haven%27t.%20Extend%20the%20TADs.%20Fix%20the%20root%20cause.%20www.extendthetads.com%20%23ExtendTheTADs" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>
-          Bluesky
-        </a>
-        <a class="spc-share-btn spc-li" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          LinkedIn
-        </a>
-        <button class="spc-share-btn spc-ig" onclick="igTikTokShare('spc-caption-3','https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-social_24e0dfd7.png','aps-tad-social.png')">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-          Instagram
-        </button>
-        <button class="spc-share-btn spc-tt" onclick="igTikTokShare('spc-caption-3','https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-social_24e0dfd7.png','aps-tad-social.png')">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
-          TikTok
-        </button>
+#ExtendTheTADs #ExtendAtlantasTADs #TADsROI #EndAtlantasTaleOf2Cities #ATLNeighborhoods</div>
+                <button class="btn-copy-drawer" onclick="event.stopPropagation(); copyDrawerCaption('drawer-cap-3', this)">Copy Caption</button>
+                <div class="share-row">
+                  <a class="share-btn btn-x" href="https://twitter.com/intent/tweet?text=APS%20spending%20has%20doubled.%20Outcomes%20haven%27t.%20Stable%20neighborhoods%20drive%20student%20outcomes.%20Extend%20the%20TADs.%20Fix%20the%20root%20cause.%20www.extendthetads.com%20%23ExtendTheTADs%20%23ATLNeighborhoods" target="_blank" rel="noopener">X</a>
+                  <a class="share-btn btn-fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">Facebook</a>
+                  <a class="share-btn btn-bs" href="https://bsky.app/intent/compose?text=APS%20spending%20has%20doubled.%20Outcomes%20haven%27t.%20Stable%20neighborhoods%20drive%20student%20outcomes.%20Extend%20the%20TADs.%20www.extendthetads.com%20%23ExtendTheTADs" target="_blank" rel="noopener">Bluesky</a>
+                  <a class="share-btn btn-li" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.extendthetads.com" target="_blank" rel="noopener">LinkedIn</a>
+                  <button class="share-btn btn-ig" onclick="event.stopPropagation(); igTikTokShare('drawer-cap-3','https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-social_24e0dfd7.png','aps-tad-social.png')">Instagram</button>
+                  <button class="share-btn btn-tt" onclick="event.stopPropagation(); igTikTokShare('drawer-cap-3','https://d2xsxph8kpxj0f.cloudfront.net/310519663326234289/YJ3S8T5gwip4rzAjPtnuZA/aps-tad-social_24e0dfd7.png','aps-tad-social.png')">TikTok</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<!-- THE BASICS -->
-<div class="section-block" id="answers" style="padding-top: 32px;">
-  <div class="section-label">The Basics</div>
-  <div class="section-title">What You Need to Know</div>
-  <p>
-Atlanta is considering extending its existing Tax Allocation Districts (TADs) to continue investing in neighborhoods that have been left behind. These districts already exist. The proposal would allow that investment to continue over time, supporting housing, infrastructure, and economic opportunity across the city.
-</p>
-<br>
-<div class="grid" id="card-grid-understand">
-
- <a class="card" href="topics/whats-being-proposed.html" data-tags="proposal quick answer start here">
-  <div class="card-icon" style="background:#e8eef6;">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#1B3A5C" stroke-width="2">
-      <circle cx="12" cy="12" r="10"></circle>
-      <line x1="12" y1="8" x2="12" y2="12"></line>
-      <line x1="12" y1="16" x2="12.01" y2="16"></line>
-    </svg>
-  </div>
-  <h3>What's Actually Being Proposed?</h3>
-<p><strong>What's being proposed?</strong> A simple explanation of Atlanta's TAD extension proposal and its long-term benefits for the city.</p>
-  <div class="card-tags"></div>
-  <div class="card-arrow"></div>
-</a>
-
-  <!-- THE FINANCIALS -->
-  <a class="card" href="topics/financials.html" data-tags="financials explainer onepager">
-    <div class="card-icon" style="background:#f0f7f6;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#2A9D8F" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+  <!-- ROW 2 -->
+  <div class="hero-row2">
+    <div class="hero-card" id="card-built" onclick="toggleHeroCard('built')">
+      <div class="hero-card-header">
+        <div class="hero-card-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="hero-card-label">Proof Points</div>
+        <div class="hero-card-title">What TADs Have Built</div>
+      </div>
+      <div class="hero-card-desc">Real projects. Real neighborhoods. Real results across housing, healthcare, education, and more.</div>
+      <div class="hero-card-cta"><span>Open</span><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>
-    <h3>The Financial Case for NRI and TAD Extension</h3>
- <p><strong>Why it matters:</strong> How TADs generate long-term return on investment for the City, Atlanta Public Schools, Fulton County, and taxpayers across Atlanta.</p>
-    <div class="card-tags"></div>
-    <div class="card-arrow"></div>
-  </a>
-    <a class="card" href="topics/aps-impact.html" data-tags="schools aps quick answer">
-  <div class="card-icon" style="background:#e8eef6;">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#1B3A5C" stroke-width="2">
-      <rect x="3" y="4" width="18" height="16" rx="2"></rect>
-      <line x1="3" y1="10" x2="21" y2="10"></line>
-    </svg>
+    <div class="coming-soon-card">
+      <div class="hero-card-label">Resources</div>
+      <div class="hero-card-title">Resources</div>
+      <div class="hero-card-desc">Reports, data, and background reading to deepen your understanding of the TAD extension proposal.</div>
+      <span class="coming-soon-badge">Coming Soon</span>
+    </div>
+    <div class="contact-us-card">
+      <div class="hero-card-label">Contact</div>
+      <div class="hero-card-title">Contact Us</div>
+      <div class="hero-card-desc">Questions or feedback? Reach us directly.</div>
+      <a href="mailto:info@neighborsforaunitedatlanta.org">info@neighborsforaunitedatlanta.org</a>
+    </div>
   </div>
-  <h3>Do TADs Take Money from Atlanta Public Schools?</h3>
- <p><strong>No.</strong> APS continues to receive its full base property tax revenue. TADs use only the growth above that base to fund investment.</p>
-  <div class="card-tags"></div>
-  <div class="card-arrow"></div>
-</a>
-
-    <a class="card" href="topics/why-it-matters.html" data-tags="impact metro atlanta quick answer">
-  <div class="card-icon" style="background:#e8eef6;">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#1B3A5C" stroke-width="2">
-      <circle cx="12" cy="12" r="10"></circle>
-      <path d="M8 12h8"></path>
-      <path d="M12 8v8"></path>
-    </svg>
-  </div>
-  <h3>Why This Matters Across Metro Atlanta</h3>
-  <p><strong>Because it affects the whole region:</strong> When parts of Atlanta fall behind, it impacts economic growth, public safety, and long-term costs across Metro Atlanta.</p>
-  <div class="card-tags"></div>
-  <div class="card-arrow"></div>
-</a>
-
-  </div>
-</div>
-
-<!-- SPREAD THE WORD -->
-<div class="section-block" id="built">
-  <div class="section-label">What TADs Have Built</div>
-  <div class="section-title">What TADs Have Built</div>
-  <div class="grid" id="card-grid-spread">
+  <!-- DRAWER FOR ROW 2 -->
+  <div class="full-drawer" id="drawer-built">
+    <div class="drawer-inner">
+      <div class="grid" id="card-grid-spread">
 
   <!-- A TAD DID THAT -->
   <a class="card" href="topics/tad-did-that.html" data-tags="tadthat social proof">
@@ -869,6 +873,9 @@ Atlanta is considering extending its existing Tax Allocation Districts (TADs) to
   </a>
 
   </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="site-footer">
@@ -947,6 +954,42 @@ Atlanta is considering extending its existing Tax Allocation Districts (TADs) to
     const isOpen = list.classList.contains('open');
     list.classList.toggle('open', !isOpen);
     arrow.classList.toggle('open', !isOpen);
+  }
+
+  // Hero card drawer toggle
+  function toggleHeroCard(name) {
+    const card = document.getElementById('card-' + name);
+    const drawer = document.getElementById('drawer-' + name);
+    if (!card || !drawer) return;
+    const isOpen = drawer.classList.contains('open');
+    // Close all drawers and cards first
+    document.querySelectorAll('.full-drawer').forEach(d => d.classList.remove('open'));
+    document.querySelectorAll('.hero-card').forEach(c => c.classList.remove('open'));
+    // Open clicked one if it was closed
+    if (!isOpen) {
+      drawer.classList.add('open');
+      card.classList.add('open');
+      // Scroll drawer into view
+      setTimeout(() => drawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+    }
+  }
+
+  // Social accordion toggle
+  function toggleSocialAcc(name) {
+    const item = document.getElementById('acc-' + name);
+    if (!item) return;
+    item.classList.toggle('open');
+  }
+
+  // Copy drawer caption
+  function copyDrawerCaption(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    navigator.clipboard.writeText(el.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy Caption'; btn.classList.remove('copied'); }, 2000);
+    });
   }
 
 </script>
