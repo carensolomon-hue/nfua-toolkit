@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign the Petition | Neighbors for a United Atlanta</title>
+  <meta property="og:title" content="Sign the Petition: Support the NRI & TAD Extensions" />
+  <meta property="og:description" content="As residents of Atlanta, we call on the City Council, Fulton County Commission, and Atlanta Board of Education to support the Neighborhood Reinvestment Initiative and extend the TADs." />
+  <meta property="og:url" content="https://toolkit.neighborsforaunitedatlanta.org/petition.html" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', 'Segoe UI', Arial, sans-serif; background: #f4f7f9; color: #222; }
+
+    /* NAV */
+    .topnav {
+      background: #1B3A5C;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 58px; position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .topnav .logo { color: #fff; font-family: 'DM Serif Display', serif; font-size: 1.05rem; text-decoration: none; }
+    .topnav .logo span { color: #2A9D8F; }
+    .topnav .site-link { color: #B0C8E0; font-size: 0.82rem; text-decoration: none; }
+    .topnav .site-link:hover { color: #fff; }
+
+    /* HERO */
+    .petition-hero {
+      background: #1B3A5C;
+      padding: 56px 24px 48px;
+      text-align: center;
+    }
+    .petition-hero-eyebrow {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: #C9A84C; margin-bottom: 14px;
+    }
+    .petition-hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.1rem; color: #fff; line-height: 1.25;
+      max-width: 720px; margin: 0 auto 18px;
+    }
+    .petition-hero p {
+      font-size: 0.95rem; color: #B0C8E0; max-width: 600px;
+      margin: 0 auto 28px; line-height: 1.7;
+    }
+    .btn-sign {
+      display: inline-block;
+      background: #C9A84C; color: #1B3A5C;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      padding: 15px 38px; border-radius: 8px;
+      text-decoration: none; letter-spacing: 0.5px;
+      transition: background 0.18s, transform 0.15s;
+      box-shadow: 0 4px 16px rgba(201,168,76,0.35);
+    }
+    .btn-sign:hover { background: #b8942e; transform: translateY(-2px); }
+
+    .gold-divider { border: none; border-top: 1.5px solid #C9A84C; margin: 0; }
+
+    /* SHARE BAR */
+    .share-bar {
+      background: #fff;
+      border-bottom: 1.5px solid #e4eaf0;
+      padding: 14px 24px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; flex-wrap: wrap;
+    }
+    .share-bar-label {
+      font-size: 0.75rem; font-weight: 700; color: #555;
+      letter-spacing: 0.5px; text-transform: uppercase;
+    }
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 7px 13px; border-radius: 6px;
+      font-size: 0.72rem; font-weight: 600;
+      text-decoration: none; border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; transition: opacity 0.15s;
+    }
+    .share-btn:hover { opacity: 0.85; }
+    .btn-fb { background: #1877F2; color: #fff; }
+    .btn-x  { background: #000; color: #fff; }
+    .btn-li { background: #0A66C2; color: #fff; }
+    .btn-bs { background: #0085ff; color: #fff; }
+    .btn-copy { background: #1B3A5C; color: #fff; }
+    .btn-copy.copied { background: #2A7A4F; }
+
+    /* PETITION BODY */
+    .petition-wrap {
+      max-width: 800px; margin: 48px auto; padding: 0 24px;
+    }
+    .petition-card {
+      background: #fff; border: 1.5px solid #e4eaf0;
+      border-radius: 12px; padding: 40px 44px;
+      box-shadow: 0 4px 20px rgba(27,58,92,0.07);
+    }
+    .petition-to-from {
+      background: #f4f7f9; border-left: 4px solid #C9A84C;
+      border-radius: 0 8px 8px 0; padding: 16px 20px;
+      margin-bottom: 28px; font-size: 0.88rem; line-height: 1.8; color: #333;
+    }
+    .petition-to-from strong { color: #1B3A5C; }
+    .petition-body p {
+      font-size: 0.95rem; line-height: 1.85; color: #333;
+      margin-bottom: 16px;
+    }
+    .petition-body p:last-child { margin-bottom: 0; }
+    .petition-cta-block {
+      margin-top: 36px; text-align: center;
+      padding-top: 32px; border-top: 1.5px solid #C9A84C;
+    }
+    .petition-cta-block p {
+      font-size: 0.88rem; color: #555; margin-bottom: 18px;
+    }
+
+    /* SIGNATORIES */
+    .signatories-section {
+      background: #1B3A5C;
+      padding: 56px 24px;
+    }
+    .signatories-inner {
+      max-width: 800px; margin: 0 auto;
+    }
+    .signatories-eyebrow {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: #C9A84C; margin-bottom: 10px;
+    }
+    .signatories-inner h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem; color: #fff; margin-bottom: 6px;
+    }
+    .signatories-count {
+      font-size: 0.85rem; color: #B0C8E0; margin-bottom: 32px;
+    }
+    .signatories-count span {
+      font-weight: 700; color: #C9A84C;
+    }
+
+    /* =====================================================
+       ADD NEW NAMES BELOW THIS LINE
+       Format: one name per <li> tag, alphabetical order
+       ===================================================== */
+    .names-grid {
+      columns: 3; column-gap: 24px;
+      list-style: none;
+    }
+    .names-grid li {
+      font-size: 0.88rem; color: #D6E4F0;
+      padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.07);
+      break-inside: avoid;
+    }
+    @media (max-width: 700px) {
+      .names-grid { columns: 2; }
+      .petition-card { padding: 24px 18px; }
+      .petition-hero h1 { font-size: 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .names-grid { columns: 1; }
+    }
+
+    /* FOOTER */
+    .site-footer { background: #1B3A5C; color: #B0C8E0; text-align: center; padding: 24px; font-size: 0.82rem; border-top: 1px solid rgba(255,255,255,0.1); }
+    .site-footer a { color: #2A9D8F; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="logo" href="index.html">Neighbors for a <span>United Atlanta</span></a>
+  <div style="display:flex;align-items:center;gap:20px;">
+    <a class="site-link" href="petition.html" style="color:#C9A84C;font-weight:700;">✍ Sign the Petition</a>
+    <a class="site-link" href="index.html">← Back to Toolkit</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="petition-hero">
+  <div class="petition-hero-eyebrow">Community Petition</div>
+  <h1>Support the Neighborhood Reinvestment Initiative &amp; Extension of the Tax Allocation Districts</h1>
+  <p>Add your name and join Atlanta residents calling on our elected officials to invest in every neighborhood.</p>
+  <a class="btn-sign" href="https://forms.gle/vb5pwNLXF2FmGEGZ8" target="_blank">Sign the Petition</a>
+</section>
+
+<hr class="gold-divider" />
+
+<!-- SHARE BAR -->
+<div class="share-bar">
+  <span class="share-bar-label">Share this petition:</span>
+  <a class="share-btn btn-fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftoolkit.neighborsforaunitedatlanta.org%2Fpetition.html" target="_blank" rel="noopener">
+    <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+    Facebook
+  </a>
+  <a class="share-btn btn-x" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Ftoolkit.neighborsforaunitedatlanta.org%2Fpetition.html&text=I%20signed%20the%20petition%20to%20support%20the%20NRI%20and%20extend%20Atlanta%27s%20TADs.%20Join%20me.%20%23ExtendAtlantasTADs%20%23ATLNeighborhoods" target="_blank" rel="noopener">
+    <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    X / Twitter
+  </a>
+  <a class="share-btn btn-li" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Ftoolkit.neighborsforaunitedatlanta.org%2Fpetition.html" target="_blank" rel="noopener">
+    <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+    LinkedIn
+  </a>
+  <a class="share-btn btn-bs" href="https://bsky.app/intent/compose?text=I%20signed%20the%20petition%20to%20support%20the%20NRI%20and%20extend%20Atlanta%27s%20TADs.%20Join%20me%3A%20https%3A%2F%2Ftoolkit.neighborsforaunitedatlanta.org%2Fpetition.html%20%23ExtendAtlantasTADs" target="_blank" rel="noopener">
+    <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+    BlueSky
+  </a>
+  <button class="share-btn btn-copy" onclick="copyPetitionLink(this)">
+    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+    Copy Link
+  </button>
+</div>
+
+<!-- PETITION TEXT -->
+<div class="petition-wrap">
+  <div class="petition-card">
+    <div class="petition-to-from">
+      <strong>To:</strong> Members of the Atlanta City Council, Fulton County Commission, &amp; the Atlanta Board of Education<br>
+      <strong>From:</strong> Residents of the City of Atlanta
+    </div>
+    <div class="petition-body">
+      <p>As residents of the City of Atlanta, we are alarmed that neighborhoods in the South and West of Atlanta have far less access to opportunities than other neighborhoods in the city. In fact, many children still face unjustifiable disparities in their chances for success. Across almost every metric, whether child poverty or homeownership rates or graduation rates, some communities are faring worse than the rest of Atlanta.</p>
+      <p>This didn't happen by accident.</p>
+      <p>To reverse this cycle of historical disinvestment, we must intentionally bring resources to these communities to build opportunities so that every child can reach their potential.</p>
+      <p>As such, we call upon the Atlanta City Council, Fulton County Commission, and the Atlanta Board of Education to support the historic Neighborhood Reinvestment Initiative and extension of the Tax Allocation Districts (TADs) to create whole, safe, healthy, thriving, and connected neighborhoods for everyone.</p>
+      <p>A vital solution that will help us reach this goal is to extend the TADs, which are vital for Atlanta's future and help create healthier neighborhoods, grow economic development and jobs, build affordable housing, enhance quality education, and increase our investment in kids.</p>
+      <p>TADs are a vital funding tool, recognized across the country as a best-in-class practice for economic development and neighborhood investment.</p>
+      <p>TADs bring business activity, economic development, and affordability. They are vital for Atlanta's future and help create healthier neighborhoods, grow economic development and jobs, build affordable housing, enhance quality education, and increase our investment in kids.</p>
+      <p>TADs do not divert revenue growth that would have happened anyway. On the contrary, previous TAD-financed investments have clearly catalyzed private investment in otherwise underinvested neighborhoods.</p>
+      <p>TADs do not raise taxes.</p>
+      <p>TADs' transparency and accountability are built into every level of the program, by both state law and city governance structures. All TAD spending, including that of the Beltline TAD, has been administered and overseen by Invest Atlanta, the City's legally designated redevelopment agent.</p>
+      <p>TADs are one of several vital tools the city utilizes alongside Atlanta Housing, Atlanta Urban Development Corporation (AUDC), and Invest Atlanta to finance deeply affordable units, preserve legacy housing, and expand access for families earning below 50% AMI.</p>
+      <p>TADs are not a diversion of public-school resources. They are an investment in the conditions that improve educational outcomes, family stability, and neighborhood vitality. A strong school system requires strong neighborhoods, and TADs remain one of the few scalable, transparent, and community-directed tools to make that connection real.</p>
+      <p>TADs can have a transformative impact that protects legacy residents, revitalizes communities, and creates balanced growth throughout the city, which will reduce crime, grow our tax base, and ultimately build an Atlanta that works for everyone.</p>
+      <p>TADs and implementation of the Neighborhood Reinvestment Initiative will help make Atlanta the best major city in the country to raise a child.</p>
+      <p>Therefore, we respectfully, but emphatically, urge the members of the Atlanta City Council, Fulton County Commission, and the Atlanta Board of Education to support the Neighborhood Reinvestment Initiative and the extension of the TADs to help our city achieve balanced growth that will benefit everyone.</p>
+    </div>
+    <div class="petition-cta-block">
+      <p>Ready to add your name? It only takes a moment.</p>
+      <a class="btn-sign" href="https://forms.gle/vb5pwNLXF2FmGEGZ8" target="_blank">Sign the Petition</a>
+    </div>
+  </div>
+</div>
+
+<!-- SIGNATORIES -->
+<section class="signatories-section">
+  <div class="signatories-inner">
+    <div class="signatories-eyebrow">Signatories</div>
+    <h2>Atlanta Residents Who Have Signed</h2>
+
+    <!-- =====================================================
+         ADD NEW NAMES BELOW THIS LINE
+         One name per <li> tag, in alphabetical order by last name
+         Example: <li>Jane Smith</li>
+         ===================================================== -->
+    <ul class="names-grid" id="signatories-list">
+      <!-- NAMES GO HERE -->
+    </ul>
+
+  </div>
+</section>
+
+<div class="site-footer">
+  Source: NRI Commission / Invest Atlanta, 2026 &nbsp;|&nbsp; <a href="https://www.neighborsforaunitedatlanta.org" target="_blank">neighborsforaunitedatlanta.org</a>
+</div>
+
+<script>
+  // Copy petition link to clipboard
+  function copyPetitionLink(btn) {
+    navigator.clipboard.writeText('https://toolkit.neighborsforaunitedatlanta.org/petition.html').then(function() {
+      var orig = btn.innerHTML;
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(function() { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
